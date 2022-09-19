@@ -1,3 +1,3 @@
 # pp-template
 
-### Template for Performance-Portabile code development targeting HOST-DEVICE computer architectures.
+### Template for Performance-Portable code development, targeting HOST-DEVICE computer architectures.
