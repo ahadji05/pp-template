@@ -1,0 +1,1 @@
+## Contains specialized benchmarks setups to demonstrate efficiency of selected performance-portable routines. Benchmarks demonstrate efficiency through computations (GFLOP/s), bandwidth (GB/s), run-time (s), and others.

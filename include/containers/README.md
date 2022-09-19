@@ -1,0 +1,1 @@
+## Abstract, with respect to memory space, containers serve as building blocks for the developement of portable algorithms.
