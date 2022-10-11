@@ -37,10 +37,8 @@ return_t copyToHost(value_t *to, value_t *from, length_t n_elems);
  */
 ```
 
-Example 1: CPU-GPU implementation with compile-time switching to either CUDA or HIP API.
+Example 1: CPU-GPU implementation with compile-time switching to either CUDA or HIP memory-management calls.
 ```cpp
-/*filename example1.cpp*/
-
 #include "MemorySpacesInc.hpp"
 
 #if defined (TMP_ENABLE_CUDA_BACKEND)
