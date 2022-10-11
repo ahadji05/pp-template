@@ -41,21 +41,23 @@ Example 1: CPU-GPU implementation with compile-time switching to either CUDA or 
 ```cpp
 #include "MemorySpacesInc.hpp"
 
-#if defined (TMP_ENABLE_CUDA_BACKEND)
-using DeviceSpace = MemSpaceCuda;
+using HostSpace = TMP::MemSpaceHost; // alias the host memory-space
+
+#if defined(TMP_ENABLE_CUDA_BACKEND)
+using DeviceSpace = TMP::MemSpaceCuda; // alias the device memory-space
 #elif defined(TMP_ENABLE_HIP_BACKEND)
-using DeviceSpace = MemSpaceHip;
+using DeviceSpace = TMP::MemSpaceHip; // alias the device memory-space
 #endif
 
-MemSpaceHost::message msg;
-DeviceSpace::message  msgd;
+HostSpace::message msg;
+DeviceSpace::message msgd;
 
 int main()
 {
     float *A, *d_A;
     size_t N(100);
-    
-    msg = MemSpaceHost::allocate(&A, N);
+
+    msg = HostSpace::allocate(&A, N);
     msgd = DeviceSpace::allocate(&d_A, N);
 
     // Perform data initialization, pre-processing, etc., on A
@@ -67,7 +69,7 @@ int main()
     msgd = DeviceSpace::copyToHost(A, d_A, N);
 
     msgd = DeviceSpace::release(d_A);
-    msg = MemSpaceHost::release(A);
+    msg = HostSpace::release(A);
 
     return 0;
 }
