@@ -74,3 +74,81 @@ int main()
     return 0;
 }
 ```
+
+Example 2: Develop data-structures with generic memory-space, e.g. a custom vector implementation (customVector) that is constructable from HOST std::vector, and safely copy-able.
+```cpp
+#include "MemorySpacesInc.hpp"
+#include <vector>
+#include <cassert>
+
+// Generic with respect to memory-space, and value-type.
+template<class MemSpace, typename T>
+class customVector {
+    typename MemSpace::return_t msg;
+    
+  public:
+    customVector();
+    customVector(const customVector& v);
+    customVector &operator=(const customVector& v);
+    customVector(std::vector<T> &v);
+    ~customVector();
+    
+    size_t getN() const { return _N; }
+    T * getP() const { return _p; }
+    
+  private:
+    T *_p;
+    size_t _N;
+};
+
+// Default constructor
+template<class MemSpace, typename T>
+customVector<MemSpace, T>::customVector()
+{
+    _N = 0;
+    _p = nullptr;
+}
+
+// Copy-constructor
+template<class MemSpace, typename T>
+customVector<MemSpace, T>::customVector(const customVector &v)
+{
+    _N = v._N;    
+    assert( MemSpace::allocate(&_p, _N) == MemSpace::message::no_error );
+    assert( MemSpace::copy(_p, v._p, _N) == MemSpace::message::no_error );
+}
+
+// Copy-assign operator
+template<class MemSpace, typename T>
+customVector<MemSpace, T> & customVector<MemSpace, T>::operator=(const customVector &v)
+{
+    if(this != &v)
+    {
+        if(_N != v._N)
+        {
+            _N = v._N;
+            assert( MemSpace::release(_p) == MemSpace::message::no_error );
+            assert( MemSpace::allocate(&_p, _N) == MemSpace::message::no_error );
+        }
+        assert( MemSpace::copy(_p, v._p, _N) == MemSpace::message::no_error );
+    }
+    return *this;
+}
+
+// Construct from existing (HOST) std::vector
+template<class MemSpace, typename T>
+customVector<MemSpace, T>::customVector(std::vector<T> &v)
+{
+    _N = v.size();    
+    assert( MemSpace::allocate(&_p, _N) == MemSpace::message::no_error );
+    assert( MemSpace::copyFromHost(_p, v.data(), _N) == MemSpace::message::no_error );
+}
+
+// Destructor
+template<class MemSpace, typename T>
+customVector<MemSpace, T>::~customVector()
+{
+    assert( MemSpace::release(_p) == MemSpace::message::no_error );
+}
+```
+
