@@ -66,8 +66,8 @@ template <typename value_t, typename length_t, class memory_space> class Vector
   public:
     inline length_t get_nElems() const;
     inline length_t get_nBytes() const;
-    inline value_t *get_ptr();
-    inline value_t &operator[](length_t i);
+    inline value_t *get_ptr() const;
+    inline value_t &operator[](length_t i) const;
 };
 
 /**
@@ -233,7 +233,7 @@ inline length_t Vector<value_t, length_t, memory_space>::get_nElems() const
  * @return value_t*
  */
 template <typename value_t, typename length_t, class memory_space>
-inline value_t *Vector<value_t, length_t, memory_space>::get_ptr()
+inline value_t *Vector<value_t, length_t, memory_space>::get_ptr() const
 {
     return _ptr;
 }
@@ -250,7 +250,7 @@ inline value_t *Vector<value_t, length_t, memory_space>::get_ptr()
  * @return value_t&
  */
 template <typename value_t, typename length_t, class memory_space>
-inline value_t &Vector<value_t, length_t, memory_space>::operator[](length_t i)
+inline value_t &Vector<value_t, length_t, memory_space>::operator[](length_t i) const
 {
     static_assert(std::is_same<memory_space, TMP::MemSpaceHost>::value,
                   "Vector operator[]: Cannot access non-host elements.");
