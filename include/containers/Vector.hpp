@@ -39,48 +39,43 @@ namespace TMP
  * its member data.
  *
  * @tparam value_t Type of values stored in the Vector.
- * @tparam length_t Type of elements count. Must be an integral type (int,
  * size_t, etc.).
  * @tparam memory_space Memory Space that handles the memory allocations,
  * copies, and release operations.
  */
-template <typename value_t, typename length_t, class memory_space> class Vector
+template <typename value_t, class memory_space> class Vector
 {
 
     static_assert(TMP::is_memory_space<memory_space>::value, "Vector: The provided class in not a Memory Space.");
-    static_assert(std::is_integral<length_t>::value, "Vector: The provide class length_t is not integral type.");
 
   public:
     Vector();
-    Vector(length_t nElems);
-    Vector(value_t *p, length_t nElems);
+    Vector(size_t nElems);
+    Vector(value_t *p, size_t nElems);
     Vector(const Vector &other_vector);
     Vector &operator=(const Vector &other_vector);
     ~Vector();
 
   protected:
-    length_t _nElems;
-    length_t _nBytes;
+    size_t _nElems;
+    size_t _nBytes;
     value_t *_ptr;
 
   public:
-    inline length_t get_nElems() const;
-    inline length_t get_nBytes() const;
+    inline size_t get_nElems() const;
+    inline size_t get_nBytes() const;
     inline value_t *get_ptr() const;
-    inline value_t &operator[](length_t i) const;
+    inline value_t &operator[](size_t i) const;
 };
 
 /**
- * @brief Construct a new Vector<value_t, length_t, memory_space>::Vector
- * object.
+ * @brief Construct a new Vector<value_t, memory_space>::Vector object.
  *
  * @tparam value_t Type of values stored in the Vector.
- * @tparam length_t Type of elements count. Must be an integral type (int,
- * size_t, etc.).
  * @tparam memory_space Memory Space that handles the memory allocations,
  * copies, and release operations.
  */
-template <typename value_t, typename length_t, class memory_space> Vector<value_t, length_t, memory_space>::Vector()
+template <typename value_t, class memory_space> Vector<value_t, memory_space>::Vector()
 {
     _nElems = 0;
     _nBytes = 0;
@@ -88,18 +83,15 @@ template <typename value_t, typename length_t, class memory_space> Vector<value_
 }
 
 /**
- * @brief Construct a new Vector<value_t, length_t, memory_space>::Vector
+ * @brief Construct a new Vector<value_t, memory_space>::Vector
  * object.
  *
  * @tparam value_t Type of values stored in the Vector.
- * @tparam length_t Type of elements count. Must be an integral type (int,
- * size_t, etc.).
  * @tparam memory_space Memory Space that handles the memory allocations,
  * copies, and release operations.
  * @param nElems Number of elements that fit in the Vector.
  */
-template <typename value_t, typename length_t, class memory_space>
-Vector<value_t, length_t, memory_space>::Vector(length_t nElems)
+template <typename value_t, class memory_space> Vector<value_t, memory_space>::Vector(size_t nElems)
 {
     _nElems = nElems;
     _nBytes = nElems * sizeof(value_t);
@@ -107,19 +99,16 @@ Vector<value_t, length_t, memory_space>::Vector(length_t nElems)
 }
 
 /**
- * @brief Construct a new Vector<value_t, length_t, memory_space>::Vector
+ * @brief Construct a new Vector<value_t, memory_space>::Vector
  * object.
  *
  * @tparam value_t Type of values stored in the Vector.
- * @tparam length_t Type of elements count. Must be an integral type (int,
- * size_t, etc.).
  * @tparam memory_space Memory Space that handles the memory allocations,
  * copies, and release operations.
  * @param p Pointer from where data are copied into this Vector.
  * @param nElems Number of elements that fit in the Vector.
  */
-template <typename value_t, typename length_t, class memory_space>
-Vector<value_t, length_t, memory_space>::Vector(value_t *p, length_t nElems)
+template <typename value_t, class memory_space> Vector<value_t, memory_space>::Vector(value_t *p, size_t nElems)
 {
     _nElems = nElems;
     _nBytes = nElems * sizeof(value_t);
@@ -128,18 +117,15 @@ Vector<value_t, length_t, memory_space>::Vector(value_t *p, length_t nElems)
 }
 
 /**
- * @brief Construct a new Vector<value_t, length_t, memory_space>::Vector
+ * @brief Construct a new Vector<value_t, memory_space>::Vector
  * object.
  *
  * @tparam value_t Type of values stored in the Vector.
- * @tparam length_t Type of elements count. Must be an integral type (int,
- * size_t, etc.).
  * @tparam memory_space Memory Space that handles the memory allocations,
  * copies, and release operations.
  * @param other_vector Another Vector from which this is Constructed.
  */
-template <typename value_t, typename length_t, class memory_space>
-Vector<value_t, length_t, memory_space>::Vector(const Vector &other_vector)
+template <typename value_t, class memory_space> Vector<value_t, memory_space>::Vector(const Vector &other_vector)
 {
     _nElems = other_vector._nElems;
     _nBytes = other_vector._nBytes;
@@ -151,15 +137,13 @@ Vector<value_t, length_t, memory_space>::Vector(const Vector &other_vector)
  * @brief Copy Vector.
  *
  * @tparam value_t Type of values stored in the Vector.
- * @tparam length_t Type of elements count. Must be an integral type (int,
- * size_t, etc.).
  * @tparam memory_space Memory Space that handles the memory allocations,
  * copies, and release operations.
  * @param other_vector Another Vector which is copied into this.
- * @return Vector<value_t, length_t, memory_space>&
+ * @return Vector<value_t, memory_space>&
  */
-template <typename value_t, typename length_t, class memory_space>
-Vector<value_t, length_t, memory_space> &Vector<value_t, length_t, memory_space>::operator=(const Vector &other_vector)
+template <typename value_t, class memory_space>
+Vector<value_t, memory_space> &Vector<value_t, memory_space>::operator=(const Vector &other_vector)
 {
     if (this != &other_vector)
     {
@@ -176,15 +160,13 @@ Vector<value_t, length_t, memory_space> &Vector<value_t, length_t, memory_space>
 }
 
 /**
- * @brief Destroy the Vector<value_t, length_t, memory_space>::Vector object.
+ * @brief Destroy the Vector<value_t, memory_space>::Vector object.
  *
  * @tparam value_t Type of values stored in the Vector.
- * @tparam length_t Type of elements count. Must be an integral type (int,
- * size_t, etc.).
  * @tparam memory_space Memory Space that handles the memory allocations,
  * copies, and release operations.
  */
-template <typename value_t, typename length_t, class memory_space> Vector<value_t, length_t, memory_space>::~Vector()
+template <typename value_t, class memory_space> Vector<value_t, memory_space>::~Vector()
 {
     memory_space::release(_ptr);
     _ptr = nullptr;
@@ -194,14 +176,11 @@ template <typename value_t, typename length_t, class memory_space> Vector<value_
  * @brief Get number of bytes.
  *
  * @tparam value_t Type of values stored in the Vector.
- * @tparam length_t Type of elements count. Must be an integral type (int,
- * size_t, etc.).
  * @tparam memory_space Memory Space that handles the memory allocations,
  * copies, and release operations.
- * @return length_t
+ * @return size_t number of Bytes
  */
-template <typename value_t, typename length_t, class memory_space>
-inline length_t Vector<value_t, length_t, memory_space>::get_nBytes() const
+template <typename value_t, class memory_space> inline size_t Vector<value_t, memory_space>::get_nBytes() const
 {
     return _nBytes;
 }
@@ -210,14 +189,11 @@ inline length_t Vector<value_t, length_t, memory_space>::get_nBytes() const
  * @brief Get number of elements.
  *
  * @tparam value_t Type of values stored in the Vector.
- * @tparam length_t Type of elements count. Must be an integral type (int,
- * size_t, etc.).
  * @tparam memory_space Memory Space that handles the memory allocations,
  * copies, and release operations.
- * @return length_t
+ * @return size_t
  */
-template <typename value_t, typename length_t, class memory_space>
-inline length_t Vector<value_t, length_t, memory_space>::get_nElems() const
+template <typename value_t, class memory_space> inline size_t Vector<value_t, memory_space>::get_nElems() const
 {
     return _nElems;
 }
@@ -226,14 +202,11 @@ inline length_t Vector<value_t, length_t, memory_space>::get_nElems() const
  * @brief Get the memory address of _ptr.
  *
  * @tparam value_t Type of values stored in the Vector.
- * @tparam length_t Type of elements count. Must be an integral type (int,
- * size_t, etc.).
  * @tparam memory_space Memory Space that handles the memory allocations,
  * copies, and release operations.
  * @return value_t*
  */
-template <typename value_t, typename length_t, class memory_space>
-inline value_t *Vector<value_t, length_t, memory_space>::get_ptr() const
+template <typename value_t, class memory_space> inline value_t *Vector<value_t, memory_space>::get_ptr() const
 {
     return _ptr;
 }
@@ -242,15 +215,13 @@ inline value_t *Vector<value_t, length_t, memory_space>::get_ptr() const
  * @brief Get an element from the Vector based on index i.
  *
  * @tparam value_t Type of values stored in the Vector.
- * @tparam length_t Type of elements count. Must be an integral type (int,
- * size_t, etc.).
  * @tparam memory_space Memory Space that handles the memory allocations,
  * copies, and release operations.
  * @param i Element index.
  * @return value_t&
  */
-template <typename value_t, typename length_t, class memory_space>
-inline value_t &Vector<value_t, length_t, memory_space>::operator[](length_t i) const
+template <typename value_t, class memory_space>
+inline value_t &Vector<value_t, memory_space>::operator[](size_t i) const
 {
     static_assert(std::is_same<memory_space, TMP::MemSpaceHost>::value,
                   "Vector operator[]: Cannot access non-host elements.");
