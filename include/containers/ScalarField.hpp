@@ -23,15 +23,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef TMP_SCALAR_FIELD_HPP
-#define TMP_SCALAR_FIELD_HPP
+#ifndef SCALAR_FIELD_HPP
+#define SCALAR_FIELD_HPP
 
 #include "containers/Vector.hpp"
 #include "memory/MemorySpacesInc.hpp"
 #include "types.hpp"
-
-namespace TMP
-{
 
 /**
  * @brief
@@ -44,9 +41,6 @@ template <class MemSpace> class ScalarField
     // The container can only be instantiated using a valid MemorySpace provide by "memory/MemorySpacesInc.hpp"
     static_assert(TMP::is_memory_space<MemSpace>::value,
                   "ScalarField: The provided class MemSpace in not a valid MemorySpace.");
-
-    // float_type is defined in "types.hpp"
-    using vector_type = Vector<float_type, MemSpace>;
 
   public:
     ScalarField();
@@ -136,7 +130,7 @@ template <class MemSpace> bool ScalarField<MemSpace>::dimsMatchnElems() const
     return (_nz * _nx == _field.get_nElems());
 }
 
-template <class MemSpace> typename ScalarField<MemSpace>::vector_type ScalarField<MemSpace>::get_field() const
+template <class MemSpace> vector_type ScalarField<MemSpace>::get_field() const
 {
     return _field;
 }
@@ -165,7 +159,5 @@ template <class MemSpace> inline size_t ScalarField<MemSpace>::get_nBytes() cons
 {
     return _field.get_nBytes();
 }
-
-} // namespace TMP
 
 #endif
