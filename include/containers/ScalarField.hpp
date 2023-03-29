@@ -66,8 +66,8 @@ template <class MemSpace> class ScalarField
 
 template <class MemSpace> ScalarField<MemSpace>::ScalarField()
 {
-    _nz = 1;
-    _nx = 1;
+    _nz = 0;
+    _nx = 0;
     // _field is constructed using it's own default constructor
 }
 
@@ -120,8 +120,8 @@ template <class MemSpace> ScalarField<MemSpace> &ScalarField<MemSpace>::operator
 
 template <class MemSpace> ScalarField<MemSpace>::~ScalarField()
 {
-    _nz = 1;
-    _nx = 1;
+    _nz = 0;
+    _nx = 0;
     // _field is implicitly destroyed by it's own default destructor
 }
 
