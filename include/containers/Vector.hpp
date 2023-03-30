@@ -45,7 +45,7 @@ namespace TMP
  */
 template <typename value_t, class memory_space> class Vector
 {
-
+    // Asset at compile-time that the specified memory_space is valid!
     static_assert(TMP::is_memory_space<memory_space>::value, "Vector: The provided class in not a Memory Space.");
 
   public:
@@ -66,6 +66,9 @@ template <typename value_t, class memory_space> class Vector
     inline size_t get_nBytes() const;
     inline value_t *get_ptr() const;
     inline value_t &operator[](size_t i) const;
+
+    void fill(value_t value);   // !Performance note: this method invokes Host-Device alloc/copy/free/sync, USE WISELY!
+    void resize(size_t nElems); // !Performance note: this method invokes Host-Device alloc/copy/free/sync, USE WISELY!
 };
 
 /**
@@ -96,6 +99,7 @@ template <typename value_t, class memory_space> Vector<value_t, memory_space>::V
     _nElems = nElems;
     _nBytes = nElems * sizeof(value_t);
     memory_space::allocate(&_ptr, _nBytes);
+    this->fill(0);
 }
 
 /**
@@ -231,6 +235,53 @@ inline value_t &Vector<value_t, memory_space>::operator[](size_t i) const
 #endif
 
     return _ptr[i];
+}
+
+/**
+ * @brief Sets the value of each element in the Vector to the
+ * specified one.
+ *
+ * @note This method invokes a Host::allocation/free, and a data
+ * copy from Host to memory_space.
+ *
+ * @tparam value_t Type of values/data stored in the Vector.
+ * @tparam memory_space Memory Space that handles the memory allocations,
+ * copies, and release operations.
+ * @param value The specified value to set each element in the Vector equal to.
+ */
+template <typename value_t, class memory_space> void Vector<value_t, memory_space>::fill(value_t value)
+{
+    value_t *data_host;
+    TMP::MemSpaceHost::allocate(&data_host, _nBytes);
+    for (size_t i(0); i < _nElems; ++i)
+        data_host[i] = value;
+    memory_space::copyFromHost(_ptr, data_host, _nBytes);
+    TMP::MemSpaceHost::release(data_host);
+}
+
+/**
+ * @brief Re-size the length of the Vector such that it containes
+ * in total nElems.
+ *
+ * @note This method invokes a memory_space::allocation/free.
+ * Then, by default, it fills the values to 0 (zero) using the method
+ * this->fill(0).
+ *
+ * @tparam value_t Type of values/data stored in the Vector.
+ * @tparam memory_space Memory Space that handles the memory allocations,
+ * copies, and release operations.
+ * @param nElems Number of elements to re-size Vector to.
+ */
+template <typename value_t, class memory_space> void Vector<value_t, memory_space>::resize(size_t nElems)
+{
+    if (nElems != this->_nElems)
+    {
+        memory_space::release(_ptr);
+        _nElems = nElems;
+        _nBytes = nElems * sizeof(value_t);
+        memory_space::allocate(&_ptr, _nBytes);
+        this->fill(0);
+    }
 }
 
 } // namespace TMP
