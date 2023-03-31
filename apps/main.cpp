@@ -1,7 +1,7 @@
 
 #include <iostream>
 
-#include "WaveSimulator.hpp"
+#include "algorithms/WaveSimulator.hpp"
 
 int main()
 {
