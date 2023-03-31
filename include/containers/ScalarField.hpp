@@ -61,7 +61,6 @@ template <class MemSpace> class ScalarField
     inline size_t get_nz() const;
     inline size_t get_nx() const;
     inline size_t get_nElems() const;
-    inline size_t get_nBytes() const;
 };
 
 template <class MemSpace> ScalarField<MemSpace>::ScalarField()
@@ -102,10 +101,10 @@ template <class MemSpace> ScalarField<MemSpace> &ScalarField<MemSpace>::operator
         _nz = otherScalarField.get_nz();
         _nx = otherScalarField.get_nx();
 
-        if (this->_field.get_nBytes() == otherScalarField._field.get_nBytes())
+        if (this->_field.get_nElems() == otherScalarField._field.get_nElems())
         {
             /* reuse existing memory and avoid copy-assign that involves: release, allocation, and copy.*/
-            MemSpace::copy(_field.get_ptr(), otherScalarField.get_ptr(), _field.get_nBytes());
+            MemSpace::copy(_field.get_ptr(), otherScalarField.get_ptr(), _field.get_nElems());
         }
         else
         {
@@ -153,11 +152,6 @@ template <class MemSpace> inline size_t ScalarField<MemSpace>::get_nx() const
 template <class MemSpace> inline size_t ScalarField<MemSpace>::get_nElems() const
 {
     return _field.get_nElems();
-}
-
-template <class MemSpace> inline size_t ScalarField<MemSpace>::get_nBytes() const
-{
-    return _field.get_nBytes();
 }
 
 #endif

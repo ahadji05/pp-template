@@ -58,12 +58,10 @@ template <typename value_t, class memory_space> class Vector
 
   protected:
     size_t _nElems;
-    size_t _nBytes;
     value_t *_ptr;
 
   public:
     inline size_t get_nElems() const;
-    inline size_t get_nBytes() const;
     inline value_t *get_ptr() const;
     inline value_t &operator[](size_t i) const;
 
@@ -81,7 +79,6 @@ template <typename value_t, class memory_space> class Vector
 template <typename value_t, class memory_space> Vector<value_t, memory_space>::Vector()
 {
     _nElems = 0;
-    _nBytes = 0;
     _ptr = nullptr;
 }
 
@@ -97,8 +94,7 @@ template <typename value_t, class memory_space> Vector<value_t, memory_space>::V
 template <typename value_t, class memory_space> Vector<value_t, memory_space>::Vector(size_t nElems)
 {
     _nElems = nElems;
-    _nBytes = nElems * sizeof(value_t);
-    memory_space::allocate(&_ptr, _nBytes);
+    memory_space::allocate(&_ptr, _nElems);
     this->fill(0);
 }
 
@@ -115,9 +111,8 @@ template <typename value_t, class memory_space> Vector<value_t, memory_space>::V
 template <typename value_t, class memory_space> Vector<value_t, memory_space>::Vector(value_t *p, size_t nElems)
 {
     _nElems = nElems;
-    _nBytes = nElems * sizeof(value_t);
-    memory_space::allocate(&_ptr, _nBytes);
-    memory_space::copy(_ptr, p, _nBytes);
+    memory_space::allocate(&_ptr, _nElems);
+    memory_space::copy(_ptr, p, _nElems);
 }
 
 /**
@@ -132,9 +127,8 @@ template <typename value_t, class memory_space> Vector<value_t, memory_space>::V
 template <typename value_t, class memory_space> Vector<value_t, memory_space>::Vector(const Vector &other_vector)
 {
     _nElems = other_vector._nElems;
-    _nBytes = other_vector._nBytes;
-    memory_space::allocate(&_ptr, _nBytes);
-    memory_space::copy(_ptr, other_vector._ptr, _nBytes);
+    memory_space::allocate(&_ptr, _nElems);
+    memory_space::copy(_ptr, other_vector._ptr, _nElems);
 }
 
 /**
@@ -151,14 +145,13 @@ Vector<value_t, memory_space> &Vector<value_t, memory_space>::operator=(const Ve
 {
     if (this != &other_vector)
     {
-        if (this->_nBytes != other_vector._nBytes) /* cannot reuse memory */
+        if (this->_nElems != other_vector._nElems) /* cannot reuse memory */
         {
             _nElems = other_vector._nElems;
-            _nBytes = other_vector._nBytes;
             memory_space::release(_ptr);
-            memory_space::allocate(&_ptr, _nBytes);
+            memory_space::allocate(&_ptr, _nElems);
         }
-        memory_space::copy(_ptr, other_vector._ptr, _nBytes);
+        memory_space::copy(_ptr, other_vector._ptr, _nElems);
     }
     return *this;
 }
@@ -174,19 +167,6 @@ template <typename value_t, class memory_space> Vector<value_t, memory_space>::~
 {
     memory_space::release(_ptr);
     _ptr = nullptr;
-}
-
-/**
- * @brief Get number of bytes.
- *
- * @tparam value_t Type of values stored in the Vector.
- * @tparam memory_space Memory Space that handles the memory allocations,
- * copies, and release operations.
- * @return size_t number of Bytes
- */
-template <typename value_t, class memory_space> inline size_t Vector<value_t, memory_space>::get_nBytes() const
-{
-    return _nBytes;
 }
 
 /**
@@ -252,10 +232,10 @@ inline value_t &Vector<value_t, memory_space>::operator[](size_t i) const
 template <typename value_t, class memory_space> void Vector<value_t, memory_space>::fill(value_t value)
 {
     value_t *data_host;
-    TMP::MemSpaceHost::allocate(&data_host, _nBytes);
+    TMP::MemSpaceHost::allocate(&data_host, _nElems);
     for (size_t i(0); i < _nElems; ++i)
         data_host[i] = value;
-    memory_space::copyFromHost(_ptr, data_host, _nBytes);
+    memory_space::copyFromHost(_ptr, data_host, _nElems);
     TMP::MemSpaceHost::release(data_host);
 }
 
@@ -278,8 +258,7 @@ template <typename value_t, class memory_space> void Vector<value_t, memory_spac
     {
         memory_space::release(_ptr);
         _nElems = nElems;
-        _nBytes = nElems * sizeof(value_t);
-        memory_space::allocate(&_ptr, _nBytes);
+        memory_space::allocate(&_ptr, _nElems);
         this->fill(0);
     }
 }
