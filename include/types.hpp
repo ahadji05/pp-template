@@ -1,9 +1,10 @@
 // GENERAL INCLUDES
 #include "assert.h"
+#define _USE_MATH_DEFINES
+#include "math.h"
 
 // SELECT FLOATING-POINT PRECISION (DATA-TYPE)
-#include "half.hpp"
-using float_type = half_float::half;
+using float_type = float;
 
 // SELECT MEMORY-SPACE BASED ON COMPILE-TIME CHOICE
 #include "memory/MemorySpacesInc.hpp"
