@@ -40,4 +40,18 @@
 #include "ExecutionSpaceHip.hpp"
 #endif
 
+namespace TMP
+{
+/**
+ * @brief Assert that a given type T is a valid Execution-Space. A valid
+ * Execution-Space is one that is derived from the class ExecutionSpaceBase.
+ *
+ * @tparam T The type to check if it is derived from class ExecutionSpaceBase.
+ */
+template <typename T> struct is_execution_space
+{
+    static constexpr bool value = std::is_base_of<ExecutionSpaceBase, T>::value;
+};
+} // namespace TMP
+
 #endif
