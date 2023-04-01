@@ -1,12 +1,11 @@
 
-#include <iostream>
-
 #include "algorithms/WaveSimulator.hpp"
+#include <iostream>
 
 int main()
 {
-    // Define the WaveSimulator
-    WaveSimulator<TMP::ExecutionSpaceSerial> Sim;
+    // Define the WaveSimulator based on the exec_space from "types.hpp"
+    WaveSimulator<exec_space> Sim;
 
     // Set modelling parameters
     Sim.set_time_step(0.001);
