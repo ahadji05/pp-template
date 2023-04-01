@@ -10,6 +10,7 @@
 /**
  * @brief This class implements wavefield simulation based on the 2D
  * finite-difference scheme:
+ *
  *      Pnew = (2*P - Pold) + (dt/dh)^2 * V(z,x)^2 * (Pzz + Pxx)
  *
  * @note dt: is the time step in seconds,
@@ -31,11 +32,10 @@ template <class ExecSpace> class WaveSimulator
     ScalarField<MemSpace> wavefield_pxx;
     ScalarField<MemSpace> wavefield_pzz;
     ScalarField<MemSpace> velmodel;
-    float_type _dt, _dh;
-    float_type _vmin;
-    size_t _srcz, _srcx;
-    size_t _nt, _nz, _nx;
+
     std::vector<float_type> source_impulse;
+    float_type _dt, _dh, _vmin;
+    size_t _nt, _nz, _nx, _srcz, _srcx;
 
   public:
     WaveSimulator() = default;
@@ -49,11 +49,9 @@ template <class ExecSpace> class WaveSimulator
     void set_dimensions(size_t nz, size_t nx);
     void set_vmin(float_type vmin);
     void set_velocity_layer(size_t izmin, size_t izmax, float_type v);
-
     void make_ricker(float_type fpeak);
     void store_velmodel_to_binary(const char *filename) const;
     void store_wavefield_to_binary(const char *filename) const;
-
     float_type CLF_condition() const;
 
     void run()
@@ -78,32 +76,56 @@ template <class ExecSpace> class WaveSimulator
     }
 };
 
+/**
+ * @brief Set time step in seconds.
+ *
+ */
 template <class ExecSpace> void WaveSimulator<ExecSpace>::set_time_step(float_type dt)
 {
     _dt = dt;
 }
 
+/**
+ * @brief Set space step in meters.
+ *
+ */
 template <class ExecSpace> void WaveSimulator<ExecSpace>::set_space_step(float_type dh)
 {
     _dh = dh;
 }
 
+/**
+ * @brief Set the number of time extrapolation steps.
+ *
+ */
 template <class ExecSpace> void WaveSimulator<ExecSpace>::set_number_of_time_steps(size_t nt)
 {
     _nt = nt;
     source_impulse.resize(_nt);
 }
 
+/**
+ * @brief Set source position index in the z dimension.
+ *
+ */
 template <class ExecSpace> void WaveSimulator<ExecSpace>::set_source_position_z(size_t iz)
 {
     _srcz = iz;
 }
 
+/**
+ * @brief Set source position index in the x dimension.
+ *
+ */
 template <class ExecSpace> void WaveSimulator<ExecSpace>::set_source_position_x(size_t ix)
 {
     _srcx = ix;
 }
 
+/**
+ * @brief Set the dimensions in z and x dimensions respectively.
+ *
+ */
 template <class ExecSpace> void WaveSimulator<ExecSpace>::set_dimensions(size_t nz, size_t nx)
 {
     _nz = nz;
@@ -118,8 +140,14 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::set_dimensions(size_t 
     this->velmodel = ScalarField<MemSpace>(_nz, _nx);
 }
 
+/**
+ * @brief Set a minimum background velocity in the undelying model.
+ *
+ */
 template <class ExecSpace> void WaveSimulator<ExecSpace>::set_vmin(float_type vmin)
 {
+    assert(vmin > 0);
+
     _vmin = vmin;
     // allocate array on Host
     float_type *data_host;
@@ -138,6 +166,11 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::set_vmin(float_type vm
     TMP::MemSpaceHost::release(data_host);
 }
 
+/**
+ * @brief Create a Ricker-wavelet:
+ * R(t) = (1 - 2 pi^2 fpeak^2 t^2) * exp( pi^2 fpeak^2 t^2 )
+ *
+ */
 template <class ExecSpace> void WaveSimulator<ExecSpace>::make_ricker(float_type fpeak)
 {
     // allocate array on Host
@@ -159,6 +192,11 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::make_ricker(float_type
     TMP::MemSpaceHost::release(data_host);
 }
 
+/**
+ * @brief Define a layer of constant velocity=v, between the depths [izmin - izmax). This
+ * routine allows to create stratified media.
+ *
+ */
 template <class ExecSpace> void WaveSimulator<ExecSpace>::set_velocity_layer(size_t izmin, size_t izmax, float_type v)
 {
     // assert validity of the zmin and zmax ranges
@@ -183,6 +221,10 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::set_velocity_layer(siz
     TMP::MemSpaceHost::release(data_host);
 }
 
+/**
+ * @brief Store the underlying velocity model in a plain binary file with the provided filename.
+ *
+ */
 template <class ExecSpace> void WaveSimulator<ExecSpace>::store_velmodel_to_binary(const char *filename) const
 {
     std::fstream file;
@@ -204,6 +246,10 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::store_velmodel_to_bina
     file.close();
 }
 
+/**
+ * @brief Store the current wavefield in a plain binary file with the provided filename.
+ *
+ */
 template <class ExecSpace> void WaveSimulator<ExecSpace>::store_wavefield_to_binary(const char *filename) const
 {
     std::fstream file;
@@ -225,6 +271,10 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::store_wavefield_to_bin
     file.close();
 }
 
+/**
+ * @brief Return the Courant-Friedricks-Lewy stability condition.
+ *
+ */
 template <class ExecSpace> float_type WaveSimulator<ExecSpace>::CLF_condition() const
 {
     return _vmin * _dt / _dh;
