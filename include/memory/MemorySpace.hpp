@@ -106,16 +106,6 @@ class MemorySpaceBase
     using return_t = message;
 };
 
-/**
- * @brief Assert that a given type T is a Memory Space.
- *
- * @tparam T The type to check if it is derived from class MemorySpace.
- */
-template <typename T> struct is_memory_space
-{
-    static constexpr bool value = std::is_base_of<MemorySpaceBase, T>::value;
-};
-
 } // namespace TMP
 
 #endif // TMP_MEMORY_SPACE_HPP

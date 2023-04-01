@@ -36,4 +36,18 @@
 #include "MemSpaceHip.hpp"
 #endif
 
+namespace TMP
+{
+/**
+ * @brief Assert that a given type T is a Memory-Space. A valid
+ * Memory-Space is one that is derived from the class MemorySpaceBase.
+ *
+ * @tparam T The type to check if it is derived from class MemorySpace.
+ */
+template <typename T> struct is_memory_space
+{
+    static constexpr bool value = std::is_base_of<MemorySpaceBase, T>::value;
+};
+} // namespace TMP
+
 #endif
