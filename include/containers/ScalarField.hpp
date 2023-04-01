@@ -43,6 +43,9 @@ template <class MemSpace> class ScalarField
                   "ScalarField: The provided class MemSpace in not a valid MemorySpace.");
 
   public:
+    // Alias the vector-type using the float_type defined in "types.hpp", and the provided template parameter MemSpace.
+    using vector_type = TMP::Vector<float_type, MemSpace>;
+
     ScalarField();
     ScalarField(size_t nz, size_t nx);
     ScalarField(size_t nz, size_t nx, vector_type &othervector);
@@ -129,7 +132,7 @@ template <class MemSpace> bool ScalarField<MemSpace>::dimsMatchnElems() const
     return (_nz * _nx == _field.get_nElems());
 }
 
-template <class MemSpace> vector_type ScalarField<MemSpace>::get_field() const
+template <class MemSpace> typename ScalarField<MemSpace>::vector_type ScalarField<MemSpace>::get_field() const
 {
     return _field;
 }

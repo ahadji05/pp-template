@@ -1,5 +1,6 @@
 // GENERAL INCLUDES
 #include "assert.h"
+
 #define _USE_MATH_DEFINES
 #include "math.h"
 
@@ -15,7 +16,3 @@ using memo_space = TMP::MemSpaceHip;
 #else
 using memo_space = TMP::MemSpaceHost;
 #endif
-
-// DEFINE VECTOR-TYPE vector_type based on: memo_space and float_type
-#include "containers/Vector.hpp"
-using vector_type = TMP::Vector<float_type, memo_space>;
