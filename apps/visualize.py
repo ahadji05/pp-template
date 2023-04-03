@@ -8,8 +8,9 @@ model = sys.argv[2]
 nz = int(sys.argv[3])
 nx = int(sys.argv[4])
 
-snapshot_image = np.reshape(np.fromfile(snapshot, dtype=np.float32), (nz,nx))
-model_image = np.reshape(np.fromfile(model, dtype=np.float32), (nz,nx))
+float_type = np.float64
+snapshot_image = np.reshape(np.fromfile(snapshot, dtype=float_type), (nz,nx))
+model_image = np.reshape(np.fromfile(model, dtype=float_type), (nz,nx))
 model_gradient = ndimage.sobel(model_image, axis=0, mode='constant')
 norm_model_gradient = model_gradient/np.max(np.abs(model_gradient))
 
