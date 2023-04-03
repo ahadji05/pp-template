@@ -9,3 +9,12 @@ void add_source(ScalarField<TMP::MemSpaceHost> &p, const float_type src, size_t 
     assert(iz < p.get_nz());
     p.get_ptr()[iz * p.get_nx() + ix] = src;
 }
+
+#if defined(TMP_ENABLE_OPENMP_BACKEND)
+template <>
+void add_source(ScalarField<TMP::MemSpaceHost> &p, const float_type src, size_t ix, size_t iz,
+                TMP::ExecutionSpaceOpenMP)
+{
+    add_source(p, src, ix, iz, TMP::ExecutionSpaceSerial());
+}
+#endif
