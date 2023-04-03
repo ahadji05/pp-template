@@ -239,7 +239,7 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::store_velmodel_to_bina
     MemSpace::copyToHost(data_host, velmodel.get_ptr(), velmodel.get_nElems());
 
     // write data to binary file
-    file.write((char *)data_host, sizeof(float) * velmodel.get_nElems());
+    file.write((char *)data_host, sizeof(float_type) * velmodel.get_nElems());
 
     // deallocate the host-array and close file
     TMP::MemSpaceHost::release(data_host);
@@ -264,7 +264,7 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::store_wavefield_to_bin
     MemSpace::copyToHost(data_host, wavefield.get_ptr(), wavefield.get_nElems());
 
     // write data to binary file
-    file.write((char *)data_host, sizeof(float) * wavefield.get_nElems());
+    file.write((char *)data_host, sizeof(float_type) * wavefield.get_nElems());
 
     // deallocate the host-array and close file
     TMP::MemSpaceHost::release(data_host);
