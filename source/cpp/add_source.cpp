@@ -15,6 +15,7 @@ template <>
 void add_source(ScalarField<TMP::MemSpaceHost> &p, const float_type src, size_t ix, size_t iz,
                 TMP::ExecutionSpaceOpenMP)
 {
+    // there is no parallelism to exploit; just call the Serial implementation
     add_source(p, src, ix, iz, TMP::ExecutionSpaceSerial());
 }
 #endif
