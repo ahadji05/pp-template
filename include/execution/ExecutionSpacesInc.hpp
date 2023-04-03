@@ -28,7 +28,7 @@
 
 #include "ExecutionSpaceSerial.hpp" // host execution space is by default included
 
-#ifdef TMP_ENABLE_CUDA_BACKEND
+#ifdef TMP_ENABLE_OPENMP_BACKEND
 #include "ExecutionSpaceOpenMP.hpp"
 #endif
 
