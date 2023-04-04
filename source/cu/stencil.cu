@@ -29,7 +29,11 @@ __global__ void fd_pzz_kernel(float_type *pzz_data, float_type *p_data, size_t n
 }
 
 template <>
+#if defined(TMP_ENABLE_CUDA_BACKEND)
 void fd_pxx(ScalarField<TMP::MemSpaceCuda> &pxx, const ScalarField<TMP::MemSpaceCuda> &p, TMP::ExecutionSpaceCuda)
+#elif defined(TMP_ENABLE_HIP_BACKEND)
+void fd_pxx(ScalarField<TMP::MemSpaceHip> &pxx, const ScalarField<TMP::MemSpaceHip> &p, TMP::ExecutionSpaceHip)
+#endif
 {
     assert(pxx.get_nx() == p.get_nx());
     assert(pxx.get_nz() == p.get_nz());
@@ -58,7 +62,11 @@ void fd_pxx(ScalarField<TMP::MemSpaceCuda> &pxx, const ScalarField<TMP::MemSpace
 }
 
 template <>
-void fd_pxx(ScalarField<TMP::MemSpaceCuda> &pzz, const ScalarField<TMP::MemSpaceCuda> &p, TMP::ExecutionSpaceCuda)
+#if defined(TMP_ENABLE_CUDA_BACKEND)
+void fd_pzz(ScalarField<TMP::MemSpaceCuda> &pzz, const ScalarField<TMP::MemSpaceCuda> &p, TMP::ExecutionSpaceCuda)
+#elif defined(TMP_ENABLE_HIP_BACKEND)
+void fd_pzz(ScalarField<TMP::MemSpaceHip> &pzz, const ScalarField<TMP::MemSpaceHip> &p, TMP::ExecutionSpaceHip)
+#endif
 {
     assert(pzz.get_nx() == p.get_nx());
     assert(pzz.get_nz() == p.get_nz());

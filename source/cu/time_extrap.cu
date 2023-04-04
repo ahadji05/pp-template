@@ -20,10 +20,17 @@ __global__ void fd_time_extrap_kernel(float_type *pnew_data, float_type *p_data,
 }
 
 template <>
+#if defined(TMP_ENABLE_CUDA_BACKEND)
 void fd_time_extrap(ScalarField<TMP::MemSpaceCuda> &pnew, const ScalarField<TMP::MemSpaceCuda> &p,
                     const ScalarField<TMP::MemSpaceCuda> &pold, const ScalarField<TMP::MemSpaceCuda> &pxx,
                     const ScalarField<TMP::MemSpaceCuda> &pzz, const ScalarField<TMP::MemSpaceCuda> &velmodel,
                     float_type dt, float_type dh, TMP::ExecutionSpaceCuda)
+#elif defined(TMP_ENABLE_HIP_BACKEND)
+void fd_time_extrap(ScalarField<TMP::MemSpaceHip> &pnew, const ScalarField<TMP::MemSpaceHip> &p,
+                    const ScalarField<TMP::MemSpaceHip> &pold, const ScalarField<TMP::MemSpaceHip> &pxx,
+                    const ScalarField<TMP::MemSpaceHip> &pzz, const ScalarField<TMP::MemSpaceHip> &velmodel,
+                    float_type dt, float_type dh, TMP::ExecutionSpaceHip)
+#endif
 {
     size_t nz = pxx.get_nz();
     size_t nx = pxx.get_nx();

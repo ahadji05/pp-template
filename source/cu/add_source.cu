@@ -11,7 +11,11 @@ __global__ void add_source_kernel(float_type *p, float_type src, size_t ix, size
 }
 
 template <>
+#if defined(TMP_ENABLE_CUDA_BACKEND)
 void add_source(ScalarField<TMP::MemSpaceCuda> &p, const float_type src, size_t ix, size_t iz, TMP::ExecutionSpaceCuda)
+#elif defined(TMP_ENABLE_HIP_BACKEND)
+void add_source(ScalarField<TMP::MemSpaceHip> &p, const float_type src, size_t ix, size_t iz, TMP::ExecutionSpaceHip)
+#endif
 {
     assert(ix < p.get_nx());
     assert(iz < p.get_nz());
