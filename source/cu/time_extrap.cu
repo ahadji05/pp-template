@@ -48,7 +48,7 @@ void fd_time_extrap(ScalarField<TMP::MemSpaceHip> &pnew, const ScalarField<TMP::
     dim3 nBlocks(nBlock_x, nBlock_z, 1);
 
 #if defined(TMP_ENABLE_CUDA_BACKEND)
-    fd_time_extrap_kernel<<<nBlocks, nThread>>>(pnew_data, p_data, pold_data, pxx_data, pzz_data, velmodel_data, dt, dh,
+    fd_time_extrap_kernel<<<nBlocks, nThreads>>>(pnew_data, p_data, pold_data, pxx_data, pzz_data, velmodel_data, dt, dh,
                                                 nz, nx);
 #elif defined(TMP_ENABLE_HIP_BACKEND)
     static_assert(false, "NOT IMPLEMENTED YET");
