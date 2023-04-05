@@ -78,8 +78,7 @@ class MemSpaceHip : public MemorySpaceBase
      * @return return_t Returns release_failed=true if something went wrong with
      * memory release, else it returns false.
      */
-    template <typename value_t>
-    static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type release(value_t *ptr)
+    template <typename value_t> static return_t release(value_t *ptr)
     {
 #ifdef TMP_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceHip: release" << std::endl;
