@@ -5,10 +5,15 @@
 # for linking with the applications that are build on top of!
 
 # ALL host routines should be stored in a file with extension ".cpp"
-
 FILE(GLOB_RECURSE cpp_source *.cpp)
-
 add_library(host_source_code
     OBJECT
     ${cpp_source}
+)
+
+# ALL host routines should be stored in a file with extension ".cpp"
+FILE(GLOB_RECURSE cu_source *.cu)
+add_library(device_source_code
+    OBJECT
+    ${cu_source}
 )
