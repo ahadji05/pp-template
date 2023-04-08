@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(Test_TMP)
+project(WAVE_SIMULATON)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -17,3 +17,9 @@ add_subdirectory(../source build)
 target_link_libraries(main_exe
     host_source_code
 )
+
+if(TMP_ENABLE_CUDA_BACKEND)
+target_link_libraries(main_exe
+    device_source_code
+)
+endif()

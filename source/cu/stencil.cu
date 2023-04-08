@@ -55,7 +55,7 @@ void fd_pxx(ScalarField<TMP::MemSpaceHip> &pxx, const ScalarField<TMP::MemSpaceH
     dim3 nBlocks(nBlock_x, nBlock_z, 1);
 
 #if defined(TMP_ENABLE_CUDA_BACKEND)
-    fd_pxx_kernel<<<nBlocks, nThread>>>(pxx_data, p_data, nz, nx);
+    fd_pxx_kernel<<<nBlocks, nThreads>>>(pxx_data, p_data, nz, nx);
 #elif defined(TMP_ENABLE_HIP_BACKEND)
     static_assert(false, "NOT IMPLEMENTED YET");
 #endif
@@ -88,7 +88,7 @@ void fd_pzz(ScalarField<TMP::MemSpaceHip> &pzz, const ScalarField<TMP::MemSpaceH
     dim3 nBlocks(nBlock_x, nBlock_z, 1);
 
 #if defined(TMP_ENABLE_CUDA_BACKEND)
-    fd_pzz_kernel<<<nBlocks, nThread>>>(pzz_data, p_data, nz, nx);
+    fd_pzz_kernel<<<nBlocks, nThreads>>>(pzz_data, p_data, nz, nx);
 #elif defined(TMP_ENABLE_HIP_BACKEND)
     static_assert(false, "NOT IMPLEMENTED YET");
 #endif
