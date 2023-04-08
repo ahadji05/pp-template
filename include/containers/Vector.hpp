@@ -112,7 +112,7 @@ template <typename value_t, class memory_space> Vector<value_t, memory_space>::V
 {
     _nElems = nElems;
     memory_space::allocate(&_ptr, _nElems);
-    memory_space::copy(_ptr, p, _nElems);
+    memory_space::copyFromHost(_ptr, p, _nElems);
 }
 
 /**
