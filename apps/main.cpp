@@ -8,8 +8,8 @@ int main()
     WaveSimulator<exec_space> Sim;
 
     // Set modelling parameters
-    Sim.set_time_step(0.001);
-    Sim.set_number_of_time_steps(1001);
+    Sim.set_time_step(0.0005);
+    Sim.set_number_of_time_steps(2001);
     Sim.set_dimensions(701, 2001);
     Sim.set_space_step(7.5);
     Sim.set_source_position_z(250);
