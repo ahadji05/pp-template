@@ -21,8 +21,8 @@ int main()
     Sim.set_velocity_layer(300, 450, 3000);
     Sim.set_velocity_layer(450, 701, 4800);
 
-    // Compute the Courant-Friedrichs-Lewy condition:
-    std::cout << "CLF condition: " << Sim.CLF_condition() << std::endl;
+    // Compute and print the Courant-Friedricks-Lewy condition:
+    Sim.CLF_condition();
 
     // run simulation for all time-steps
     Sim.run();
