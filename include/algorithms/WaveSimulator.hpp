@@ -34,7 +34,7 @@ template <class ExecSpace> class WaveSimulator
     ScalarField<MemSpace> velmodel;
 
     std::vector<float_type> source_impulse;
-    float_type _dt, _dh, _vmin;
+    float_type _dt, _dh, _vmin, _vmax;
     size_t _nt, _nz, _nx, _srcz, _srcx;
 
   public:
@@ -52,6 +52,7 @@ template <class ExecSpace> class WaveSimulator
     void make_ricker(float_type fpeak);
     void store_velmodel_to_binary(const char *filename) const;
     void store_wavefield_to_binary(const char *filename) const;
+    void print_CLF_condition() const;
     float_type CLF_condition() const;
 
     void run()
@@ -219,6 +220,12 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::set_velocity_layer(siz
 
     // deallocate the host-array
     TMP::MemSpaceHost::release(data_host);
+
+    if (v > _vmax)
+        _vmax = v;
+
+    if (v < _vmin)
+        _vmin = v;
 }
 
 /**
@@ -277,5 +284,16 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::store_wavefield_to_bin
  */
 template <class ExecSpace> float_type WaveSimulator<ExecSpace>::CLF_condition() const
 {
-    return _vmin * _dt / _dh;
+    return _vmax * _dt / _dh;
+}
+
+/**
+ * @brief Compute and print on screen the Courant-Friedricks-Lewy stability condition.
+ *
+ */
+template <class ExecSpace> void WaveSimulator<ExecSpace>::print_CLF_condition() const
+{
+    std::cout << "CLF condition: " << this->CLF_condition() << ", ";
+    std::cout << "(vmax=" << _vmax << ", dt=" << _dt << ", dh=" << _dh << ")";
+    std::cout << std::endl;
 }
