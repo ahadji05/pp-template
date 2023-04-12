@@ -308,7 +308,7 @@ template <class ExecSpace> float_type WaveSimulator<ExecSpace>::get_CFL_conditio
  */
 template <class ExecSpace> void WaveSimulator<ExecSpace>::print_CFL_condition() const
 {
-    std::cout << "CLF condition: " << this->CLF_condition() << ", ";
+    std::cout << "CLF condition: " << get_CFL_condition() << ", ";
     std::cout << "(vmax=" << _vmax << ", dt=" << _dt << ", dh=" << _dh << ")";
     std::cout << std::endl;
 }
