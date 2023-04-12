@@ -41,6 +41,7 @@ template <class ExecSpace> class WaveSimulator
     WaveSimulator() = default;
     ~WaveSimulator() = default;
 
+    // Set-methods
     void set_time_step(float_type dt);
     void set_space_step(float_type dt);
     void set_number_of_time_steps(size_t nt);
@@ -49,12 +50,26 @@ template <class ExecSpace> class WaveSimulator
     void set_dimensions(size_t nz, size_t nx);
     void set_vmin(float_type vmin);
     void set_velocity_layer(size_t izmin, size_t izmax, float_type v);
+
+    // Get-methods
+    float_type get_time_step() const;
+    float_type get_space_step() const;
+    size_t get_number_of_time_steps() const;
+    size_t get_source_position_x() const;
+    size_t get_source_position_z() const;
+    size_t get_dim_nx() const;
+    size_t get_dim_nz() const;
+    float_type get_vmin() const;
+    float_type get_vmax() const;
+
+    // Other public methods
     void make_ricker(float_type fpeak);
     void store_velmodel_to_binary(const char *filename) const;
     void store_wavefield_to_binary(const char *filename) const;
     void print_CLF_condition() const;
     float_type CLF_condition() const;
 
+    // main algorithm
     void run()
     {
         for (size_t i(0); i < _nt; ++i)
@@ -296,4 +311,49 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::print_CLF_condition() 
     std::cout << "CLF condition: " << this->CLF_condition() << ", ";
     std::cout << "(vmax=" << _vmax << ", dt=" << _dt << ", dh=" << _dh << ")";
     std::cout << std::endl;
+}
+
+template <class ExecSpace> float_type WaveSimulator<ExecSpace>::get_time_step() const
+{
+    return _dt;
+}
+
+template <class ExecSpace> float_type WaveSimulator<ExecSpace>::get_space_step() const
+{
+    return _dh;
+}
+
+template <class ExecSpace> size_t WaveSimulator<ExecSpace>::get_number_of_time_steps() const
+{
+    return _nt;
+}
+
+template <class ExecSpace> size_t WaveSimulator<ExecSpace>::get_source_position_x() const
+{
+    return _srcx;
+}
+
+template <class ExecSpace> size_t WaveSimulator<ExecSpace>::get_source_position_z() const
+{
+    return _srcz;
+}
+
+template <class ExecSpace> size_t WaveSimulator<ExecSpace>::get_dim_nx() const
+{
+    return _nx;
+}
+
+template <class ExecSpace> size_t WaveSimulator<ExecSpace>::get_dim_nz() const
+{
+    return _nz;
+}
+
+template <class ExecSpace> float_type WaveSimulator<ExecSpace>::get_vmin() const
+{
+    return _vmin;
+}
+
+template <class ExecSpace> float_type WaveSimulator<ExecSpace>::get_vmin() const
+{
+    return _vmax;
 }
