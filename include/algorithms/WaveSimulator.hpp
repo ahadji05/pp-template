@@ -61,13 +61,13 @@ template <class ExecSpace> class WaveSimulator
     size_t get_dim_nz() const;
     float_type get_vmin() const;
     float_type get_vmax() const;
+    float_type get_CFL_condition() const;
 
     // Other public methods
     void make_ricker(float_type fpeak);
     void store_velmodel_to_binary(const char *filename) const;
     void store_wavefield_to_binary(const char *filename) const;
-    void print_CLF_condition() const;
-    float_type CLF_condition() const;
+    void print_CFL_condition() const;
 
     // main algorithm
     void run()
@@ -297,7 +297,7 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::store_wavefield_to_bin
  * @brief Return the Courant-Friedricks-Lewy stability condition.
  *
  */
-template <class ExecSpace> float_type WaveSimulator<ExecSpace>::CLF_condition() const
+template <class ExecSpace> float_type WaveSimulator<ExecSpace>::get_CFL_condition() const
 {
     return _vmax * _dt / _dh;
 }
@@ -306,7 +306,7 @@ template <class ExecSpace> float_type WaveSimulator<ExecSpace>::CLF_condition() 
  * @brief Compute and print on screen the Courant-Friedricks-Lewy stability condition.
  *
  */
-template <class ExecSpace> void WaveSimulator<ExecSpace>::print_CLF_condition() const
+template <class ExecSpace> void WaveSimulator<ExecSpace>::print_CFL_condition() const
 {
     std::cout << "CLF condition: " << this->CLF_condition() << ", ";
     std::cout << "(vmax=" << _vmax << ", dt=" << _dt << ", dh=" << _dh << ")";
@@ -353,7 +353,7 @@ template <class ExecSpace> float_type WaveSimulator<ExecSpace>::get_vmin() const
     return _vmin;
 }
 
-template <class ExecSpace> float_type WaveSimulator<ExecSpace>::get_vmin() const
+template <class ExecSpace> float_type WaveSimulator<ExecSpace>::get_vmax() const
 {
     return _vmax;
 }

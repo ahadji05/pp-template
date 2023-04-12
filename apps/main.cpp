@@ -22,7 +22,7 @@ int main()
     Sim.set_velocity_layer(450, 701, 4800);
 
     // Compute and print the Courant-Friedricks-Lewy condition:
-    Sim.CLF_condition();
+    Sim.print_CFL_condition();
 
     // run simulation for all time-steps
     Sim.run();
