@@ -19,13 +19,14 @@ __global__ void fd_time_extrap_kernel(float_type *pnew_data, float_type *p_data,
                    ((dt * dt) / (dh * dh)) * (velmodel_data[i] * velmodel_data[i]) * (pxx_data[i] + pzz_data[i]);
 }
 
-template <>
 #if defined(TMP_ENABLE_CUDA_BACKEND)
+template <>
 void fd_time_extrap(ScalarField<TMP::MemSpaceCuda> &pnew, const ScalarField<TMP::MemSpaceCuda> &p,
                     const ScalarField<TMP::MemSpaceCuda> &pold, const ScalarField<TMP::MemSpaceCuda> &pxx,
                     const ScalarField<TMP::MemSpaceCuda> &pzz, const ScalarField<TMP::MemSpaceCuda> &velmodel,
                     float_type dt, float_type dh, TMP::ExecutionSpaceCuda)
 #elif defined(TMP_ENABLE_HIP_BACKEND)
+template <>
 void fd_time_extrap(ScalarField<TMP::MemSpaceHip> &pnew, const ScalarField<TMP::MemSpaceHip> &p,
                     const ScalarField<TMP::MemSpaceHip> &pold, const ScalarField<TMP::MemSpaceHip> &pxx,
                     const ScalarField<TMP::MemSpaceHip> &pzz, const ScalarField<TMP::MemSpaceHip> &velmodel,
@@ -48,8 +49,8 @@ void fd_time_extrap(ScalarField<TMP::MemSpaceHip> &pnew, const ScalarField<TMP::
     dim3 nBlocks(nBlock_x, nBlock_z, 1);
 
 #if defined(TMP_ENABLE_CUDA_BACKEND)
-    fd_time_extrap_kernel<<<nBlocks, nThreads>>>(pnew_data, p_data, pold_data, pxx_data, pzz_data, velmodel_data, dt, dh,
-                                                nz, nx);
+    fd_time_extrap_kernel<<<nBlocks, nThreads>>>(pnew_data, p_data, pold_data, pxx_data, pzz_data, velmodel_data, dt,
+                                                 dh, nz, nx);
 #elif defined(TMP_ENABLE_HIP_BACKEND)
     static_assert(false, "NOT IMPLEMENTED YET");
 #endif

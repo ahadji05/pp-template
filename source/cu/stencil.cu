@@ -28,10 +28,11 @@ __global__ void fd_pzz_kernel(float_type *pzz_data, float_type *p_data, size_t n
                              (1 / 12) * p_data[(iz + 2) * nx + ix];
 }
 
-template <>
 #if defined(TMP_ENABLE_CUDA_BACKEND)
+template <>
 void fd_pxx(ScalarField<TMP::MemSpaceCuda> &pxx, const ScalarField<TMP::MemSpaceCuda> &p, TMP::ExecutionSpaceCuda)
 #elif defined(TMP_ENABLE_HIP_BACKEND)
+template <>
 void fd_pxx(ScalarField<TMP::MemSpaceHip> &pxx, const ScalarField<TMP::MemSpaceHip> &p, TMP::ExecutionSpaceHip)
 #endif
 {
@@ -61,10 +62,11 @@ void fd_pxx(ScalarField<TMP::MemSpaceHip> &pxx, const ScalarField<TMP::MemSpaceH
 #endif
 }
 
-template <>
 #if defined(TMP_ENABLE_CUDA_BACKEND)
+template <>
 void fd_pzz(ScalarField<TMP::MemSpaceCuda> &pzz, const ScalarField<TMP::MemSpaceCuda> &p, TMP::ExecutionSpaceCuda)
 #elif defined(TMP_ENABLE_HIP_BACKEND)
+template <>
 void fd_pzz(ScalarField<TMP::MemSpaceHip> &pzz, const ScalarField<TMP::MemSpaceHip> &p, TMP::ExecutionSpaceHip)
 #endif
 {
