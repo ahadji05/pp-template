@@ -25,6 +25,8 @@ TEST(test_fd_pxx, GTest_stencil)
 
     float_type *host_array;
     TMP::MemSpaceHost::allocate(&host_array, nz * nx);
+    for(size_t i(0); i<nx*nz; ++i)
+        host_array[i] = 0;
     host_array[3] = 1;
     host_array[6] = 1;
 
@@ -62,6 +64,8 @@ TEST(test_fd_pzz, GTest_stencil)
 
     float_type *host_array;
     TMP::MemSpaceHost::allocate(&host_array, nz * nx);
+    for(size_t i(0); i<nx*nz; ++i)
+        host_array[i] = 0;
     host_array[3] = 1;
     host_array[6] = 1;
 
