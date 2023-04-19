@@ -64,7 +64,7 @@ TEST(test_copy_constructor, GTest_Vector)
 
     float *host_data;
     TMP::MemSpaceHost::allocate(&host_data, 1014);
-    memo_space::copyToHost(host_data, vA.get_ptr(), 1014);
+    memo_space::copyToHost(host_data, vB.get_ptr(), 1014);
     for (size_t i(0); i < 1014; ++i)
         ASSERT_FLOAT_EQ(host_data[i], 1.0015);
 
@@ -76,12 +76,12 @@ TEST(test_copy_assign, GTest_Vector)
     TMP::Vector<float, memo_space> vA(124003);
     vA.fill(-1.0015);
 
-    TMP::Vector<float, memo_space> vB(vA);
+    TMP::Vector<float, memo_space> vB = vA;
     ASSERT_EQ(vB.get_nElems(), 124003);
 
     float *host_data;
     TMP::MemSpaceHost::allocate(&host_data, 124003);
-    memo_space::copyToHost(host_data, vA.get_ptr(), 124003);
+    memo_space::copyToHost(host_data, vB.get_ptr(), 124003);
     for (size_t i(0); i < 124003; ++i)
         ASSERT_FLOAT_EQ(host_data[i], -1.0015);
 
