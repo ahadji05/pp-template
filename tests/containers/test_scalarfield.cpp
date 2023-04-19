@@ -38,7 +38,7 @@ TEST(test_copy_constructor, GTest_scalarField)
     // Check copy-contructor ScalarField(const ScalarField &otherScalarField)
     float_type h_data[] = {float_type(1.0), float_type(2.0), float_type(2.0),
                            float_type(1.0), float_type(0.0), float_type(1.0)};
-    typename ScalarField<TMP::MemSpaceHost>::vector_type v(h_data, 6);
+    typename ScalarField<memo_space>::vector_type v(h_data, 6);
     ScalarField<memo_space> a(2, 3, v);
 
     ScalarField<memo_space> b(a);
@@ -59,12 +59,12 @@ TEST(test_copy_assignment, GTest_scalarField)
     // Check copy-assignment ScalarField(const ScalarField &otherScalarField)
     float_type h_data[] = {float_type(1.6),  float_type(2.2),   float_type(-0.53),
                            float_type(-1.1), float_type(-0.02), float_type(1.0034)};
-    typename ScalarField<TMP::MemSpaceHost>::vector_type v(h_data, 5);
-    ScalarField<memo_space> a(1, 5, v);
+    typename ScalarField<memo_space>::vector_type v(h_data, 6);
+    ScalarField<memo_space> a(1, 6, v);
 
     ScalarField<memo_space> b = a;
     ASSERT_EQ(b.get_nz(), 1);
-    ASSERT_EQ(b.get_nx(), 5);
+    ASSERT_EQ(b.get_nx(), 6);
 
     float_type *host_data;
     TMP::MemSpaceHost::allocate(&host_data, 6);
@@ -80,13 +80,13 @@ TEST(test_destructor, GTest_scalarField)
     // Check destructor ~ScalarField()
     float_type h_data[] = {float_type(1.6),  float_type(2.2),   float_type(-0.53),
                            float_type(-1.1), float_type(-0.02), float_type(1.0034)};
-    typename ScalarField<TMP::MemSpaceHost>::vector_type v(h_data, 5);
-    ScalarField<memo_space> a(1, 5, v);
+    typename ScalarField<memo_space>::vector_type v(h_data, 6);
+    ScalarField<memo_space> a(1, 6, v);
 
     ScalarField<memo_space> *b = new ScalarField<memo_space>(a);
 
     ASSERT_EQ(b->get_nz(), 1);
-    ASSERT_EQ(b->get_nx(), 5);
-    ASSERT_EQ(b->get_nElems(), 5);
+    ASSERT_EQ(b->get_nx(), 6);
+    ASSERT_EQ(b->get_nElems(), 6);
     ASSERT_NO_THROW(delete b);
 }
