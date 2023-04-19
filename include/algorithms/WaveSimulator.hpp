@@ -203,8 +203,7 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::make_ricker(float_type
         data_host[it] = amplitude;
     }
 
-    // copy data to MemSpace and then deallocate the host array
-    MemSpace::copyFromHost(source_impulse.data(), data_host, _nt);
+    TMP::MemSpaceHost::copy(source_impulse.data(), data_host, _nt);
     TMP::MemSpaceHost::release(data_host);
 }
 
