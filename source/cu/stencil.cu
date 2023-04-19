@@ -10,9 +10,13 @@ __global__ void fd_pxx_kernel(float_type *pxx_data, float_type *p_data, size_t n
     if (ix < 2 || ix >= nx - 2)
         return;
 
-    pxx_data[iz * nx + ix] = -(1 / 12) * p_data[iz * nx + ix - 2] + (4 / 3) * p_data[iz * nx + ix - 1] -
-                             (5 / 2) * p_data[iz * nx + ix] + (4 / 3) * p_data[iz * nx + ix + 1] -
-                             (1 / 12) * p_data[iz * nx + ix + 1];
+    float_type c0 = -5.0 / 2.0;
+    float_type c1 = 4.0 / 3.0;
+    float_type c2 = -1.0 / 12.0;
+
+    size_t i = iz * nx + ix;
+    pxx_data[i] =
+        c2 * p_data[i - 2] + c1 * p_data[i - 1] + c0 * p_data[i] + c1 * p_data[i + 1] + c2 * p_data[i + 2];
 }
 
 __global__ void fd_pzz_kernel(float_type *pzz_data, float_type *p_data, size_t nz, size_t nx)
@@ -23,9 +27,12 @@ __global__ void fd_pzz_kernel(float_type *pzz_data, float_type *p_data, size_t n
     if (iz < 2 || iz >= nz - 2)
         return;
 
-    pzz_data[iz * nx + ix] = -(1 / 12) * p_data[(iz - 2) * nx + ix] + (4 / 3) * p_data[(iz - 1) * nx + ix] -
-                             (5 / 2) * p_data[iz * nx + ix] + (4 / 3) * p_data[(iz + 1) * nx + ix] -
-                             (1 / 12) * p_data[(iz + 2) * nx + ix];
+    float_type c0 = -5.0 / 2.0;
+    float_type c1 = 4.0 / 3.0;
+    float_type c2 = -1.0 / 12.0;
+
+    pzz_data[iz * nx + ix] = c2 * p_data[(iz - 2) * nx + ix] + c1 * p_data[(iz - 1) * nx + ix] +
+        c0 * p_data[iz * nx + ix] + c1 * p_data[(iz + 1) * nx + ix] + c2 * p_data[(iz + 2) * nx + ix];
 }
 
 template <>
