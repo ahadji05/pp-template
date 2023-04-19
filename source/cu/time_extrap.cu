@@ -7,7 +7,7 @@ __global__ void fd_time_extrap_kernel(float_type *pnew_data, float_type *p_data,
                                       float_type dt, float_type dh, size_t nz, size_t nx)
 {
     size_t ix = blockDim.x * blockIdx.x + threadIdx.x;
-    size_t iz = blockDim.z * blockIdx.z + threadIdx.z;
+    size_t iz = blockDim.y * blockIdx.y + threadIdx.y;
 
     if (ix > nx)
         return;
