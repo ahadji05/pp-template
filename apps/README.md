@@ -15,5 +15,5 @@ make
 
 ### For visualizing the output files, use the provided python script:
 ```sh
-python ../visualize.py wavefield.bin velocity_model.bin 701 2001
+python ../visualize.py wavefield.bin velocity_model.bin 1751 5001
 ```
