@@ -1,28 +1,19 @@
-cmake_minimum_required(VERSION 3.10)
-project(Test_TMP)
+find_package(GTest REQUIRED)
+# TODO: ignore find_gtest.cmake for now, do -DGTest_ROOT=... when configuring
+# include(${PPT_TOP_SOURCE_DIR}/cmake/find_gtest.cmake)
 
-set(CMAKE_CXX_STANDARD 11)
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
-include(../cmake/select_backend.cmake)
-include(../cmake/select_build_mode.cmake)
-include(../cmake/find_gtest.cmake)
+set(PPT_TEST_SOURCES)
+append_glob(PPT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/algorithms/*.cpp)
+append_glob(PPT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/containers/*.cpp)
+append_glob(PPT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/routines/*.cpp)
 
-include_directories(
-    "../include/"
-    "./"
-)
+add_executable(PPT_test gtest_main.cpp ${PPT_SOURCES})
 
-add_subdirectory(algorithms)
-add_subdirectory(containers)
-add_subdirectory(routines)
-add_subdirectory(../source build)
+target_compile_options(
+  PPT_test PRIVATE $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
+                   -Wall -Wextra -Wpedantic>)
+target_compile_features(PPT_test PRIVATE cxx_std_11)
 
-add_executable(gtest_all gtest_main.cpp)
-
-target_link_libraries(gtest_all
-    GTest::gtest_main
-    testcontainers
-    testalgorithms
-    testroutines
-    host_source_code
-)
+target_link_libraries(PPT_test GTest::gtest_main PPT::PPT)

@@ -23,35 +23,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef TMP_EXECUTION_SPACES_INC_HPP
-#define TMP_EXECUTION_SPACES_INC_HPP
+#ifndef TMP_EXECUTION_SPACE_OPENMP
+#define TMP_EXECUTION_SPACE_OPENMP
 
-#include "ExecutionSpaceSerial.hpp" // host execution space is by default included
+#include "ppt/execution/ExecutionSpace.hpp"
+#include "ppt/memory/MemorySpacesInc.hpp"
 
-#ifdef TMP_ENABLE_OPENMP_BACKEND
-#include "ExecutionSpaceOpenMP.hpp"
-#endif
+namespace TMP {
 
-#ifdef TMP_ENABLE_CUDA_BACKEND
-#include "ExecutionSpaceCuda.hpp"
-#endif
-
-#ifdef TMP_ENABLE_HIP_BACKEND
-#include "ExecutionSpaceHip.hpp"
-#endif
-
-namespace TMP
-{
-/**
- * @brief Assert that a given type T is a valid Execution-Space. A valid
- * Execution-Space is one that is derived from the class ExecutionSpaceBase.
- *
- * @tparam T The type to check if it is derived from class ExecutionSpaceBase.
- */
-template <typename T> struct is_execution_space
-{
-    static constexpr bool value = std::is_base_of<ExecutionSpaceBase, T>::value;
+class ExecutionSpaceOpenMP : public ExecutionSpaceBase {
+ public:
+  using accessible_space =
+      TMP::MemSpaceHost;  // define as type-trait the accessible memory-space
 };
-} // namespace TMP
+
+}  // namespace TMP
 
 #endif

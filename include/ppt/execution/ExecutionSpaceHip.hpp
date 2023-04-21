@@ -23,31 +23,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef TMP_MEMORY_SPACES_INC_HPP
-#define TMP_MEMORY_SPACES_INC_HPP
+#ifndef TMP_EXECUTION_SPACE_HIP
+#define TMP_EXECUTION_SPACE_HIP
 
-#include "MemSpaceHost.hpp"
+#include "ppt/execution/ExecutionSpace.hpp"
+#include "ppt/memory/MemorySpacesInc.hpp"
 
-#ifdef TMP_ENABLE_CUDA_BACKEND
-#include "MemSpaceCuda.hpp"
-#endif
+namespace TMP {
 
-#ifdef TMP_ENABLE_HIP_BACKEND
-#include "MemSpaceHip.hpp"
-#endif
-
-namespace TMP
-{
-/**
- * @brief Assert that a given type T is a Memory-Space. A valid
- * Memory-Space is one that is derived from the class MemorySpaceBase.
- *
- * @tparam T The type to check if it is derived from class MemorySpace.
- */
-template <typename T> struct is_memory_space
-{
-    static constexpr bool value = std::is_base_of<MemorySpaceBase, T>::value;
+class ExecutionSpaceHip : public ExecutionSpaceBase {
+ public:
+  using accessible_space =
+      TMP::MemSpaceHip;  // define as type-trait the accessible memory-space
 };
-} // namespace TMP
+
+}  // namespace TMP
 
 #endif

@@ -26,24 +26,31 @@
 #ifndef TMP_ADD_SOURCE_HPP
 #define TMP_ADD_SOURCE_HPP
 
-#include "containers/ScalarField.hpp"
-#include "execution/ExecutionSpacesInc.hpp"
-#include "types.hpp"
+#include "ppt/containers/ScalarField.hpp"
+#include "ppt/execution/ExecutionSpacesInc.hpp"
+#include "ppt/types.hpp"
 
 /**
- * @brief This routine sets at a specified position (iz,ix) of a specified wavefield (p) the source-amplitude (src).
+ * @brief This routine sets at a specified position (iz,ix) of a specified
+ * wavefield (p) the source-amplitude (src).
  *
- * @tparam ExecSpace Execution-Space that is used to resolve the back-end implementation at compile-time.
- * @tparam MemSpace Memory-Space that must be accessible from the Execution-Space; otherwise compile-time error.
+ * @tparam ExecSpace Execution-Space that is used to resolve the back-end
+ * implementation at compile-time.
+ * @tparam MemSpace Memory-Space that must be accessible from the
+ * Execution-Space; otherwise compile-time error.
  * @param p wavefield
  * @param src source amplitude at given location
  * @param ix source index across the x dimension
  * @param iz source index across the z dimension
  * @param tag tag for dispatching the selection Execution-Space
- * @return void IF the Memory-Space is accessible from the Execution-Space; otherwise it produces compile-time error.
+ * @return void IF the Memory-Space is accessible from the Execution-Space;
+ * otherwise it produces compile-time error.
  */
 template <class ExecSpace, class MemSpace>
-typename std::enable_if<std::is_same<typename ExecSpace::accessible_space, MemSpace>::value, void>::type add_source(
-    ScalarField<MemSpace> &p, const float_type src, size_t ix, size_t iz, ExecSpace tag);
+typename std::enable_if<
+    std::is_same<typename ExecSpace::accessible_space, MemSpace>::value,
+    void>::type
+add_source(ScalarField<MemSpace> &p, const float_type src, size_t ix, size_t iz,
+           ExecSpace tag);
 
 #endif
