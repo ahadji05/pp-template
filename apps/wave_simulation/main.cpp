@@ -1,5 +1,5 @@
 
-#include "algorithms/WaveSimulator.hpp"
+#include "ppt/algorithms/WaveSimulator.hpp"
 #include <iostream>
 
 int main()

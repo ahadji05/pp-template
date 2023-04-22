@@ -4,7 +4,7 @@
 ```sh
 mkdir build
 cd build
-cmake ..
+cmake .. -Dppt_ROOT=/path/to/ppt/installation
 ```
 
 ### Then, compile and run the executable:
