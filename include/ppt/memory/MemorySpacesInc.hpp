@@ -26,6 +26,7 @@
 #ifndef TMP_MEMORY_SPACES_INC_HPP
 #define TMP_MEMORY_SPACES_INC_HPP
 
+#include "ppt/definitions.hpp"
 #include "ppt/memory/MemSpaceHost.hpp"
 
 #ifdef TMP_ENABLE_CUDA_BACKEND
@@ -36,17 +37,18 @@
 #include "ppt/memory/MemSpaceHip.hpp"
 #endif
 
-namespace TMP {
+namespace TMP
+{
 /**
  * @brief Assert that a given type T is a Memory-Space. A valid
  * Memory-Space is one that is derived from the class MemorySpaceBase.
  *
  * @tparam T The type to check if it is derived from class MemorySpace.
  */
-template <typename T>
-struct is_memory_space {
-  static constexpr bool value = std::is_base_of<MemorySpaceBase, T>::value;
+template <typename T> struct is_memory_space
+{
+    static constexpr bool value = std::is_base_of<MemorySpaceBase, T>::value;
 };
-}  // namespace TMP
+} // namespace TMP
 
 #endif

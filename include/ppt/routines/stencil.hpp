@@ -48,11 +48,8 @@
  * otherwise it produces compile-time error.
  */
 template <class ExecSpace, class MemSpace>
-typename std::enable_if<
-    std::is_same<typename ExecSpace::accessible_space, MemSpace>::value,
-    void>::type
-fd_pxx(ScalarField<MemSpace> &pxx, const ScalarField<MemSpace> &p,
-       ExecSpace tag);
+typename std::enable_if<std::is_same<typename ExecSpace::accessible_space, MemSpace>::value, void>::type fd_pxx(
+    ScalarField<MemSpace> &pxx, const ScalarField<MemSpace> &p, ExecSpace tag);
 
 /**
  * @brief This routine calculates the second-order derivative pzz of a wavefield
@@ -72,9 +69,7 @@ fd_pxx(ScalarField<MemSpace> &pxx, const ScalarField<MemSpace> &p,
  * otherwise it produces compile-time error.
  */
 template <class ExecSpace, class MemSpace>
-typename std::enable_if<
-    std::is_same<typename ExecSpace::accessible_space, MemSpace>::value>::type
-fd_pzz(ScalarField<MemSpace> &pzz, const ScalarField<MemSpace> &p,
-       ExecSpace tag);
+typename std::enable_if<std::is_same<typename ExecSpace::accessible_space, MemSpace>::value>::type fd_pzz(
+    ScalarField<MemSpace> &pzz, const ScalarField<MemSpace> &p, ExecSpace tag);
 
 #endif

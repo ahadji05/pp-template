@@ -1,7 +1,5 @@
-macro(APPEND_GLOB VAR)
-  file(GLOB LOCAL_TMP_VAR ${ARGN})
-  list(APPEND ${VAR} ${LOCAL_TMP_VAR})
-endmacro()
+include(${PPT_TOP_SOURCE_DIR}/cmake/select_backend.cmake)
+enable_backends()
 
 # This will include Compiler options as defined during configuration
 configure_file(${PPT_TOP_SOURCE_DIR}/cmake/PPT_config.hpp.in
@@ -25,3 +23,16 @@ target_compile_options(
   PPT PRIVATE $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>: -Wall
               -Wextra -Wpedantic>)
 target_compile_features(PPT PRIVATE cxx_std_11)
+
+if(PPT_ENABLE_OPENMP)
+  find_package(OpenMP REQUIRED)
+  target_link_libraries(PPT OpenMP::OpenMP_CXX)
+endif()
+
+if(PPT_ENABLE_CUDA)
+  # TODO
+endif()
+
+if(PPT_ENABLE_HIP)
+  # TODO
+endif()

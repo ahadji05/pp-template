@@ -1,6 +1,5 @@
 #if !defined(PPT_DEFINITIONS_HPP) || defined(PPT_CONFIG_H)
-#error \
-    "Do not include PPT_config.hpp directly; include ppt/definitions.hpp instead."
+#error "Do not include PPT_config.hpp directly; include ppt/definitions.hpp instead."
 #else
 #define PPT_CONFIG_HPP
 #endif
@@ -8,12 +7,16 @@
 // clang-format off
 
 /* Define the current version of PP-Template */
-// PP_VERSION % 100 is the patch level
-// PP_VERSION / 100 % 100 is the minor version
-// PP_VERSION / 10000 is the major version
-#cmakedefine PPT_VERSION @PPT_VERSION@
-#cmakedefine PPT_VERSION_MAJOR  @ppt_VERSION_MAJOR@
-#cmakedefine PPT_VERSION_MINOR  @ppt_VERSION_MINOR@
-#cmakedefine PPT_VERSION_PATCH  @ppt_VERSION_PATCH@
+// ppt_VERSION % 100 is the patch level
+// ppt_VERSION / 100 % 100 is the minor version
+// ppt_VERSION / 10000 is the major version
+#cmakedefine ppt_VERSION @ppt_VERSION@
+#cmakedefine PPT_VERSION_MAJOR  @PPT_VERSION_MAJOR@
+#cmakedefine PPT_VERSION_MINOR  @PPT_VERSION_MINOR@
+#cmakedefine PPT_VERSION_PATCH  @PPT_VERSION_PATCH@
+
+#cmakedefine TMP_ENABLE_OPENMP_BACKEND
+#cmakedefine TMP_ENABLE_CUDA_BACKEND
+#cmakedefine TMP_ENABLE_HIP_BACKEND
 
 // clang-format on

@@ -1,15 +1,26 @@
-message("Selecting unit-test backend ...")
+macro(ENABLE_BACKENDS)
 
-if(TMP_ENABLE_CUDA_BACKEND)
-    message("Building tests using ExecutionSpaceCUDA")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DTMP_ENABLE_CUDA_BACKEND")
-elseif(TMP_ENABLE_HIP_BACKEND)
-    message("Building tests using ExecutionSpaceHIP")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DTMP_ENABLE_HIP_BACKEND")
-elseif(TMP_ENABLE_OPENMP_BACKEND)
-    message("Building tests using ExecutionSpaceOpenMP")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DTMP_ENABLE_OPENMP_BACKEND")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
-else()
-    message("Building tests using ExecutionSpaceSerial")
-endif()
+  set(PPT_ENABLE_OPENMP
+      OFF
+      CACHE BOOL "Whether to enable OpenMP backend. Default: OFF")
+  set(PPT_ENABLE_CUDA
+      OFF
+      CACHE BOOL "Whether to enable Cuda backend. Default: OFF")
+  set(PPT_ENABLE_HIP
+      OFF
+      CACHE BOOL "Whether to enable HIP backend. Default: OFF")
+
+  if(PPT_ENABLE_CUDA)
+    set(TMP_ENABLE_CUDA_BACKEND ON)
+    message(STATUS "Configuring with ExecutionSpaceCUDA.")
+  elseif(PPT_ENABLE_HIP)
+    set(TMP_ENABLE_HIP_BACKEND ON)
+    message(STATUS "Configuring with ExecutionSpaceHIP.")
+  elseif(PPT_ENABLE_OPENMP)
+    set(TMP_ENABLE_OPENMP_BACKEND ON)
+    message(STATUS "Configuring with ExecutionSpaceOpenMP.")
+  else()
+    message(STATUS "Configuring with ExecutionSpaceSerial.")
+
+  endif()
+endmacro()

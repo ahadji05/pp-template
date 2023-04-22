@@ -26,7 +26,8 @@
 #ifndef TMP_EXECUTION_SPACES_INC_HPP
 #define TMP_EXECUTION_SPACES_INC_HPP
 
-#include "ppt/execution/ExecutionSpaceSerial.hpp"  // host execution space is by default included
+#include "ppt/definitions.hpp"
+#include "ppt/execution/ExecutionSpaceSerial.hpp" // host execution space is by default included
 
 #ifdef TMP_ENABLE_OPENMP_BACKEND
 #include "ppt/execution/ExecutionSpaceOpenMP.hpp"
@@ -40,17 +41,18 @@
 #include "ppt/execution/ExecutionSpaceHip.hpp"
 #endif
 
-namespace TMP {
+namespace TMP
+{
 /**
  * @brief Assert that a given type T is a valid Execution-Space. A valid
  * Execution-Space is one that is derived from the class ExecutionSpaceBase.
  *
  * @tparam T The type to check if it is derived from class ExecutionSpaceBase.
  */
-template <typename T>
-struct is_execution_space {
-  static constexpr bool value = std::is_base_of<ExecutionSpaceBase, T>::value;
+template <typename T> struct is_execution_space
+{
+    static constexpr bool value = std::is_base_of<ExecutionSpaceBase, T>::value;
 };
-}  // namespace TMP
+} // namespace TMP
 
 #endif
