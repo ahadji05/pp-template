@@ -24,12 +24,23 @@ include(cmake/cmake_utils.cmake)
 set(PPT_ENABLE_TESTS
     OFF
     CACHE BOOL "Whether to build tests. Default: OFF")
+set(PPT_ENABLE_DOCS
+    OFF
+    CACHE BOOL "Whether to build docs. Default: OFF")
 
 add_subdirectory(src)
+
 if(PPT_ENABLE_TESTS)
   message(STATUS "Configuring unit tests")
   add_subdirectory(tests)
   message(STATUS "Configuring unit tests - done")
+endif()
+
+if(PPT_ENABLE_DOCS)
+  message(STATUS "Configuring docs")
+  include(cmake/cmake_doxygen.cmake)
+  configure_docs()
+  message(STATUS "Configuring docs - done")
 endif()
 
 ppt_postprocess()
