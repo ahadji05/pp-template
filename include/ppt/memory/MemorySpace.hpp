@@ -66,24 +66,15 @@ class MemorySpaceBase
     {
         switch (message_type)
         {
-        case message::no_error:
-            return;
+        case message::no_error: return;
 
-        case message::allocation_failed:
-            std::cout << "Memory allocation with tag (" << tag << ") failed!\n";
-            return;
+        case message::allocation_failed: std::cout << "Memory allocation with tag (" << tag << ") failed!\n"; return;
 
-        case message::copying_failed:
-            std::cout << "Memory copying with tag (" << tag << ") failed!\n";
-            return;
+        case message::copying_failed: std::cout << "Memory copying with tag (" << tag << ") failed!\n"; return;
 
-        case message::release_failed:
-            std::cout << "Memory release with tag (" << tag << ") failed!\n";
-            return;
+        case message::release_failed: std::cout << "Memory release with tag (" << tag << ") failed!\n"; return;
 
-        default:
-            std::cout << "Error message_type with tag (" << tag << ")is undefined!\n";
-            return;
+        default: std::cout << "Error message_type with tag (" << tag << ")is undefined!\n"; return;
         }
     }
 

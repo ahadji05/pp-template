@@ -28,7 +28,8 @@
 
 #include "ppt/memory/MemorySpacesInc.hpp"
 
-namespace TMP {
+namespace TMP
+{
 
 /**
  * @brief Vector is a basic container for storing data in a contiguous memory
@@ -42,33 +43,32 @@ namespace TMP {
  * @tparam memory_space Memory Space that handles the memory allocations,
  * copies, and release operations.
  */
-template <typename value_t, class memory_space>
-class Vector {
-  // Asset at compile-time that the specified memory_space is valid!
-  static_assert(TMP::is_memory_space<memory_space>::value,
-                "Vector: The provided class in not a Memory Space.");
+template <typename value_t, class memory_space> class Vector
+{
+    // Asset at compile-time that the specified memory_space is valid!
+    static_assert(TMP::is_memory_space<memory_space>::value, "Vector: The provided class in not a Memory Space.");
 
- public:
-  Vector();
-  Vector(size_t nElems);
-  Vector(value_t *p, size_t nElems);
-  Vector(const Vector &other_vector);
-  Vector &operator=(const Vector &other_vector);
-  ~Vector();
+  public:
+    Vector();
+    Vector(size_t nElems);
+    Vector(value_t *p, size_t nElems);
+    Vector(const Vector &other_vector);
+    Vector &operator=(const Vector &other_vector);
+    ~Vector();
 
- protected:
-  size_t _nElems;
-  value_t *_ptr;
+  protected:
+    size_t _nElems;
+    value_t *_ptr;
 
- public:
-  inline size_t get_nElems() const;
-  inline value_t *get_ptr() const;
-  inline value_t &operator[](size_t i) const;
+  public:
+    inline size_t get_nElems() const;
+    inline value_t *get_ptr() const;
+    inline value_t &operator[](size_t i) const;
 
-  void fill(value_t value);    // !Performance note: this method invokes
-                               // Host-Device alloc/copy/free/sync, USE WISELY!
-  void resize(size_t nElems);  // !Performance note: this method invokes
-                               // Host-Device alloc/copy/free/sync, USE WISELY!
+    void fill(value_t value);   // !Performance note: this method invokes
+                                // Host-Device alloc/copy/free/sync, USE WISELY!
+    void resize(size_t nElems); // !Performance note: this method invokes
+                                // Host-Device alloc/copy/free/sync, USE WISELY!
 };
 
 /**
@@ -78,10 +78,10 @@ class Vector {
  * @tparam memory_space Memory Space that handles the memory allocations,
  * copies, and release operations.
  */
-template <typename value_t, class memory_space>
-Vector<value_t, memory_space>::Vector() {
-  _nElems = 0;
-  _ptr    = nullptr;
+template <typename value_t, class memory_space> Vector<value_t, memory_space>::Vector()
+{
+    _nElems = 0;
+    _ptr    = nullptr;
 }
 
 /**
@@ -93,11 +93,11 @@ Vector<value_t, memory_space>::Vector() {
  * copies, and release operations.
  * @param nElems Number of elements that fit in the Vector.
  */
-template <typename value_t, class memory_space>
-Vector<value_t, memory_space>::Vector(size_t nElems) {
-  _nElems = nElems;
-  memory_space::allocate(&_ptr, _nElems);
-  this->fill(0);
+template <typename value_t, class memory_space> Vector<value_t, memory_space>::Vector(size_t nElems)
+{
+    _nElems = nElems;
+    memory_space::allocate(&_ptr, _nElems);
+    this->fill(0);
 }
 
 /**
@@ -110,11 +110,11 @@ Vector<value_t, memory_space>::Vector(size_t nElems) {
  * @param p Pointer from where data are copied into this Vector.
  * @param nElems Number of elements that fit in the Vector.
  */
-template <typename value_t, class memory_space>
-Vector<value_t, memory_space>::Vector(value_t *p, size_t nElems) {
-  _nElems = nElems;
-  memory_space::allocate(&_ptr, _nElems);
-  memory_space::copyFromHost(_ptr, p, _nElems);
+template <typename value_t, class memory_space> Vector<value_t, memory_space>::Vector(value_t *p, size_t nElems)
+{
+    _nElems = nElems;
+    memory_space::allocate(&_ptr, _nElems);
+    memory_space::copyFromHost(_ptr, p, _nElems);
 }
 
 /**
@@ -126,11 +126,11 @@ Vector<value_t, memory_space>::Vector(value_t *p, size_t nElems) {
  * copies, and release operations.
  * @param other_vector Another Vector from which this is Constructed.
  */
-template <typename value_t, class memory_space>
-Vector<value_t, memory_space>::Vector(const Vector &other_vector) {
-  _nElems = other_vector._nElems;
-  memory_space::allocate(&_ptr, _nElems);
-  memory_space::copy(_ptr, other_vector._ptr, _nElems);
+template <typename value_t, class memory_space> Vector<value_t, memory_space>::Vector(const Vector &other_vector)
+{
+    _nElems = other_vector._nElems;
+    memory_space::allocate(&_ptr, _nElems);
+    memory_space::copy(_ptr, other_vector._ptr, _nElems);
 }
 
 /**
@@ -143,18 +143,19 @@ Vector<value_t, memory_space>::Vector(const Vector &other_vector) {
  * @return Vector<value_t, memory_space>&
  */
 template <typename value_t, class memory_space>
-Vector<value_t, memory_space> &Vector<value_t, memory_space>::operator=(
-    const Vector &other_vector) {
-  if (this != &other_vector) {
-    if (this->_nElems != other_vector._nElems) /* cannot reuse memory */
+Vector<value_t, memory_space> &Vector<value_t, memory_space>::operator=(const Vector &other_vector)
+{
+    if (this != &other_vector)
     {
-      _nElems = other_vector._nElems;
-      memory_space::release(_ptr);
-      memory_space::allocate(&_ptr, _nElems);
+        if (this->_nElems != other_vector._nElems) /* cannot reuse memory */
+        {
+            _nElems = other_vector._nElems;
+            memory_space::release(_ptr);
+            memory_space::allocate(&_ptr, _nElems);
+        }
+        memory_space::copy(_ptr, other_vector._ptr, _nElems);
     }
-    memory_space::copy(_ptr, other_vector._ptr, _nElems);
-  }
-  return *this;
+    return *this;
 }
 
 /**
@@ -164,10 +165,10 @@ Vector<value_t, memory_space> &Vector<value_t, memory_space>::operator=(
  * @tparam memory_space Memory Space that handles the memory allocations,
  * copies, and release operations.
  */
-template <typename value_t, class memory_space>
-Vector<value_t, memory_space>::~Vector() {
-  memory_space::release(_ptr);
-  _ptr = nullptr;
+template <typename value_t, class memory_space> Vector<value_t, memory_space>::~Vector()
+{
+    memory_space::release(_ptr);
+    _ptr = nullptr;
 }
 
 /**
@@ -178,9 +179,9 @@ Vector<value_t, memory_space>::~Vector() {
  * copies, and release operations.
  * @return size_t
  */
-template <typename value_t, class memory_space>
-inline size_t Vector<value_t, memory_space>::get_nElems() const {
-  return _nElems;
+template <typename value_t, class memory_space> inline size_t Vector<value_t, memory_space>::get_nElems() const
+{
+    return _nElems;
 }
 
 /**
@@ -191,9 +192,9 @@ inline size_t Vector<value_t, memory_space>::get_nElems() const {
  * copies, and release operations.
  * @return value_t*
  */
-template <typename value_t, class memory_space>
-inline value_t *Vector<value_t, memory_space>::get_ptr() const {
-  return _ptr;
+template <typename value_t, class memory_space> inline value_t *Vector<value_t, memory_space>::get_ptr() const
+{
+    return _ptr;
 }
 
 /**
@@ -206,15 +207,16 @@ inline value_t *Vector<value_t, memory_space>::get_ptr() const {
  * @return value_t&
  */
 template <typename value_t, class memory_space>
-inline value_t &Vector<value_t, memory_space>::operator[](size_t i) const {
-  static_assert(std::is_same<memory_space, TMP::MemSpaceHost>::value,
-                "Vector operator[]: Cannot access non-host elements.");
+inline value_t &Vector<value_t, memory_space>::operator[](size_t i) const
+{
+    static_assert(std::is_same<memory_space, TMP::MemSpaceHost>::value,
+                  "Vector operator[]: Cannot access non-host elements.");
 
 #ifdef TMP_ENABLE_BOUND_CHECK
-  assert(i <= _nElems);
+    assert(i <= _nElems);
 #endif
 
-  return _ptr[i];
+    return _ptr[i];
 }
 
 /**
@@ -229,13 +231,14 @@ inline value_t &Vector<value_t, memory_space>::operator[](size_t i) const {
  * copies, and release operations.
  * @param value The specified value to set each element in the Vector equal to.
  */
-template <typename value_t, class memory_space>
-void Vector<value_t, memory_space>::fill(value_t value) {
-  value_t *data_host;
-  TMP::MemSpaceHost::allocate(&data_host, _nElems);
-  for (size_t i(0); i < _nElems; ++i) data_host[i] = value;
-  memory_space::copyFromHost(_ptr, data_host, _nElems);
-  TMP::MemSpaceHost::release(data_host);
+template <typename value_t, class memory_space> void Vector<value_t, memory_space>::fill(value_t value)
+{
+    value_t *data_host;
+    TMP::MemSpaceHost::allocate(&data_host, _nElems);
+    for (size_t i(0); i < _nElems; ++i)
+        data_host[i] = value;
+    memory_space::copyFromHost(_ptr, data_host, _nElems);
+    TMP::MemSpaceHost::release(data_host);
 }
 
 /**
@@ -251,16 +254,17 @@ void Vector<value_t, memory_space>::fill(value_t value) {
  * copies, and release operations.
  * @param nElems Number of elements to re-size Vector to.
  */
-template <typename value_t, class memory_space>
-void Vector<value_t, memory_space>::resize(size_t nElems) {
-  if (nElems != this->_nElems) {
-    memory_space::release(_ptr);
-    _nElems = nElems;
-    memory_space::allocate(&_ptr, _nElems);
-    this->fill(0);
-  }
+template <typename value_t, class memory_space> void Vector<value_t, memory_space>::resize(size_t nElems)
+{
+    if (nElems != this->_nElems)
+    {
+        memory_space::release(_ptr);
+        _nElems = nElems;
+        memory_space::allocate(&_ptr, _nElems);
+        this->fill(0);
+    }
 }
 
-}  // namespace TMP
+} // namespace TMP
 
-#endif  // TMP_VECTOR_HPP
+#endif // TMP_VECTOR_HPP

@@ -53,14 +53,9 @@
  * otherwise it produces compile-time error.
  */
 template <class ExecSpace, class MemSpace>
-typename std::enable_if<
-    std::is_same<MemSpace, typename ExecSpace::accessible_space>::value,
-    void>::type
-fd_time_extrap(ScalarField<MemSpace> &pnew, const ScalarField<MemSpace> &p,
-               const ScalarField<MemSpace> &pold,
-               const ScalarField<MemSpace> &pxx,
-               const ScalarField<MemSpace> &pzz,
-               const ScalarField<MemSpace> &velmodel, float_type dt,
-               float_type dh, ExecSpace tag);
+typename std::enable_if<std::is_same<MemSpace, typename ExecSpace::accessible_space>::value, void>::type fd_time_extrap(
+    ScalarField<MemSpace> &pnew, const ScalarField<MemSpace> &p, const ScalarField<MemSpace> &pold,
+    const ScalarField<MemSpace> &pxx, const ScalarField<MemSpace> &pzz, const ScalarField<MemSpace> &velmodel,
+    float_type dt, float_type dh, ExecSpace tag);
 
 #endif

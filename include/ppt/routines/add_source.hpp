@@ -47,10 +47,7 @@
  * otherwise it produces compile-time error.
  */
 template <class ExecSpace, class MemSpace>
-typename std::enable_if<
-    std::is_same<typename ExecSpace::accessible_space, MemSpace>::value,
-    void>::type
-add_source(ScalarField<MemSpace> &p, const float_type src, size_t ix, size_t iz,
-           ExecSpace tag);
+typename std::enable_if<std::is_same<typename ExecSpace::accessible_space, MemSpace>::value, void>::type add_source(
+    ScalarField<MemSpace> &p, const float_type src, size_t ix, size_t iz, ExecSpace tag);
 
 #endif

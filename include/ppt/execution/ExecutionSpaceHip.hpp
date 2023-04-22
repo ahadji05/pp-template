@@ -29,14 +29,15 @@
 #include "ppt/execution/ExecutionSpace.hpp"
 #include "ppt/memory/MemorySpacesInc.hpp"
 
-namespace TMP {
+namespace TMP
+{
 
-class ExecutionSpaceHip : public ExecutionSpaceBase {
- public:
-  using accessible_space =
-      TMP::MemSpaceHip;  // define as type-trait the accessible memory-space
+class ExecutionSpaceHip : public ExecutionSpaceBase
+{
+  public:
+    using accessible_space = TMP::MemSpaceHip; // define as type-trait the accessible memory-space
 };
 
-}  // namespace TMP
+} // namespace TMP
 
 #endif

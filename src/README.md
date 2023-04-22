@@ -1,1 +1,1 @@
-## Host (cpp) and device (cu) compile-able kernels.
+##Host(cpp) and device(cu) compile - able kernels.
