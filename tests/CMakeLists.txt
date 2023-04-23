@@ -16,4 +16,4 @@ target_compile_options(
                    -Wall -Wextra -Wpedantic>)
 target_compile_features(PPT_test PRIVATE cxx_std_11)
 
-target_link_libraries(PPT_test GTest::gtest_main PPT::PPT)
+target_link_libraries(PPT_test GTest::gtest_main PPT::ppt)
