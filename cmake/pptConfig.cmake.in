@@ -4,6 +4,10 @@ include(CMakeFindDependencyMacro)
 list(APPEND CMAKE_MODULE_PATH ${PPT_CMAKE_DIR})
 list(REMOVE_AT CMAKE_MODULE_PATH -1)
 
+if(@PPT_ENABLE_OPENMP@)
+  find_package(OpenMP REQUIRED)
+endif()
+
 if(NOT TARGET PPT_CMAKE_DIR::PPT_CMAKE_DIR)
     include("${PPT_CMAKE_DIR}/pptTargets.cmake")
 endif()
