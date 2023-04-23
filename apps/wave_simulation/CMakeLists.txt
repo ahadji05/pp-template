@@ -10,7 +10,7 @@ cmake_policy(SET CMP0074 NEW)
 include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
-find_package(ppt)
+find_package(ppt REQUIRED)
 
 add_executable(wave_simulation_exe main.cpp)
 
@@ -20,4 +20,4 @@ target_compile_options(
           -Wextra -Wpedantic>)
 target_compile_features(wave_simulation_exe PRIVATE cxx_std_11)
 
-target_link_libraries(wave_simulation_exe PPT::PPT)
+target_link_libraries(wave_simulation_exe PPT::ppt)

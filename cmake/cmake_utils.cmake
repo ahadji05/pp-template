@@ -11,14 +11,14 @@ macro(PPT_POSTPROCESS)
   set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/ppt)
 
   install(
-    TARGETS PPT
-    EXPORT PPT-targets
+    TARGETS ppt
+    EXPORT ppt-targets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
   # This is required so that the exported target has the name JSONUtils and not
   # jsonutils
-  set_target_properties(PPT PROPERTIES EXPORT_NAME PPT)
+  set_target_properties(ppt PROPERTIES EXPORT_NAME ppt)
 
   install(DIRECTORY ${PPT_TOP_SOURCE_DIR}/include/
           DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
@@ -28,36 +28,36 @@ macro(PPT_POSTPROCESS)
 
   # Export the targets to a script
   install(
-    EXPORT PPT-targets
-    FILE PPTTargets.cmake
+    EXPORT ppt-targets
+    FILE pptTargets.cmake
     NAMESPACE PPT::
     DESTINATION ${INSTALL_CONFIGDIR})
 
   # Create a ConfigVersion.cmake file
   include(CMakePackageConfigHelpers)
   write_basic_package_version_file(
-    ${CMAKE_CURRENT_BINARY_DIR}/PPTConfigVersion.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/pptConfigVersion.cmake
     VERSION ${ppt_VERSION}
     COMPATIBILITY AnyNewerVersion)
 
   configure_package_config_file(
-    ${PPT_TOP_SOURCE_DIR}/cmake/PPTConfig.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/PPTConfig.cmake
+    ${PPT_TOP_SOURCE_DIR}/cmake/pptConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/pptConfig.cmake
     INSTALL_DESTINATION ${INSTALL_CONFIGDIR})
 
   # Install the config, configversion and custom find modules
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/PPTConfig.cmake
-                ${CMAKE_CURRENT_BINARY_DIR}/PPTConfigVersion.cmake
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pptConfig.cmake
+                ${CMAKE_CURRENT_BINARY_DIR}/pptConfigVersion.cmake
           DESTINATION ${INSTALL_CONFIGDIR})
 
   # ############################################################################
   # Exporting from the build tree
   export(
-    EXPORT PPT-targets
-    FILE ${CMAKE_CURRENT_BINARY_DIR}/PPTTargets.cmake
+    EXPORT ppt-targets
+    FILE ${CMAKE_CURRENT_BINARY_DIR}/pptTargets.cmake
     NAMESPACE PPT::)
 
   # Register package in the User Package Registry
-  export(PACKAGE PPT)
+  export(PACKAGE ppt)
 
 endmacro()
