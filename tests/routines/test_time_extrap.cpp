@@ -1,5 +1,5 @@
 
-#include "routines/time_extrap.hpp"
+#include "ppt/routines/time_extrap.hpp"
 #include "test_defs.hpp"
 
 /**
@@ -44,7 +44,8 @@ TEST(test_fd_time_extrap, GTest_time_extrap)
     memo_space::copyToHost(host_array, Pnew.get_ptr(), nz * nx);
 
     for (size_t i(0); i < Pnew.get_nElems(); ++i)
-        ASSERT_FLOAT_EQ(host_array[i], 1.86); // ASSERT THAT ALL VALUES ARE EQUAL TO 1.86
+        ASSERT_FLOAT_EQ(host_array[i],
+                        1.86); // ASSERT THAT ALL VALUES ARE EQUAL TO 1.86
 
     TMP::MemSpaceHost::release(host_array);
 }

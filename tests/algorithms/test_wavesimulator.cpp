@@ -1,5 +1,5 @@
 
-#include "algorithms/WaveSimulator.hpp"
+#include "ppt/algorithms/WaveSimulator.hpp"
 #include "test_defs.hpp"
 
 TEST(test_public_methods, GTest_WaveSimulator)
