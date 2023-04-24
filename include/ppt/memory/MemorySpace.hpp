@@ -99,4 +99,4 @@ class MemorySpaceBase
 
 } // namespace ppt
 
-#endif // TMP_MEMORY_SPACE_HPP
+#endif // PPT_MEMORY_SPACE_HPP

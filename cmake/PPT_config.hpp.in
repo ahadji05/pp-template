@@ -15,8 +15,8 @@
 #cmakedefine PPT_VERSION_MINOR  @PPT_VERSION_MINOR@
 #cmakedefine PPT_VERSION_PATCH  @PPT_VERSION_PATCH@
 
-#cmakedefine TMP_ENABLE_OPENMP_BACKEND
-#cmakedefine TMP_ENABLE_CUDA_BACKEND
-#cmakedefine TMP_ENABLE_HIP_BACKEND
+#cmakedefine PPT_ENABLE_OPENMP_BACKEND
+#cmakedefine PPT_ENABLE_CUDA_BACKEND
+#cmakedefine PPT_ENABLE_HIP_BACKEND
 
 // clang-format on
