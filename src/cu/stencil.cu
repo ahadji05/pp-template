@@ -7,11 +7,9 @@ __global__ void fd_pxx_kernel(float_type *pxx_data, float_type *p_data, size_t n
     size_t ix = blockDim.x * blockIdx.x + threadIdx.x;
     size_t iz = blockDim.y * blockIdx.y + threadIdx.y;
 
-    if (ix < 2 || ix >= nx - 2)
-        return;
-    
-    if (iz >= nz)
-        return;
+    if (ix < 2 || ix >= nx - 2) return;
+
+    if (iz >= nz) return;
 
     float_type c0 = -5.0 / 2.0;
     float_type c1 = 4.0 / 3.0;
@@ -27,26 +25,25 @@ __global__ void fd_pzz_kernel(float_type *pzz_data, float_type *p_data, size_t n
     size_t ix = blockDim.x * blockIdx.x + threadIdx.x;
     size_t iz = blockDim.y * blockIdx.y + threadIdx.y;
 
-    if (ix >= nx)
-        return;
+    if (ix >= nx) return;
 
-    if (iz < 2 || iz >= nz - 2)
-        return;
+    if (iz < 2 || iz >= nz - 2) return;
 
     float_type c0 = -5.0 / 2.0;
     float_type c1 = 4.0 / 3.0;
     float_type c2 = -1.0 / 12.0;
 
     pzz_data[iz * nx + ix] = c2 * p_data[(iz - 2) * nx + ix] + c1 * p_data[(iz - 1) * nx + ix] +
-        c0 * p_data[iz * nx + ix] + c1 * p_data[(iz + 1) * nx + ix] + c2 * p_data[(iz + 2) * nx + ix];
+                             c0 * p_data[iz * nx + ix] + c1 * p_data[(iz + 1) * nx + ix] +
+                             c2 * p_data[(iz + 2) * nx + ix];
 }
 
-#if defined(TMP_ENABLE_CUDA_BACKEND)
+#if defined(PPT_ENABLE_CUDA_BACKEND)
 template <>
-void fd_pxx(ScalarField<TMP::MemSpaceCuda> &pxx, const ScalarField<TMP::MemSpaceCuda> &p, TMP::ExecutionSpaceCuda)
-#elif defined(TMP_ENABLE_HIP_BACKEND)
+void fd_pxx(ScalarField<ppt::MemSpaceCuda> &pxx, const ScalarField<ppt::MemSpaceCuda> &p, ppt::ExecutionSpaceCuda)
+#elif defined(PPT_ENABLE_HIP_BACKEND)
 template <>
-void fd_pxx(ScalarField<TMP::MemSpaceHip> &pxx, const ScalarField<TMP::MemSpaceHip> &p, TMP::ExecutionSpaceHip)
+void fd_pxx(ScalarField<ppt::MemSpaceHip> &pxx, const ScalarField<ppt::MemSpaceHip> &p, ppt::ExecutionSpaceHip)
 #endif
 {
     assert(pxx.get_nx() == p.get_nx());
@@ -56,7 +53,7 @@ void fd_pxx(ScalarField<TMP::MemSpaceHip> &pxx, const ScalarField<TMP::MemSpaceH
     size_t nx = pxx.get_nx();
 
     float_type *pxx_data = pxx.get_ptr();
-    float_type *p_data = p.get_ptr();
+    float_type *p_data   = p.get_ptr();
 
     // NOTE FOR POTENTIAL BUG:
     // IF the range of the loop becomes negative,
@@ -68,19 +65,19 @@ void fd_pxx(ScalarField<TMP::MemSpaceHip> &pxx, const ScalarField<TMP::MemSpaceH
     size_t nBlock_z = nz % BLOCKDIM_Z == 0 ? size_t(nz / BLOCKDIM_Z) : size_t(1 + nz / BLOCKDIM_Z);
     dim3 nBlocks(nBlock_x, nBlock_z, 1);
 
-#if defined(TMP_ENABLE_CUDA_BACKEND)
+#if defined(PPT_ENABLE_CUDA_BACKEND)
     fd_pxx_kernel<<<nBlocks, nThreads>>>(pxx_data, p_data, nz, nx);
-#elif defined(TMP_ENABLE_HIP_BACKEND)
+#elif defined(PPT_ENABLE_HIP_BACKEND)
     static_assert(false, "NOT IMPLEMENTED YET");
 #endif
 }
 
-#if defined(TMP_ENABLE_CUDA_BACKEND)
+#if defined(PPT_ENABLE_CUDA_BACKEND)
 template <>
-void fd_pzz(ScalarField<TMP::MemSpaceCuda> &pzz, const ScalarField<TMP::MemSpaceCuda> &p, TMP::ExecutionSpaceCuda)
-#elif defined(TMP_ENABLE_HIP_BACKEND)
+void fd_pzz(ScalarField<ppt::MemSpaceCuda> &pzz, const ScalarField<ppt::MemSpaceCuda> &p, ppt::ExecutionSpaceCuda)
+#elif defined(PPT_ENABLE_HIP_BACKEND)
 template <>
-void fd_pzz(ScalarField<TMP::MemSpaceHip> &pzz, const ScalarField<TMP::MemSpaceHip> &p, TMP::ExecutionSpaceHip)
+void fd_pzz(ScalarField<ppt::MemSpaceHip> &pzz, const ScalarField<ppt::MemSpaceHip> &p, ppt::ExecutionSpaceHip)
 #endif
 {
     assert(pzz.get_nx() == p.get_nx());
@@ -90,7 +87,7 @@ void fd_pzz(ScalarField<TMP::MemSpaceHip> &pzz, const ScalarField<TMP::MemSpaceH
     size_t nx = pzz.get_nx();
 
     float_type *pzz_data = pzz.get_ptr();
-    float_type *p_data = p.get_ptr();
+    float_type *p_data   = p.get_ptr();
 
     // NOTE FOR POTENTIAL BUG:
     // IF the range of the loop becomes negative,
@@ -102,9 +99,9 @@ void fd_pzz(ScalarField<TMP::MemSpaceHip> &pzz, const ScalarField<TMP::MemSpaceH
     size_t nBlock_z = nz % BLOCKDIM_Z == 0 ? size_t(nz / BLOCKDIM_Z) : size_t(1 + nz / BLOCKDIM_Z);
     dim3 nBlocks(nBlock_x, nBlock_z, 1);
 
-#if defined(TMP_ENABLE_CUDA_BACKEND)
+#if defined(PPT_ENABLE_CUDA_BACKEND)
     fd_pzz_kernel<<<nBlocks, nThreads>>>(pzz_data, p_data, nz, nx);
-#elif defined(TMP_ENABLE_HIP_BACKEND)
+#elif defined(PPT_ENABLE_HIP_BACKEND)
     static_assert(false, "NOT IMPLEMENTED YET");
 #endif
 }
