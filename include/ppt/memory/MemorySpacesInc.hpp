@@ -23,21 +23,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef TMP_MEMORY_SPACES_INC_HPP
-#define TMP_MEMORY_SPACES_INC_HPP
+#ifndef PPT_MEMORY_SPACES_INC_HPP
+#define PPT_MEMORY_SPACES_INC_HPP
 
 #include "ppt/definitions.hpp"
 #include "ppt/memory/MemSpaceHost.hpp"
 
-#ifdef TMP_ENABLE_CUDA_BACKEND
+#ifdef PPT_ENABLE_CUDA_BACKEND
 #include "ppt/memory/MemSpaceCuda.hpp"
 #endif
 
-#ifdef TMP_ENABLE_HIP_BACKEND
+#ifdef PPT_ENABLE_HIP_BACKEND
 #include "ppt/memory/MemSpaceHip.hpp"
 #endif
 
-namespace TMP
+namespace ppt
 {
 /**
  * @brief Assert that a given type T is a Memory-Space. A valid
@@ -49,6 +49,6 @@ template <typename T> struct is_memory_space
 {
     static constexpr bool value = std::is_base_of<MemorySpaceBase, T>::value;
 };
-} // namespace TMP
+} // namespace ppt
 
 #endif

@@ -23,15 +23,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef TMP_MEM_SPACE_HOST_HPP
-#define TMP_MEM_SPACE_HOST_HPP
+#ifndef PPT_MEM_SPACE_HOST_HPP
+#define PPT_MEM_SPACE_HOST_HPP
 
 #include <cstdlib>
 #include <cstring>
 
 #include "ppt/memory/MemorySpace.hpp"
 
-namespace TMP
+namespace ppt
 {
 
 /**
@@ -58,7 +58,7 @@ class MemSpaceHost : public MemorySpaceBase
     static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type allocate(value_t **ptr,
                                                                                                length_t n_elems)
     {
-#ifdef TMP_DEBUG_MEMORY_MANAGE
+#ifdef PPT_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceHost: allocator" << std::endl;
 #endif
 
@@ -78,7 +78,7 @@ class MemSpaceHost : public MemorySpaceBase
      */
     template <typename value_t> static return_t release(value_t *ptr)
     {
-#ifdef TMP_DEBUG_MEMORY_MANAGE
+#ifdef PPT_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceHost: release" << std::endl;
 #endif
         try
@@ -109,7 +109,7 @@ class MemSpaceHost : public MemorySpaceBase
     static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type copy(value_t *to, value_t *from,
                                                                                            length_t n_elems)
     {
-#ifdef TMP_DEBUG_MEMORY_MANAGE
+#ifdef PPT_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceHost: copy" << std::endl;
 #endif
 
@@ -145,7 +145,7 @@ class MemSpaceHost : public MemorySpaceBase
                                                                                                  value_t *from,
                                                                                                  length_t n_elems)
     {
-#ifdef TMP_DEBUG_MEMORY_MANAGE
+#ifdef PPT_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceHost: copyToHost" << std::endl;
 #endif
 
@@ -181,7 +181,7 @@ class MemSpaceHost : public MemorySpaceBase
                                                                                                    value_t *from,
                                                                                                    length_t n_elems)
     {
-#ifdef TMP_DEBUG_MEMORY_MANAGE
+#ifdef PPT_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceHost: copyFromHost" << std::endl;
 #endif
 
@@ -200,6 +200,6 @@ class MemSpaceHost : public MemorySpaceBase
     }
 };
 
-} // namespace TMP
+} // namespace ppt
 
-#endif // TMP_MEM_SPACE_HOST_HPP
+#endif // PPT_MEM_SPACE_HOST_HPP

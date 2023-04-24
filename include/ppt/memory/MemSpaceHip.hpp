@@ -23,14 +23,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef TMP_MEM_SPACE_HIP_HPP
-#define TMP_MEM_SPACE_HIP_HPP
+#ifndef PPT_MEM_SPACE_HIP_HPP
+#define PPT_MEM_SPACE_HIP_HPP
 
 #include "ppt/memoryMemorySpace.hpp"
 #include "hip_runtime.h"
 #include "hip_runtime_api.h"
 
-namespace TMP
+namespace ppt
 {
 
 /**
@@ -57,7 +57,7 @@ class MemSpaceHip : public MemorySpaceBase
     static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type allocate(value_t *ptr,
                                                                                                length_t n_elems)
     {
-#ifdef TMP_DEBUG_MEMORY_MANAGE
+#ifdef PPT_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceHip: allocator" << std::endl;
 #endif
 
@@ -78,7 +78,7 @@ class MemSpaceHip : public MemorySpaceBase
      */
     template <typename value_t> static return_t release(value_t *ptr)
     {
-#ifdef TMP_DEBUG_MEMORY_MANAGE
+#ifdef PPT_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceHip: release" << std::endl;
 #endif
 
@@ -103,7 +103,7 @@ class MemSpaceHip : public MemorySpaceBase
     static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type copy(value_t *to, value_t *from,
                                                                                            length_t n_elems)
     {
-#ifdef TMP_DEBUG_MEMORY_MANAGE
+#ifdef PPT_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceHip: copy" << std::endl;
 #endif
 
@@ -131,7 +131,7 @@ class MemSpaceHip : public MemorySpaceBase
                                                                                                  value_t *from,
                                                                                                  length_t n_elems)
     {
-#ifdef TMP_DEBUG_MEMORY_MANAGE
+#ifdef PPT_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceHip: copyToHost" << std::endl;
 #endif
 
@@ -159,7 +159,7 @@ class MemSpaceHip : public MemorySpaceBase
                                                                                                    value_t *from,
                                                                                                    length_t n_elems)
     {
-#ifdef TMP_DEBUG_MEMORY_MANAGE
+#ifdef PPT_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceHip: copyFromHost" << std::endl;
 #endif
 
@@ -171,6 +171,6 @@ class MemSpaceHip : public MemorySpaceBase
     }
 };
 
-} // namespace TMP
+} // namespace ppt
 
-#endif // TMP_MEM_SPACE_HIP_HPP
+#endif // PPT_MEM_SPACE_HIP_HPP

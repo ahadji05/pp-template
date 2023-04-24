@@ -23,13 +23,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef TMP_MEMORY_SPACE_HPP
-#define TMP_MEMORY_SPACE_HPP
+#ifndef PPT_MEMORY_SPACE_HPP
+#define PPT_MEMORY_SPACE_HPP
 
 #include <iostream>
 #include <string>
 
-namespace TMP
+namespace ppt
 {
 
 /**
@@ -97,6 +97,6 @@ class MemorySpaceBase
     using return_t = message;
 };
 
-} // namespace TMP
+} // namespace ppt
 
 #endif // TMP_MEMORY_SPACE_HPP

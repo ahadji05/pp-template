@@ -23,14 +23,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef TMP_MEM_SPACE_CUDA_HPP
-#define TMP_MEM_SPACE_CUDA_HPP
+#ifndef PPT_MEM_SPACE_CUDA_HPP
+#define PPT_MEM_SPACE_CUDA_HPP
 
 #include "ppt/memory/MemorySpace.hpp"
 #include "cuda_runtime.h"
 #include "cuda_runtime_api.h"
 
-namespace TMP
+namespace ppt
 {
 
 /**
@@ -57,7 +57,7 @@ class MemSpaceCuda : public MemorySpaceBase
     static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type allocate(value_t **ptr,
                                                                                                length_t n_elems)
     {
-#ifdef TMP_DEBUG_MEMORY_MANAGE
+#ifdef PPT_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceCuda: allocator" << std::endl;
 #endif
 
@@ -78,7 +78,7 @@ class MemSpaceCuda : public MemorySpaceBase
      */
     template <typename value_t> static return_t release(value_t *ptr)
     {
-#ifdef TMP_DEBUG_MEMORY_MANAGE
+#ifdef PPT_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceCuda: release" << std::endl;
 #endif
 
@@ -103,7 +103,7 @@ class MemSpaceCuda : public MemorySpaceBase
     static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type copy(value_t *to, value_t *from,
                                                                                            length_t n_elems)
     {
-#ifdef TMP_DEBUG_MEMORY_MANAGE
+#ifdef PPT_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceCuda: copy" << std::endl;
 #endif
 
@@ -131,7 +131,7 @@ class MemSpaceCuda : public MemorySpaceBase
                                                                                                  value_t *from,
                                                                                                  length_t n_elems)
     {
-#ifdef TMP_DEBUG_MEMORY_MANAGE
+#ifdef PPT_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceCuda: copyToHost" << std::endl;
 #endif
 
@@ -159,7 +159,7 @@ class MemSpaceCuda : public MemorySpaceBase
                                                                                                    value_t *from,
                                                                                                    length_t n_elems)
     {
-#ifdef TMP_DEBUG_MEMORY_MANAGE
+#ifdef PPT_DEBUG_MEMORY_MANAGE
         std::cout << "MemSpaceCuda: copyFromHost" << std::endl;
 #endif
 
@@ -171,6 +171,6 @@ class MemSpaceCuda : public MemorySpaceBase
     }
 };
 
-} // namespace TMP
+} // namespace ppt
 
-#endif // TMP_MEM_SPACE_CUDA_HPP
+#endif // PPT_MEM_SPACE_CUDA_HPP

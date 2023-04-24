@@ -43,9 +43,9 @@ Example 1: CPU-GPU implementation with compile-time switching to either CUDA or 
 
 using HostSpace = TMP::MemSpaceHost; // alias the host memory-space
 
-#if defined(TMP_ENABLE_CUDA_BACKEND)
+#if defined(PPT_ENABLE_CUDA_BACKEND)
 using DeviceSpace = TMP::MemSpaceCuda; // alias the device memory-space
-#elif defined(TMP_ENABLE_HIP_BACKEND)
+#elif defined(PPT_ENABLE_HIP_BACKEND)
 using DeviceSpace = TMP::MemSpaceHip; // alias the device memory-space
 #endif
 
