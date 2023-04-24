@@ -23,12 +23,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef TMP_VECTOR_HPP
-#define TMP_VECTOR_HPP
+#ifndef PPT_VECTOR_HPP
+#define PPT_VECTOR_HPP
 
 #include "ppt/memory/MemorySpacesInc.hpp"
 
-namespace TMP
+namespace ppt
 {
 
 /**
@@ -46,7 +46,7 @@ namespace TMP
 template <typename value_t, class memory_space> class Vector
 {
     // Asset at compile-time that the specified memory_space is valid!
-    static_assert(TMP::is_memory_space<memory_space>::value, "Vector: The provided class in not a Memory Space.");
+    static_assert(ppt::is_memory_space<memory_space>::value, "Vector: The provided class in not a Memory Space.");
 
   public:
     Vector();
@@ -209,10 +209,10 @@ template <typename value_t, class memory_space> inline value_t *Vector<value_t, 
 template <typename value_t, class memory_space>
 inline value_t &Vector<value_t, memory_space>::operator[](size_t i) const
 {
-    static_assert(std::is_same<memory_space, TMP::MemSpaceHost>::value,
+    static_assert(std::is_same<memory_space, ppt::MemSpaceHost>::value,
                   "Vector operator[]: Cannot access non-host elements.");
 
-#ifdef TMP_ENABLE_BOUND_CHECK
+#ifdef PPT_ENABLE_BOUND_CHECK
     assert(i <= _nElems);
 #endif
 
@@ -234,11 +234,11 @@ inline value_t &Vector<value_t, memory_space>::operator[](size_t i) const
 template <typename value_t, class memory_space> void Vector<value_t, memory_space>::fill(value_t value)
 {
     value_t *data_host;
-    TMP::MemSpaceHost::allocate(&data_host, _nElems);
+    ppt::MemSpaceHost::allocate(&data_host, _nElems);
     for (size_t i(0); i < _nElems; ++i)
         data_host[i] = value;
     memory_space::copyFromHost(_ptr, data_host, _nElems);
-    TMP::MemSpaceHost::release(data_host);
+    ppt::MemSpaceHost::release(data_host);
 }
 
 /**
@@ -265,6 +265,6 @@ template <typename value_t, class memory_space> void Vector<value_t, memory_spac
     }
 }
 
-} // namespace TMP
+} // namespace ppt
 
-#endif // TMP_VECTOR_HPP
+#endif // PPT_VECTOR_HPP
