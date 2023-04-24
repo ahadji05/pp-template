@@ -41,12 +41,12 @@ Example 1: CPU-GPU implementation with compile-time switching to either CUDA or 
 ```cpp
 #include "MemorySpacesInc.hpp"
 
-using HostSpace = TMP::MemSpaceHost; // alias the host memory-space
+using HostSpace = ppt::MemSpaceHost; // alias the host memory-space
 
 #if defined(PPT_ENABLE_CUDA_BACKEND)
-using DeviceSpace = TMP::MemSpaceCuda; // alias the device memory-space
+using DeviceSpace = ppt::MemSpaceCuda; // alias the device memory-space
 #elif defined(PPT_ENABLE_HIP_BACKEND)
-using DeviceSpace = TMP::MemSpaceHip; // alias the device memory-space
+using DeviceSpace = ppt::MemSpaceHip; // alias the device memory-space
 #endif
 
 HostSpace::message msg;

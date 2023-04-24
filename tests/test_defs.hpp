@@ -1,5 +1,5 @@
-#ifndef TMP_TEST_DEFS_HPP
-#define TMP_TEST_DEFS_HPP
+#ifndef PPT_TEST_DEFS_HPP
+#define PPT_TEST_DEFS_HPP
 
 #include "ppt/types.hpp"
 #include <gtest/gtest.h>
