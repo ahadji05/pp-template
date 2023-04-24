@@ -2,10 +2,10 @@
 #include "ppt/routines/time_extrap.hpp"
 
 template <>
-void fd_time_extrap(ScalarField<TMP::MemSpaceHost> &pnew, const ScalarField<TMP::MemSpaceHost> &p,
-                    const ScalarField<TMP::MemSpaceHost> &pold, const ScalarField<TMP::MemSpaceHost> &pxx,
-                    const ScalarField<TMP::MemSpaceHost> &pzz, const ScalarField<TMP::MemSpaceHost> &velmodel,
-                    float_type dt, float_type dh, TMP::ExecutionSpaceSerial)
+void fd_time_extrap(ScalarField<ppt::MemSpaceHost> &pnew, const ScalarField<ppt::MemSpaceHost> &p,
+                    const ScalarField<ppt::MemSpaceHost> &pold, const ScalarField<ppt::MemSpaceHost> &pxx,
+                    const ScalarField<ppt::MemSpaceHost> &pzz, const ScalarField<ppt::MemSpaceHost> &velmodel,
+                    float_type dt, float_type dh, ppt::ExecutionSpaceSerial)
 {
     size_t nz = pxx.get_nz();
     size_t nx = pxx.get_nx();
@@ -27,12 +27,12 @@ void fd_time_extrap(ScalarField<TMP::MemSpaceHost> &pnew, const ScalarField<TMP:
         }
 }
 
-#if defined(TMP_ENABLE_OPENMP_BACKEND)
+#if defined(PPT_ENABLE_OPENMP_BACKEND)
 template <>
-void fd_time_extrap(ScalarField<TMP::MemSpaceHost> &pnew, const ScalarField<TMP::MemSpaceHost> &p,
-                    const ScalarField<TMP::MemSpaceHost> &pold, const ScalarField<TMP::MemSpaceHost> &pxx,
-                    const ScalarField<TMP::MemSpaceHost> &pzz, const ScalarField<TMP::MemSpaceHost> &velmodel,
-                    float_type dt, float_type dh, TMP::ExecutionSpaceOpenMP)
+void fd_time_extrap(ScalarField<ppt::MemSpaceHost> &pnew, const ScalarField<ppt::MemSpaceHost> &p,
+                    const ScalarField<ppt::MemSpaceHost> &pold, const ScalarField<ppt::MemSpaceHost> &pxx,
+                    const ScalarField<ppt::MemSpaceHost> &pzz, const ScalarField<ppt::MemSpaceHost> &velmodel,
+                    float_type dt, float_type dh, ppt::ExecutionSpaceOpenMP)
 {
     size_t nz = pxx.get_nz();
     size_t nx = pxx.get_nx();

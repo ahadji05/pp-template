@@ -2,7 +2,7 @@
 #include "ppt/routines/stencil.hpp"
 
 template <>
-void fd_pxx(ScalarField<TMP::MemSpaceHost> &pxx, const ScalarField<TMP::MemSpaceHost> &p, TMP::ExecutionSpaceSerial)
+void fd_pxx(ScalarField<ppt::MemSpaceHost> &pxx, const ScalarField<ppt::MemSpaceHost> &p, ppt::ExecutionSpaceSerial)
 {
     assert(pxx.get_nx() == p.get_nx());
     assert(pxx.get_nz() == p.get_nz());
@@ -32,7 +32,7 @@ void fd_pxx(ScalarField<TMP::MemSpaceHost> &pxx, const ScalarField<TMP::MemSpace
 }
 
 template <>
-void fd_pzz(ScalarField<TMP::MemSpaceHost> &pzz, const ScalarField<TMP::MemSpaceHost> &p, TMP::ExecutionSpaceSerial)
+void fd_pzz(ScalarField<ppt::MemSpaceHost> &pzz, const ScalarField<ppt::MemSpaceHost> &p, ppt::ExecutionSpaceSerial)
 {
     assert(pzz.get_nx() == p.get_nx());
     assert(pzz.get_nz() == p.get_nz());
@@ -59,9 +59,9 @@ void fd_pzz(ScalarField<TMP::MemSpaceHost> &pzz, const ScalarField<TMP::MemSpace
                                      c2 * p_data[(iz + 2) * nx + ix];
 }
 
-#if defined(TMP_ENABLE_OPENMP_BACKEND)
+#if defined(PPT_ENABLE_OPENMP_BACKEND)
 template <>
-void fd_pxx(ScalarField<TMP::MemSpaceHost> &pxx, const ScalarField<TMP::MemSpaceHost> &p, TMP::ExecutionSpaceOpenMP)
+void fd_pxx(ScalarField<ppt::MemSpaceHost> &pxx, const ScalarField<ppt::MemSpaceHost> &p, ppt::ExecutionSpaceOpenMP)
 {
     assert(pxx.get_nx() == p.get_nx());
     assert(pxx.get_nz() == p.get_nz());
@@ -92,7 +92,7 @@ void fd_pxx(ScalarField<TMP::MemSpaceHost> &pxx, const ScalarField<TMP::MemSpace
 }
 
 template <>
-void fd_pzz(ScalarField<TMP::MemSpaceHost> &pzz, const ScalarField<TMP::MemSpaceHost> &p, TMP::ExecutionSpaceOpenMP)
+void fd_pzz(ScalarField<ppt::MemSpaceHost> &pzz, const ScalarField<ppt::MemSpaceHost> &p, ppt::ExecutionSpaceOpenMP)
 {
     assert(pzz.get_nx() == p.get_nx());
     assert(pzz.get_nz() == p.get_nz());
