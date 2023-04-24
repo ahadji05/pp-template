@@ -21,7 +21,7 @@
 TEST(test_source_position_value, GTest_add_source)
 {
     size_t N = 150;
-    TMP::Vector<float_type, memo_space> v(N); // vector of 150 elements
+    ppt::Vector<float_type, memo_space> v(N); // vector of 150 elements
     v.fill(1.0);                              // set each value in vector to 1.0
     ScalarField<memo_space> p(3, 50,
                               v); // construct ScalarField p of dim: nz(3),
@@ -30,7 +30,7 @@ TEST(test_source_position_value, GTest_add_source)
     add_source(p, 5.5, 5, 1, exec_space()); // apply routine
 
     float_type *host_array;
-    TMP::MemSpaceHost::allocate(&host_array, N); // allocate a host-array for the unit-test assertions
+    ppt::MemSpaceHost::allocate(&host_array, N); // allocate a host-array for the unit-test assertions
     memo_space::copyToHost(host_array, p.get_ptr(),
                            N); // copy data from generic container to host_array
     ASSERT_FLOAT_EQ(host_array[1 * 50 + 5],
@@ -43,5 +43,5 @@ TEST(test_source_position_value, GTest_add_source)
                             1.0); // all the rest values should remain unchanged
         }
     }
-    TMP::MemSpaceHost::release(host_array); // release host-array memory
+    ppt::MemSpaceHost::release(host_array); // release host-array memory
 }

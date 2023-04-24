@@ -18,13 +18,13 @@ TEST(test_fd_pxx, GTest_stencil)
 {
     size_t nz = 2;
     size_t nx = 6;
-    TMP::Vector<float_type, memo_space> v(nz * nx);
+    ppt::Vector<float_type, memo_space> v(nz * nx);
     v.fill(0);
     ScalarField<memo_space> p(nz, nx, v);
     ScalarField<memo_space> pxx(p);
 
     float_type *host_array;
-    TMP::MemSpaceHost::allocate(&host_array, nz * nx);
+    ppt::MemSpaceHost::allocate(&host_array, nz * nx);
     for (size_t i(0); i < nx * nz; ++i)
         host_array[i] = 0;
     host_array[3] = 1;
@@ -38,7 +38,7 @@ TEST(test_fd_pxx, GTest_stencil)
     ASSERT_FLOAT_EQ(host_array[3], -float_type(5.0 / (float_type)2.0));
     ASSERT_FLOAT_EQ(host_array[8], -float_type(1.0 / (float_type)12.0));
 
-    TMP::MemSpaceHost::release(host_array);
+    ppt::MemSpaceHost::release(host_array);
 }
 
 /**
@@ -57,13 +57,13 @@ TEST(test_fd_pzz, GTest_stencil)
 {
     size_t nz = 6;
     size_t nx = 2;
-    TMP::Vector<float_type, memo_space> v(nz * nx);
+    ppt::Vector<float_type, memo_space> v(nz * nx);
     v.fill(0);
     ScalarField<memo_space> p(nz, nx, v);
     ScalarField<memo_space> pzz(p);
 
     float_type *host_array;
-    TMP::MemSpaceHost::allocate(&host_array, nz * nx);
+    ppt::MemSpaceHost::allocate(&host_array, nz * nx);
     for (size_t i(0); i < nx * nz; ++i)
         host_array[i] = 0;
     host_array[3] = 1;
@@ -78,5 +78,5 @@ TEST(test_fd_pzz, GTest_stencil)
     ASSERT_FLOAT_EQ(host_array[6], -float_type(5.0 / (float_type)2.0));
     ASSERT_FLOAT_EQ(host_array[7], -float_type(1.0 / (float_type)12.0));
 
-    TMP::MemSpaceHost::release(host_array);
+    ppt::MemSpaceHost::release(host_array);
 }

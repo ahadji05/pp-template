@@ -21,7 +21,7 @@ TEST(test_fd_time_extrap, GTest_time_extrap)
 {
     size_t nz = 3;
     size_t nx = 4;
-    TMP::Vector<float_type, memo_space> v(nz * nx);
+    ppt::Vector<float_type, memo_space> v(nz * nx);
     v.fill(0.0);
     ScalarField<memo_space> Pnew(nz, nx, v); // Pnew -> 0.0
     v.fill(1.0);
@@ -38,7 +38,7 @@ TEST(test_fd_time_extrap, GTest_time_extrap)
     float_type dh = 2.5;
 
     float_type *host_array;
-    TMP::MemSpaceHost::allocate(&host_array, nz * nx);
+    ppt::MemSpaceHost::allocate(&host_array, nz * nx);
 
     fd_time_extrap(Pnew, P, Pold, Pxx, Pzz, Vmodel, dt, dh, exec_space());
     memo_space::copyToHost(host_array, Pnew.get_ptr(), nz * nx);
@@ -47,5 +47,5 @@ TEST(test_fd_time_extrap, GTest_time_extrap)
         ASSERT_FLOAT_EQ(host_array[i],
                         1.86); // ASSERT THAT ALL VALUES ARE EQUAL TO 1.86
 
-    TMP::MemSpaceHost::release(host_array);
+    ppt::MemSpaceHost::release(host_array);
 }
