@@ -23,8 +23,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef TMP_STENCIL_HPP
-#define TMP_STENCIL_HPP
+#ifndef PPT_STENCIL_HPP
+#define PPT_STENCIL_HPP
 
 #include "ppt/containers/ScalarField.hpp"
 #include "ppt/execution/ExecutionSpacesInc.hpp"

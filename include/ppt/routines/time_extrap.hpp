@@ -23,8 +23,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef TMP_TIME_EXTRAP_HPP
-#define TMP_TIME_EXTRAP_HPP
+#ifndef PPT_TIME_EXTRAP_HPP
+#define PPT_TIME_EXTRAP_HPP
 
 #include "ppt/containers/ScalarField.hpp"
 #include "ppt/execution/ExecutionSpacesInc.hpp"
