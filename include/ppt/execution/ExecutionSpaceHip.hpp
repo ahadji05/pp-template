@@ -23,21 +23,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef TMP_EXECUTION_SPACE_HIP
-#define TMP_EXECUTION_SPACE_HIP
+#ifndef PPT_EXECUTION_SPACE_HIP
+#define PPT_EXECUTION_SPACE_HIP
 
 #include "ppt/execution/ExecutionSpace.hpp"
 #include "ppt/memory/MemorySpacesInc.hpp"
 
-namespace TMP
+namespace ppt
 {
 
 class ExecutionSpaceHip : public ExecutionSpaceBase
 {
   public:
-    using accessible_space = TMP::MemSpaceHip; // define as type-trait the accessible memory-space
+    using accessible_space = ppt::MemSpaceHip; // define as type-trait the accessible memory-space
 };
 
-} // namespace TMP
+} // namespace ppt
 
 #endif

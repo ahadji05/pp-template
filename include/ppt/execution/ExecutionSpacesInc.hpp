@@ -23,25 +23,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef TMP_EXECUTION_SPACES_INC_HPP
-#define TMP_EXECUTION_SPACES_INC_HPP
+#ifndef PPT_EXECUTION_SPACES_INC_HPP
+#define PPT_EXECUTION_SPACES_INC_HPP
 
 #include "ppt/definitions.hpp"
 #include "ppt/execution/ExecutionSpaceSerial.hpp" // host execution space is by default included
 
-#ifdef TMP_ENABLE_OPENMP_BACKEND
+#ifdef PPT_ENABLE_OPENMP_BACKEND
 #include "ppt/execution/ExecutionSpaceOpenMP.hpp"
 #endif
 
-#ifdef TMP_ENABLE_CUDA_BACKEND
+#ifdef PPT_ENABLE_CUDA_BACKEND
 #include "ppt/execution/ExecutionSpaceCuda.hpp"
 #endif
 
-#ifdef TMP_ENABLE_HIP_BACKEND
+#ifdef PPT_ENABLE_HIP_BACKEND
 #include "ppt/execution/ExecutionSpaceHip.hpp"
 #endif
 
-namespace TMP
+namespace ppt
 {
 /**
  * @brief Assert that a given type T is a valid Execution-Space. A valid
@@ -53,6 +53,6 @@ template <typename T> struct is_execution_space
 {
     static constexpr bool value = std::is_base_of<ExecutionSpaceBase, T>::value;
 };
-} // namespace TMP
+} // namespace ppt
 
 #endif

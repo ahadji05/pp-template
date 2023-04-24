@@ -23,16 +23,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef TMP_EXECUTION_SPACE_HPP
-#define TMP_EXECUTION_SPACE_HPP
+#ifndef PPT_EXECUTION_SPACE_HPP
+#define PPT_EXECUTION_SPACE_HPP
 
-namespace TMP
+namespace ppt
 {
 
 class ExecutionSpaceBase
 {
 };
 
-} // namespace TMP
+} // namespace ppt
 
 #endif

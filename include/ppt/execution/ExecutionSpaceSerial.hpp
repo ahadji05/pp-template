@@ -23,21 +23,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef TMP_EXECUTION_SPACE_SERIAL
-#define TMP_EXECUTION_SPACE_SERIAL
+#ifndef PPT_EXECUTION_SPACE_SERIAL
+#define PPT_EXECUTION_SPACE_SERIAL
 
 #include "ppt/execution/ExecutionSpace.hpp"
 #include "ppt/memory/MemorySpacesInc.hpp"
 
-namespace TMP
+namespace ppt
 {
 
 class ExecutionSpaceSerial : public ExecutionSpaceBase
 {
   public:
-    using accessible_space = TMP::MemSpaceHost; // define as type-trait the accessible memory-space
+    using accessible_space = ppt::MemSpaceHost; // define as type-trait the accessible memory-space
 };
 
-} // namespace TMP
+} // namespace ppt
 
 #endif
