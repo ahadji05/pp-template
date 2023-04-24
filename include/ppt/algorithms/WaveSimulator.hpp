@@ -166,7 +166,7 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::set_vmin(float_type vm
     _vmin = vmin;
     // allocate array on Host
     float_type *data_host;
-    TMP::MemSpaceHost::allocate(&data_host, velmodel.get_nElems());
+    ppt::MemSpaceHost::allocate(&data_host, velmodel.get_nElems());
 
     // copy the velocity profile from MemSpace to host-array
     MemSpace::copyToHost(data_host, velmodel.get_ptr(), velmodel.get_nElems());
@@ -177,7 +177,7 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::set_vmin(float_type vm
 
     // copy data to MemSpace and then deallocate the host array
     MemSpace::copyFromHost(velmodel.get_ptr(), data_host, velmodel.get_nElems());
-    TMP::MemSpaceHost::release(data_host);
+    ppt::MemSpaceHost::release(data_host);
 }
 
 /**
@@ -189,7 +189,7 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::make_ricker(float_type
 {
     // allocate array on Host
     float_type *data_host;
-    TMP::MemSpaceHost::allocate(&data_host, _nt);
+    ppt::MemSpaceHost::allocate(&data_host, _nt);
 
     // compute half Ricker-wavelet on host array
     data_host[0] = 1.0;
@@ -201,8 +201,8 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::make_ricker(float_type
         data_host[it]        = amplitude;
     }
 
-    TMP::MemSpaceHost::copy(source_impulse.data(), data_host, _nt);
-    TMP::MemSpaceHost::release(data_host);
+    ppt::MemSpaceHost::copy(source_impulse.data(), data_host, _nt);
+    ppt::MemSpaceHost::release(data_host);
 }
 
 /**
@@ -219,7 +219,7 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::set_velocity_layer(siz
     // allocate array on host
     float_type *data_host;
     size_t nelems = (izmax - izmin) * _nx;
-    TMP::MemSpaceHost::allocate(&data_host, nelems);
+    ppt::MemSpaceHost::allocate(&data_host, nelems);
 
     // set the specified velocity value
     size_t offset = izmin * _nx;
@@ -231,7 +231,7 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::set_velocity_layer(siz
     MemSpace::copyFromHost(offset_mem_space_ptr, data_host, nelems);
 
     // deallocate the host-array
-    TMP::MemSpaceHost::release(data_host);
+    ppt::MemSpaceHost::release(data_host);
 
     if (v > _vmax) _vmax = v;
 
@@ -252,14 +252,14 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::store_velmodel_to_bina
 
     // allocate array on host, copy the data into, and then store to binary file
     float_type *data_host;
-    TMP::MemSpaceHost::allocate(&data_host, velmodel.get_nElems());
+    ppt::MemSpaceHost::allocate(&data_host, velmodel.get_nElems());
     MemSpace::copyToHost(data_host, velmodel.get_ptr(), velmodel.get_nElems());
 
     // write data to binary file
     file.write((char *)data_host, sizeof(float_type) * velmodel.get_nElems());
 
     // deallocate the host-array and close file
-    TMP::MemSpaceHost::release(data_host);
+    ppt::MemSpaceHost::release(data_host);
     file.close();
 }
 
@@ -277,14 +277,14 @@ template <class ExecSpace> void WaveSimulator<ExecSpace>::store_wavefield_to_bin
 
     // allocate array on host, copy the data into, and then store to binary file
     float_type *data_host;
-    TMP::MemSpaceHost::allocate(&data_host, wavefield.get_nElems());
+    ppt::MemSpaceHost::allocate(&data_host, wavefield.get_nElems());
     MemSpace::copyToHost(data_host, wavefield.get_ptr(), wavefield.get_nElems());
 
     // write data to binary file
     file.write((char *)data_host, sizeof(float_type) * wavefield.get_nElems());
 
     // deallocate the host-array and close file
-    TMP::MemSpaceHost::release(data_host);
+    ppt::MemSpaceHost::release(data_host);
     file.close();
 }
 

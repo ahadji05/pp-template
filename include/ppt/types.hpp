@@ -9,14 +9,14 @@
 using float_type = float;
 
 // SELECT EXECUTION-SPACE BASED ON COMPILE-TIME CHOICE
-#if defined(TMP_ENABLE_CUDA_BACKEND)
-using exec_space = TMP::ExecutionSpaceCuda;
-#elif defined(TMP_ENABLE_HIP_BACKEND)
-using exec_space = TMP::ExecutionSpaceHip;
-#elif defined(TMP_ENABLE_OPENMP_BACKEND)
-using exec_space = TMP::ExecutionSpaceOpenMP;
+#if defined(PPT_ENABLE_CUDA_BACKEND)
+using exec_space = ppt::ExecutionSpaceCuda;
+#elif defined(PPT_ENABLE_HIP_BACKEND)
+using exec_space = ppt::ExecutionSpaceHip;
+#elif defined(PPT_ENABLE_OPENMP_BACKEND)
+using exec_space = ppt::ExecutionSpaceOpenMP;
 #else
-using exec_space = TMP::ExecutionSpaceSerial;
+using exec_space = ppt::ExecutionSpaceSerial;
 #endif
 
 // DEFINE memo_space AS THE accessible_space OF THE SELECTED EXECUTION-SPACE

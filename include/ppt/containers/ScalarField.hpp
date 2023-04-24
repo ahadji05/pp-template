@@ -40,13 +40,13 @@ template <class MemSpace> class ScalarField
 {
     // The container can only be instantiated using a valid MemorySpace provide by
     // "memory/MemorySpacesInc.hpp"
-    static_assert(TMP::is_memory_space<MemSpace>::value,
+    static_assert(ppt::is_memory_space<MemSpace>::value,
                   "ScalarField: The provided class MemSpace in not a valid MemorySpace.");
 
   public:
     // Alias the vector-type using the float_type defined in "types.hpp", and the
     // provided template parameter MemSpace.
-    using vector_type = TMP::Vector<float_type, MemSpace>;
+    using vector_type = ppt::Vector<float_type, MemSpace>;
 
     ScalarField();
     ScalarField(size_t nz, size_t nx);
