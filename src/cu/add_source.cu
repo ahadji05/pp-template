@@ -24,6 +24,6 @@ void add_source(ScalarField<ppt::MemSpaceHip> &p, const float_type src, size_t i
 #if defined(PPT_ENABLE_CUDA_BACKEND)
     add_source_kernel<<<1, 1>>>(p.get_ptr(), src, ix, nx, iz);
 #elif defined(PPT_ENABLE_HIP_BACKEND)
-    static_assert(false, "NOT IMPLEMENTED YET");
+    hipLaunchKernelGGL(add_source_kernel, 1, 1, 0, NULL, p.get_ptr(), src, ix, nx, iz);
 #endif
 }
