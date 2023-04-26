@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.18)
 project(
   wave_simulation
   VERSION 0.0.1
@@ -16,8 +16,8 @@ add_executable(wave_simulation_exe main.cpp)
 
 target_compile_options(
   wave_simulation_exe
-  PRIVATE $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>: -Wall
-          -Wextra -Wpedantic>)
-target_compile_features(wave_simulation_exe PRIVATE cxx_std_11)
+  PUBLIC $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>: -Wall -Wextra
+         -Wpedantic>)
+target_compile_features(wave_simulation_exe PUBLIC cxx_std_11)
 
 target_link_libraries(wave_simulation_exe PPT::ppt)
