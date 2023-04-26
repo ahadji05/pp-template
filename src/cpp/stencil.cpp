@@ -119,4 +119,4 @@ void fd_pzz(ScalarField<ppt::MemSpaceHost> &pzz, const ScalarField<ppt::MemSpace
                                      c0 * p_data[iz * nx + ix] + c1 * p_data[(iz + 1) * nx + ix] +
                                      c2 * p_data[(iz + 2) * nx + ix];
 }
-#endif
+#endif // PPT_ENABLE_OPENMP_BACKEND

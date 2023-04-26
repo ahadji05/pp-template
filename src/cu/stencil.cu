@@ -1,6 +1,6 @@
 
 #include "cuda_config.hpp"
-#include "routines/stencil.hpp"
+#include "ppt/routines/stencil.hpp"
 
 __global__ void fd_pxx_kernel(float_type *pxx_data, float_type *p_data, size_t nz, size_t nx)
 {

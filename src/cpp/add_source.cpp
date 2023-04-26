@@ -18,4 +18,4 @@ void add_source(ScalarField<ppt::MemSpaceHost> &p, const float_type src, size_t 
     // there is no parallelism to exploit; just call the Serial implementation
     add_source(p, src, ix, iz, ppt::ExecutionSpaceSerial());
 }
-#endif
+#endif // PPT_ENABLE_OPENMP_BACKEND

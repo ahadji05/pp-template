@@ -1,12 +1,13 @@
-include(${PPT_TOP_SOURCE_DIR}/cmake/select_backend.cmake)
-enable_backends()
-
 # This will include Compiler options as defined during configuration
 configure_file(${PPT_TOP_SOURCE_DIR}/cmake/PPT_config.hpp.in
                ${CMAKE_CURRENT_BINARY_DIR}/include/ppt/PPT_config.hpp)
 
 set(PPT_SOURCES)
 append_glob(PPT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/cpp/*.cpp)
+
+if(PPT_ENABLE_CUDA)
+  append_glob(PPT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/cu/*.cu)
+endif()
 
 add_library(ppt ${PPT_SOURCES})
 # Add alias so that library can be used inside the build tree, e.g. when testing
@@ -20,17 +21,20 @@ target_include_directories(
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_compile_options(
-  ppt PRIVATE $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>: -Wall
-              -Wextra -Wpedantic>)
-target_compile_features(ppt PRIVATE cxx_std_11)
+  ppt PUBLIC $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>: -Wall
+             -Wextra -Wpedantic>)
+target_compile_features(ppt PUBLIC cxx_std_11)
 
 if(PPT_ENABLE_OPENMP)
-  find_package(OpenMP REQUIRED)
   target_link_libraries(ppt OpenMP::OpenMP_CXX)
 endif()
 
 if(PPT_ENABLE_CUDA)
-  # TODO: link with cuda
+  # We need to explicitly state that we need all CUDA files in the PPT library
+  # to be built with -dc as the member functions could be called by other
+  # libraries and executables
+  set_target_properties(ppt PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+  target_link_libraries(ppt PUBLIC CUDA::cudart)
 endif()
 
 if(PPT_ENABLE_HIP)

@@ -40,3 +40,6 @@ The following options control find_package paths for CMake-based TPLs:
 - `GTest_ROOT`: PATH
   - Location of GoogleTest install root.
   - Default: None or the value of the environment variable `GTest_ROOT` if set
+- `CUDAToolkit_ROOT`: PATH
+  - Location of NVIDIA CUDA Toolkit install root.
+  - Default: None or the value of the environment variable `CUDAToolkit_ROOT` if set

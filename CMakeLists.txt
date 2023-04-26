@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.18)
 project(ppt LANGUAGES CXX)
 
 set(PPT_TOP_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR})
@@ -27,6 +27,19 @@ set(PPT_ENABLE_TESTS
 set(PPT_ENABLE_DOCS
     OFF
     CACHE BOOL "Whether to build docs. Default: OFF")
+
+# Setup Environment
+include(cmake/select_backend.cmake)
+enable_backends()
+if(PPT_ENABLE_OPENMP)
+  find_package(OpenMP REQUIRED)
+endif()
+
+if(PPT_ENABLE_CUDA)
+  enable_language(CUDA)
+  find_package(CUDAToolkit)
+  set(CMAKE_CUDA_ARCHITECTURES "52;60;61;62;70;72;80;86")
+endif()
 
 add_subdirectory(src)
 

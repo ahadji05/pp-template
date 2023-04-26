@@ -1,6 +1,6 @@
 
 #include "cuda_config.hpp"
-#include "routines/time_extrap.hpp"
+#include "ppt/routines/time_extrap.hpp"
 
 __global__ void fd_time_extrap_kernel(float_type *pnew_data, float_type *p_data, float_type *pold_data,
                                       float_type *pxx_data, float_type *pzz_data, float_type *velmodel_data,

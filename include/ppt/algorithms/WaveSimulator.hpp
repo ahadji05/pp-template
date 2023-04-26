@@ -1,3 +1,5 @@
+#ifndef PPT_WAVE_SIMULATOR_HPP
+#define PPT_WAVE_SIMULATOR_HPP
 
 #include <fstream>
 #include <vector>
@@ -353,3 +355,5 @@ template <class ExecSpace> float_type WaveSimulator<ExecSpace>::get_vmax() const
 {
     return _vmax;
 }
+
+#endif // PPT_WAVE_SIMULATOR_HPP
