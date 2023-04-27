@@ -66,6 +66,7 @@ template <class MemSpace> class ScalarField
     inline size_t get_nz() const;
     inline size_t get_nx() const;
     inline size_t get_nElems() const;
+    void swap(ScalarField &other);
 };
 
 template <class MemSpace> ScalarField<MemSpace>::ScalarField()
@@ -158,6 +159,13 @@ template <class MemSpace> inline size_t ScalarField<MemSpace>::get_nx() const
 template <class MemSpace> inline size_t ScalarField<MemSpace>::get_nElems() const
 {
     return _field.get_nElems();
+}
+
+template <class MemSpace> void ScalarField<MemSpace>::swap(ScalarField &other)
+{
+    std::swap(_nz, other._nz);
+    std::swap(_nx, other._nx);
+    _field.swap(other._field);
 }
 
 #endif

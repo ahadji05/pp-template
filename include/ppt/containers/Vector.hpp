@@ -64,6 +64,7 @@ template <typename value_t, class memory_space> class Vector
     inline size_t get_nElems() const;
     inline value_t *get_ptr() const;
     inline value_t &operator[](size_t i) const;
+    void swap(Vector &other_vector);
 
     void fill(value_t value);   // !Performance note: this method invokes
                                 // Host-Device alloc/copy/free/sync, USE WISELY!
@@ -217,6 +218,18 @@ inline value_t &Vector<value_t, memory_space>::operator[](size_t i) const
 #endif
 
     return _ptr[i];
+}
+
+/**
+ * @brief Swap member variables between this and the incoming Vector.
+ *
+ * @tparam value_t Type of values/data stored in the Vector.
+ * @tparam memory_space Memory Space that handles the memory allocations.
+ */
+template <typename value_t, class memory_space> void Vector<value_t, memory_space>::swap(Vector &other_vector)
+{
+    std::swap(_nElems, other_vector._nElems);
+    std::swap(_ptr, other_vector._ptr);
 }
 
 /**

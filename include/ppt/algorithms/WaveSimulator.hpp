@@ -87,8 +87,8 @@ template <class ExecSpace> class WaveSimulator
             fd_time_extrap(wavefield_new, wavefield, wavefield_old, wavefield_pxx, wavefield_pzz, velmodel, _dt, _dh,
                            ExecSpace());
 
-            wavefield_old = wavefield;
-            wavefield     = wavefield_new;
+            wavefield_old.swap(wavefield); // wavefield_old = wavefield;
+            wavefield.swap(wavefield_new); // wavefield     = wavefield_new;
         }
     }
 };
