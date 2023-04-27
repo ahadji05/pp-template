@@ -54,4 +54,4 @@ void fd_time_extrap(ScalarField<ppt::MemSpaceHost> &pnew, const ScalarField<ppt:
                                                                 (pxx_data[i] + pzz_data[i]);
         }
 }
-#endif
+#endif // PPT_ENABLE_OPENMP_BACKEND

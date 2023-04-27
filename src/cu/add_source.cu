@@ -1,11 +1,12 @@
 
 #include "cuda_config.hpp"
-#include "routines/add_source.hpp"
+#include "ppt/routines/add_source.hpp"
 
 __global__ void add_source_kernel(float_type *p, float_type src, size_t ix, size_t nx, size_t iz)
 {
     size_t i = blockDim.x * blockIdx.x + threadIdx.x;
     if (i > 0) return;
+    
     p[iz * nx + ix] = src;
 }
 
