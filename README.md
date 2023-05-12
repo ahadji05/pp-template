@@ -1,11 +1,11 @@
 ## Template for Performance-Portable code development, targeting HOST-DEVICE computer architectures.
 
 ### The template comes with:
-- Organized directories-hierarchy the distinguishes source code (host and device), and header files.
+- Organized directories-hierarchy that distinguishes source-code (host and device), and header files.
 - Doxygen for automated documentation based on the directories-hierarchy.
 - GTest (Google-test) environment for unit-testing based on the directories-hierarchy.
-- CMake build-environment that handles:
-    - build and installation of the source-code as a static library
+- CMake build-environment that manages:
+    - build and installation of the source code as a static library
     - build of application(s) that are developed on top of the source-code
     - build of unit-tests
     - build of documentation
