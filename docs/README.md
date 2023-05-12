@@ -1,1 +1,1 @@
-## Documentation for users and potential contributors. How to compile the code, how to run verification tests, how to run benchmarks, etc. If the code solves a specific mathematical problem, performs a physics simulations, or, add description for this as well, to make the documentation more comprehensive.
+Just hit `doxygen` from this directory to generate *html* and *latex* documentation using the provided `Doxyfile`.
