@@ -21,7 +21,7 @@ which builds and installs the `PPT` library. The full keyword listing is below.
 ## PPT Keyword Listing
 Options can be enabled by specifying `-DPPT_ENABLE_X`:
 - `PPT_ENABLE_TESTS`: BOOL
-  - Whether to build tests. Note it requires `Google-Test` to be installed.
+  - Whether to build tests. Note it requires google's`GTest` to be installed (if GTest is not installed the build environment downloads and installs it automatically).
   - Default: OFF
 - `PPT_ENABLE_DOCS`: BOOL
   - Whether to build documentation. Note it requires `Doxygen` to be installed. 
