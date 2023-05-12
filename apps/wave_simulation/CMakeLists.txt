@@ -12,12 +12,12 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 find_package(ppt REQUIRED)
 
-add_executable(wave_simulation_exe main.cpp)
+add_executable(main_exe main.cpp)
 
 target_compile_options(
-  wave_simulation_exe
+  main_exe
   PUBLIC $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>: -Wall -Wextra
-         -Wpedantic>)
-target_compile_features(wave_simulation_exe PUBLIC cxx_std_11)
+  -Wpedantic>)
+target_compile_features(main_exe PUBLIC cxx_std_11)
 
-target_link_libraries(wave_simulation_exe PPT::ppt)
+target_link_libraries(main_exe PPT::ppt)
