@@ -5,7 +5,7 @@ find_package(ppt REQUIRED)
 ```
 Then for every executable or library in your project that wants to use `PPT`:
 ```
-target_link_libraries(myTarget PPT::PPT)
+target_link_libraries(myTarget PPT::ppt)
 ```
 
 ## Configuring CMake
