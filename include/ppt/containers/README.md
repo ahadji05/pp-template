@@ -1,6 +1,6 @@
-## Containers are generic data-structures that serve as building-blocks for the development of portable applications.
+## Containers are generic data-structures that serve as building-blocks for the development of portable applications. Within the context of object-oriented programming, they represent the main entities of the application we are developing.
 
-Containers such as the example container `X` below, are generic data-structures (e.g. class, or struct) with respect to a template parameter called `MemSpace`.
+Containers, such as the example container `X` below, are generic data-structures (e.g. `class`, or `struct`) with respect to a template parameter called `MemSpace`, which determines the location of the data.
 
 ```cpp
 template<class MemSpace>
@@ -19,19 +19,19 @@ class X {
     //..other public methods
     
   private:
-    d_type *_p;               // data managed through MemSpace
-    size_t _n;                // metadata on Host
+    d_type *_p;               // data     (location -> MemSpace)
+    size_t _n;                // metadata (location -> Host)
 };
 ```
 
-The `MemSpace` is expected to be a concrete class that provides the memory management operations:
+The `MemSpace` is expected to be a concrete class that provides as `static methods` the memory management operations:
 - `MemSpace::allocate`
 - `MemSpace::release`
 - `MemSpace::copy`
 - `MemSpace::copyFromHost`
 - `MemSpace::copyToHost`
 
-These are necessary for Construction, Cleanup, and Copy.
+These are necessary for proper management of the resources through well defined Construction, Cleanup, and Copy operations.
 
 - Construction: The construction of objects is done through one of the available constructors based on the input parameter. Each constructor initializes the data explicitly on host and then copies them to the generic memory-space `MemSpace`. This behaviour is implemented based on the methods `MemSpace::allocate` and `MemSpace::copyFromHost`. Both of them are provided from the template parameter `MemSpace`.
 
