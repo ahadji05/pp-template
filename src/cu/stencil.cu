@@ -67,6 +67,7 @@ void fd_pxx(ScalarField<ppt::MemSpaceHip> &pxx, const ScalarField<ppt::MemSpaceH
 
 #if defined(PPT_ENABLE_CUDA_BACKEND)
     fd_pxx_kernel<<<nBlocks, nThreads>>>(pxx_data, p_data, nz, nx);
+    cudaDeviceSynchronize();
 #elif defined(PPT_ENABLE_HIP_BACKEND)
     hipLaunchKernelGGL(fd_pxx_kernel, nBlocks, nThreads, 0, NULL, pxx_data, p_data, nz, nx);
     hipDeviceSynchronize();
@@ -102,6 +103,7 @@ void fd_pzz(ScalarField<ppt::MemSpaceHip> &pzz, const ScalarField<ppt::MemSpaceH
 
 #if defined(PPT_ENABLE_CUDA_BACKEND)
     fd_pzz_kernel<<<nBlocks, nThreads>>>(pzz_data, p_data, nz, nx);
+    cudaDeviceSynchronize();
 #elif defined(PPT_ENABLE_HIP_BACKEND)
     hipLaunchKernelGGL(fd_pzz_kernel, nBlocks, nThreads, 0, NULL, pzz_data, p_data, nz, nx);
     hipDeviceSynchronize();
