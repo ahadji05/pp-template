@@ -52,5 +52,6 @@ void fd_time_extrap(ScalarField<ppt::MemSpaceHip> &pnew, const ScalarField<ppt::
 #elif defined(PPT_ENABLE_HIP_BACKEND)
     hipLaunchKernelGGL(fd_time_extrap_kernel, nBlocks, nThreads, 0, NULL, pnew_data, p_data, pold_data, pxx_data,
                        pzz_data, velmodel_data, dt, dh, nz, nx);
+    hipDeviceSynchronize();
 #endif
 }

@@ -26,9 +26,9 @@
 #ifndef PPT_MEM_SPACE_HIP_HPP
 #define PPT_MEM_SPACE_HIP_HPP
 
-#include "ppt/memoryMemorySpace.hpp"
-#include "hip_runtime.h"
-#include "hip_runtime_api.h"
+#include "ppt/memory/MemorySpace.hpp"
+#include "hip/hip_runtime.h"
+#include "hip/hip_runtime_api.h"
 
 namespace ppt
 {
@@ -62,10 +62,10 @@ class MemSpaceHip : public MemorySpaceBase
 #endif
 
         length_t n_bytes  = n_elems * sizeof(value_t);
-        hipError_t status = hipMalloc((void **)&ptr, (size_t)n_bytes);
-        if (status != hipSuccess) return allocation_failed;
+        hipError_t status = hipMalloc((void **)ptr, (size_t)n_bytes);
+        if (status != hipSuccess) return message::allocation_failed;
 
-        return (!allocation_failed);
+        return message::no_error;
     }
 
     /**
@@ -83,9 +83,9 @@ class MemSpaceHip : public MemorySpaceBase
 #endif
 
         hipError_t status = hipFree((void *)ptr);
-        if (status != hipSuccess) return release_failed;
+        if (status != hipSuccess) return message::release_failed;
 
-        return (!release_failed);
+        return message::no_error;
     }
 
     /**
@@ -109,9 +109,9 @@ class MemSpaceHip : public MemorySpaceBase
 
         length_t n_bytes  = n_elems * sizeof(value_t);
         hipError_t status = hipMemcpy((void *)to, (void *)from, (size_t)n_bytes, hipMemcpyDeviceToDevice);
-        if (status != hipSuccess) return copying_failed;
+        if (status != hipSuccess) return message::copying_failed;
 
-        return (!copying_failed);
+        return message::no_error;
     }
 
     /**
@@ -137,9 +137,9 @@ class MemSpaceHip : public MemorySpaceBase
 
         length_t n_bytes  = n_elems * sizeof(value_t);
         hipError_t status = hipMemcpy((void *)to, (void *)from, (size_t)n_bytes, hipMemcpyDeviceToHost);
-        if (status != hipSuccess) return copying_failed;
+        if (status != hipSuccess) return message::copying_failed;
 
-        return (!copying_failed);
+        return message::no_error;
     }
 
     /**
@@ -165,9 +165,9 @@ class MemSpaceHip : public MemorySpaceBase
 
         length_t n_bytes  = n_elems * sizeof(value_t);
         hipError_t status = hipMemcpy((void *)to, (void *)from, (size_t)n_bytes, hipMemcpyHostToDevice);
-        if (status != hipSuccess) return copying_failed;
+        if (status != hipSuccess) return message::copying_failed;
 
-        return (!copying_failed);
+        return message::no_error;
     }
 };
 
