@@ -8,8 +8,7 @@ __global__ void fd_pxx_kernel(float_type *pxx_data, float_type *p_data, size_t n
     size_t iz = blockDim.y * blockIdx.y + threadIdx.y;
 
     if (ix < 2 || ix >= nx - 2) return;
-
-    if (iz >= nz) return;
+    if (iz < 2 || iz >= nz - 2) return;
 
     float_type c0 = -5.0 / 2.0;
     float_type c1 = 4.0 / 3.0;
@@ -25,8 +24,7 @@ __global__ void fd_pzz_kernel(float_type *pzz_data, float_type *p_data, size_t n
     size_t ix = blockDim.x * blockIdx.x + threadIdx.x;
     size_t iz = blockDim.y * blockIdx.y + threadIdx.y;
 
-    if (ix >= nx) return;
-
+    if (ix < 2 || ix >= nx - 2) return;
     if (iz < 2 || iz >= nz - 2) return;
 
     float_type c0 = -5.0 / 2.0;
