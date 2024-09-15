@@ -30,6 +30,7 @@
 #include <cstring>
 
 #include "ppt/memory/MemorySpace.hpp"
+#include "ppt/stream/StreamInc.hpp"
 
 namespace ppt
 {
@@ -198,6 +199,37 @@ class MemSpaceHost : public MemorySpaceBase
 
         return message::no_error;
     }
+
+    template <typename value_t, typename length_t>
+    static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type copyAsync(
+        value_t *to, value_t *from, length_t n_elems, [[maybe_unused]] StreamHostType stream ){
+#ifdef PPT_DEBUG_MEMORY_MANAGE
+        std::cout << "MemSpaceHost: copyAsync" << std::endl;
+#endif
+        length_t n_bytes = n_elems * sizeof(value_t);
+        std::memcpy(to, from, n_bytes);
+        return message::no_error;
+    }
+
+    template <typename value_t, typename length_t>
+    static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type copyToHostAsync(
+        value_t *to, value_t *from, length_t n_elems, [[maybe_unused]] StreamHostType stream ){
+#ifdef PPT_DEBUG_MEMORY_MANAGE
+        std::cout << "MemSpaceHost: copyToHostAsync" << std::endl;
+#endif
+        length_t n_bytes = n_elems * sizeof(value_t);
+        std::memcpy(to, from, n_bytes);
+        return message::no_error;    }
+
+    template <typename value_t, typename length_t>
+    static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type copyFromHostAsync(
+        value_t *to, value_t *from, length_t n_elems, [[maybe_unused]] StreamHostType stream ){
+#ifdef PPT_DEBUG_MEMORY_MANAGE
+        std::cout << "MemSpaceHost: copyFromHostAsync" << std::endl;
+#endif
+        length_t n_bytes = n_elems * sizeof(value_t);
+        std::memcpy(to, from, n_bytes);
+        return message::no_error;    }
 };
 
 } // namespace ppt

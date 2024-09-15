@@ -169,6 +169,42 @@ class MemSpaceHip : public MemorySpaceBase
 
         return message::no_error;
     }
+
+    template <typename value_t, typename length_t>
+    static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type copyAsync(
+#ifdef PPT_DEBUG_MEMORY_MANAGE
+        std::cout << "MemSpaceHip: copyAsync" << std::endl;
+#endif
+        value_t *to, value_t *from, length_t n_elems, [[maybe_unused]] hipStream_t stream ){
+        length_t n_bytes   = n_elems * sizeof(value_t);
+        hipError_t status = hipMemcpyAsync((void *)to, (void *)from, (size_t)n_bytes, hipMemcpyDeviceToDevice, stream);
+        if (status != hipSuccess) return message::copying_failed;
+        return message::no_error;
+    }
+
+    template <typename value_t, typename length_t>
+    static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type copyAsyncToHost(
+#ifdef PPT_DEBUG_MEMORY_MANAGE
+        std::cout << "MemSpaceHip: copyAsyncToHost" << std::endl;
+#endif
+        value_t *to, value_t *from, length_t n_elems, [[maybe_unused]] hipStream_t stream ){
+        length_t n_bytes   = n_elems * sizeof(value_t);
+        hipError_t status = hipMemcpyAsync((void *)to, (void *)from, (size_t)n_bytes, hipMemcpyDeviceToHost, stream);
+        if (status != hipSuccess) return message::copying_failed;
+        return message::no_error;
+    }
+
+    template <typename value_t, typename length_t>
+    static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type copyAsyncFromHost(
+#ifdef PPT_DEBUG_MEMORY_MANAGE
+        std::cout << "MemSpaceHip: copyAsyncFromHost" << std::endl;
+#endif
+        value_t *to, value_t *from, length_t n_elems, [[maybe_unused]] hipStream_t stream ){
+        length_t n_bytes   = n_elems * sizeof(value_t);
+        hipError_t status = hipMemcpyAsync((void *)to, (void *)from, (size_t)n_bytes, hipMemcpyHostToDevice, stream);
+        if (status != hipSuccess) return message::copying_failed;
+        return message::no_error;
+    }
 };
 
 } // namespace ppt

@@ -169,6 +169,42 @@ class MemSpaceCuda : public MemorySpaceBase
 
         return message::no_error;
     }
+
+    template <typename value_t, typename length_t>
+    static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type copyAsync(
+#ifdef PPT_DEBUG_MEMORY_MANAGE
+        std::cout << "MemSpaceCuda: copyAsync" << std::endl;
+#endif
+        value_t *to, value_t *from, length_t n_elems, [[maybe_unused]] cudaStream_t stream ){
+        length_t n_bytes   = n_elems * sizeof(value_t);
+        cudaError_t status = cudaMemcpyAsync((void *)to, (void *)from, (size_t)n_bytes, cudaMemcpyDeviceToDevice, stream);
+        if (status != cudaSuccess) return message::copying_failed;
+        return message::no_error;
+    }
+
+    template <typename value_t, typename length_t>
+    static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type copyAsyncToHost(
+#ifdef PPT_DEBUG_MEMORY_MANAGE
+        std::cout << "MemSpaceCuda: copyAsyncToHost" << std::endl;
+#endif
+        value_t *to, value_t *from, length_t n_elems, [[maybe_unused]] cudaStream_t stream ){
+        length_t n_bytes   = n_elems * sizeof(value_t);
+        cudaError_t status = cudaMemcpyAsync((void *)to, (void *)from, (size_t)n_bytes, cudaMemcpyDeviceToHost, stream);
+        if (status != cudaSuccess) return message::copying_failed;
+        return message::no_error;
+    }
+
+    template <typename value_t, typename length_t>
+    static typename std::enable_if<std::is_integral<length_t>::value, return_t>::type copyAsyncFromHost(
+#ifdef PPT_DEBUG_MEMORY_MANAGE
+        std::cout << "MemSpaceCuda: copyAsyncFromHost" << std::endl;
+#endif
+        value_t *to, value_t *from, length_t n_elems, [[maybe_unused]] cudaStream_t stream ){
+        length_t n_bytes   = n_elems * sizeof(value_t);
+        cudaError_t status = cudaMemcpyAsync((void *)to, (void *)from, (size_t)n_bytes, cudaMemcpyHostToDevice, stream);
+        if (status != cudaSuccess) return message::copying_failed;
+        return message::no_error;
+    }
 };
 
 } // namespace ppt
