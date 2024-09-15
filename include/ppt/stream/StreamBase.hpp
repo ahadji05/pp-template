@@ -23,22 +23,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef PPT_EXECUTION_SPACE_CUDA
-#define PPT_EXECUTION_SPACE_CUDA
-
-#include "ppt/execution/ExecutionSpace.hpp"
-#include "ppt/memory/MemorySpacesInc.hpp"
-#include "ppt/stream/StreamInc.hpp"
+#ifndef PPT_STREAM_BASE
+#define PPT_STREAM_BASE
 
 namespace ppt
 {
 
-class ExecutionSpaceCuda : public ExecutionSpaceBase
-{
-  public:
-    using accessible_space = ppt::MemSpaceCuda; // define as type-trait the accessible memory-space
-    using stream_space = ppt::StreamCuda;
-};
+class StreamBase{};
 
 } // namespace ppt
 

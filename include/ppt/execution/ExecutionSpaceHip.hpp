@@ -28,6 +28,7 @@
 
 #include "ppt/execution/ExecutionSpace.hpp"
 #include "ppt/memory/MemorySpacesInc.hpp"
+#include "ppt/stream/StreamInc.hpp"
 
 namespace ppt
 {
@@ -36,6 +37,7 @@ class ExecutionSpaceHip : public ExecutionSpaceBase
 {
   public:
     using accessible_space = ppt::MemSpaceHip; // define as type-trait the accessible memory-space
+    using stream_space = ppt::StreamHip;
 };
 
 } // namespace ppt

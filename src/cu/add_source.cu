@@ -12,10 +12,10 @@ __global__ void add_source_kernel(float_type *p, float_type src, size_t ix, size
 
 #if defined(PPT_ENABLE_CUDA_BACKEND)
 template <>
-void add_source(ScalarField<ppt::MemSpaceCuda> &p, const float_type src, size_t ix, size_t iz, ppt::ExecutionSpaceCuda)
+void add_source(ScalarField<ppt::MemSpaceCuda> &p, const float_type src, size_t ix, size_t iz, cudaStream_t stream, ppt::ExecutionSpaceCuda)
 #elif defined(PPT_ENABLE_HIP_BACKEND)
 template <>
-void add_source(ScalarField<ppt::MemSpaceHip> &p, const float_type src, size_t ix, size_t iz, ppt::ExecutionSpaceHip)
+void add_source(ScalarField<ppt::MemSpaceHip> &p, const float_type src, size_t ix, size_t iz, hipStream_t stream, ppt::ExecutionSpaceHip)
 #endif
 {
     assert(ix < p.get_nx());
@@ -23,10 +23,10 @@ void add_source(ScalarField<ppt::MemSpaceHip> &p, const float_type src, size_t i
 
     size_t nx = p.get_nx();
 #if defined(PPT_ENABLE_CUDA_BACKEND)
-    add_source_kernel<<<1, 1>>>(p.get_ptr(), src, ix, nx, iz);
+    add_source_kernel<<<1, 1, 0, stream>>>(p.get_ptr(), src, ix, nx, iz);
     cudaDeviceSynchronize();
 #elif defined(PPT_ENABLE_HIP_BACKEND)
-    hipLaunchKernelGGL(add_source_kernel, 1, 1, 0, NULL, p.get_ptr(), src, ix, nx, iz);
+    hipLaunchKernelGGL(add_source_kernel, 1, 1, 0, stream, p.get_ptr(), src, ix, nx, iz);
     hipDeviceSynchronize();
 #endif
 }

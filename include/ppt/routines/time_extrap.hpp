@@ -38,8 +38,6 @@
  *
  * @tparam ExecSpace Execution-Space that is used to resolve the back-end
  * implementation at compile-time.
- * @tparam MemSpace Memory-Space that must be accessible from the
- * Execution-Space; otherwise compile-time error.
  * @param pnew wavefield for the next time-step
  * @param p wavefield one time-step old
  * @param pold wavefield two time-steps old
@@ -48,14 +46,21 @@
  * @param velmodel velocity profile that can be space-dependent
  * @param dt time-step in seconds
  * @param dh space-step in meters
- * @param tag tag for dispatching the selected Execution-Space
- * @return void IF-ONLY the Memory-Space is accessible from the Execution-Space;
- * otherwise it produces compile-time error.
+ * @param stream to use for the execution
+ * @param tag for dispatching the selected Execution-Space
  */
-template <class ExecSpace, class MemSpace>
-typename std::enable_if<std::is_same<MemSpace, typename ExecSpace::accessible_space>::value, void>::type fd_time_extrap(
-    ScalarField<MemSpace> &pnew, const ScalarField<MemSpace> &p, const ScalarField<MemSpace> &pold,
-    const ScalarField<MemSpace> &pxx, const ScalarField<MemSpace> &pzz, const ScalarField<MemSpace> &velmodel,
-    float_type dt, float_type dh, ExecSpace tag);
+template <class ExecSpace>
+void fd_time_extrap(
+    ScalarField<typename ExecSpace::accessible_space> &pnew, 
+    const ScalarField<typename ExecSpace::accessible_space> &p, 
+    const ScalarField<typename ExecSpace::accessible_space> &pold,
+    const ScalarField<typename ExecSpace::accessible_space> &pxx, 
+    const ScalarField<typename ExecSpace::accessible_space> &pzz, 
+    const ScalarField<typename ExecSpace::accessible_space> &velmodel,
+    float_type dt, 
+    float_type dh, 
+    [[maybe_unused]] typename ExecSpace::stream_space::type stream, 
+    ExecSpace tag
+);
 
 #endif

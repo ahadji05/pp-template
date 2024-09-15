@@ -27,6 +27,8 @@ template <class ExecSpace> class WaveSimulator
 {
   private:
     using MemSpace = typename ExecSpace::accessible_space;
+    using StreamSpace = typename ExecSpace::stream_space;
+    using StreamType  = typename StreamSpace::type;
 
     ScalarField<MemSpace> wavefield;
     ScalarField<MemSpace> wavefield_new;
@@ -38,10 +40,18 @@ template <class ExecSpace> class WaveSimulator
     std::vector<float_type> source_impulse;
     float_type _dt, _dh, _vmin, _vmax;
     size_t _nt, _nz, _nx, _srcz, _srcx;
+    StreamType *_pStream1 = nullptr;
+    StreamType *_pStream2 = nullptr;
 
   public:
-    WaveSimulator()  = default;
-    ~WaveSimulator() = default;
+    WaveSimulator(){
+        StreamSpace::create( &_pStream1 );
+        StreamSpace::create( &_pStream2 );
+    }
+    ~WaveSimulator(){
+        StreamSpace::destroy( _pStream1 );
+        StreamSpace::destroy( _pStream2 );
+    }
 
     // Set-methods
     void set_time_step(float_type dt);
@@ -78,14 +88,18 @@ template <class ExecSpace> class WaveSimulator
         {
             if (i % 250 == 0) std::cout << "time-step: " << i << std::endl;
 
-            add_source(wavefield, source_impulse[i], _srcx, _srcz, ExecSpace());
+            add_source(wavefield, source_impulse[i], _srcx, _srcz, *_pStream1, ExecSpace());
 
-            fd_pxx(wavefield_pxx, wavefield, ExecSpace());
+            fd_pxx(wavefield_pxx, wavefield, *_pStream1, ExecSpace());
 
-            fd_pzz(wavefield_pzz, wavefield, ExecSpace());
+            // use a different stream for pzz since it can be overlaped with the computation of pxx.
+            fd_pzz(wavefield_pzz, wavefield, *_pStream2, ExecSpace());
+
+            // time extrap is computed on stream1 so we need to explicilty wait for stream2 to finish pzz before we proceed.
+            StreamSpace::sync(_pStream2);
 
             fd_time_extrap(wavefield_new, wavefield, wavefield_old, wavefield_pxx, wavefield_pzz, velmodel, _dt, _dh,
-                           ExecSpace());
+                *_pStream1, ExecSpace());
 
             wavefield_old.swap(wavefield); // wavefield_old = wavefield;
             wavefield.swap(wavefield_new); // wavefield     = wavefield_new;

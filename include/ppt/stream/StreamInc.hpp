@@ -23,21 +23,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef PPT_EXECUTION_SPACE_CUDA
-#define PPT_EXECUTION_SPACE_CUDA
+#ifndef PPT_STREAM_INC_HPP
+#define PPT_STREAM_INC_HPP
 
-#include "ppt/execution/ExecutionSpace.hpp"
-#include "ppt/memory/MemorySpacesInc.hpp"
-#include "ppt/stream/StreamInc.hpp"
+#include "ppt/definitions.hpp"
+#include "ppt/stream/StreamHost.hpp"
+
+#ifdef PPT_ENABLE_CUDA_BACKEND
+#include "ppt/stream/StreamCuda.hpp"
+#endif
+
+#ifdef PPT_ENABLE_HIP_BACKEND
+#include "ppt/stream/StreamHip.hpp"
+#endif
 
 namespace ppt
 {
-
-class ExecutionSpaceCuda : public ExecutionSpaceBase
+/**
+ * @brief Assert that a given type T is a Stream. A valid
+ * Stream type is one that is derived from the class StreamBase.
+ *
+ * @tparam T The type to check if it is derived from class StreamBase.
+ */
+template <typename T> struct is_stream_t
 {
-  public:
-    using accessible_space = ppt::MemSpaceCuda; // define as type-trait the accessible memory-space
-    using stream_space = ppt::StreamCuda;
+    static constexpr bool value = std::is_base_of<StreamBase,T>::value;
 };
 
 } // namespace ppt

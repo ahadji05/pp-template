@@ -23,21 +23,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef PPT_EXECUTION_SPACE_CUDA
-#define PPT_EXECUTION_SPACE_CUDA
+#ifndef PPT_STREAM_HOST
+#define PPT_STREAM_HOST
 
-#include "ppt/execution/ExecutionSpace.hpp"
-#include "ppt/memory/MemorySpacesInc.hpp"
-#include "ppt/stream/StreamInc.hpp"
+#include "ppt/stream/StreamBase.hpp"
 
-namespace ppt
+namespace ppt 
 {
 
-class ExecutionSpaceCuda : public ExecutionSpaceBase
-{
+struct StreamHostType{};
+
+class StreamHost : public StreamBase {
+
   public:
-    using accessible_space = ppt::MemSpaceCuda; // define as type-trait the accessible memory-space
-    using stream_space = ppt::StreamCuda;
+    using type = StreamHostType;
+
+    // create a new stream
+    static void create( StreamHostType **pStream ) {
+        *pStream = new StreamHostType();
+    }
+
+    // destroy an existing stream
+    static void destroy( StreamHostType *pStream ){
+        delete pStream;
+    }
+
+    // sync an existing stream
+    static void sync( StreamHostType *pStream ){
+        (void)pStream; // intentionally unused!
+    }
 };
 
 } // namespace ppt

@@ -34,20 +34,22 @@
  * @brief This routine sets at a specified position (iz,ix) of a specified
  * wavefield (p) the source-amplitude (src).
  *
- * @tparam ExecSpace Execution-Space that is used to resolve the back-end
- * implementation at compile-time.
- * @tparam MemSpace Memory-Space that must be accessible from the
- * Execution-Space; otherwise compile-time error.
+ * @tparam ExecSpace Execution-Space that is used to resolve the back-end implementation at compile-time.
  * @param p wavefield
  * @param src source amplitude at given location
  * @param ix source index across the x dimension
  * @param iz source index across the z dimension
- * @param tag tag for dispatching the selection Execution-Space
- * @return void IF the Memory-Space is accessible from the Execution-Space;
- * otherwise it produces compile-time error.
+ * @param stream to use for the execution
+ * @param tag for dispatching the selection Execution-Space
  */
-template <class ExecSpace, class MemSpace>
-typename std::enable_if<std::is_same<typename ExecSpace::accessible_space, MemSpace>::value, void>::type add_source(
-    ScalarField<MemSpace> &p, const float_type src, size_t ix, size_t iz, ExecSpace tag);
+template <class ExecSpace>
+void add_source( 
+    ScalarField<typename ExecSpace::accessible_space> &p, 
+    const float_type src, 
+    size_t ix, 
+    size_t iz, 
+    [[maybe_unused]] typename ExecSpace::stream_space::type stream, 
+    ExecSpace tag
+);
 
 #endif

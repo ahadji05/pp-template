@@ -2,7 +2,7 @@
 #include "ppt/routines/add_source.hpp"
 
 template <>
-void add_source(ScalarField<ppt::MemSpaceHost> &p, const float_type src, size_t ix, size_t iz,
+void add_source(ScalarField<ppt::MemSpaceHost> &p, const float_type src, size_t ix, size_t iz, ppt::StreamHostType stream,
                 ppt::ExecutionSpaceSerial)
 {
     assert(ix < p.get_nx());
@@ -12,10 +12,10 @@ void add_source(ScalarField<ppt::MemSpaceHost> &p, const float_type src, size_t 
 
 #if defined(PPT_ENABLE_OPENMP_BACKEND)
 template <>
-void add_source(ScalarField<ppt::MemSpaceHost> &p, const float_type src, size_t ix, size_t iz,
+void add_source(ScalarField<ppt::MemSpaceHost> &p, const float_type src, size_t ix, size_t iz, ppt::StreamHostType stream,
                 ppt::ExecutionSpaceOpenMP)
 {
     // there is no parallelism to exploit; just call the Serial implementation
-    add_source(p, src, ix, iz, ppt::ExecutionSpaceSerial());
+    add_source(p, src, ix, iz, stream, ppt::ExecutionSpaceSerial());
 }
 #endif // PPT_ENABLE_OPENMP_BACKEND

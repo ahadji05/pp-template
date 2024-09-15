@@ -47,9 +47,13 @@
  * @return void IF-ONLY the Memory-Space is accessible from the Execution-Space;
  * otherwise it produces compile-time error.
  */
-template <class ExecSpace, class MemSpace>
-typename std::enable_if<std::is_same<typename ExecSpace::accessible_space, MemSpace>::value, void>::type fd_pxx(
-    ScalarField<MemSpace> &pxx, const ScalarField<MemSpace> &p, ExecSpace tag);
+template <class ExecSpace>
+void fd_pxx(
+    ScalarField<typename ExecSpace::accessible_space> &pxx, 
+    const ScalarField<typename ExecSpace::accessible_space> &p, 
+    [[maybe_unused]] typename ExecSpace::stream_space::type stream, 
+    ExecSpace tag
+);
 
 /**
  * @brief This routine calculates the second-order derivative pzz of a wavefield
@@ -60,16 +64,17 @@ typename std::enable_if<std::is_same<typename ExecSpace::accessible_space, MemSp
  *
  * @tparam ExecSpace Execution-Space that is used to resolve the back-end
  * implementation at compile-time.
- * @tparam MemSpace Memory-Space that must be accessible from the
- * Execution-Space; otherwise compile-time error.
  * @param pzz wavefield's second-order derivative in z dimension
  * @param p wavefield from which the derivative pzz is calculated
- * @param tag tag for dispatching the selection Execution-Space
- * @return void IF-ONLY the Memory-Space is accessible from the Execution-Space;
- * otherwise it produces compile-time error.
+ * @param stream to use for the execution
+ * @param tag for dispatching the selection Execution-Space
  */
-template <class ExecSpace, class MemSpace>
-typename std::enable_if<std::is_same<typename ExecSpace::accessible_space, MemSpace>::value>::type fd_pzz(
-    ScalarField<MemSpace> &pzz, const ScalarField<MemSpace> &p, ExecSpace tag);
+template <class ExecSpace>
+void fd_pzz(
+    ScalarField<typename ExecSpace::accessible_space> &pzz, 
+    const ScalarField<typename ExecSpace::accessible_space> &p, 
+    [[maybe_unused]] typename ExecSpace::stream_space::type stream, 
+    ExecSpace tag
+);
 
 #endif

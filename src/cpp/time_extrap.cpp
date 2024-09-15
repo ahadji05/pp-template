@@ -5,7 +5,7 @@ template <>
 void fd_time_extrap(ScalarField<ppt::MemSpaceHost> &pnew, const ScalarField<ppt::MemSpaceHost> &p,
                     const ScalarField<ppt::MemSpaceHost> &pold, const ScalarField<ppt::MemSpaceHost> &pxx,
                     const ScalarField<ppt::MemSpaceHost> &pzz, const ScalarField<ppt::MemSpaceHost> &velmodel,
-                    float_type dt, float_type dh, ppt::ExecutionSpaceSerial)
+                    float_type dt, float_type dh, ppt::StreamHostType stream, ppt::ExecutionSpaceSerial)
 {
     size_t nz = pxx.get_nz();
     size_t nx = pxx.get_nx();
@@ -32,7 +32,7 @@ template <>
 void fd_time_extrap(ScalarField<ppt::MemSpaceHost> &pnew, const ScalarField<ppt::MemSpaceHost> &p,
                     const ScalarField<ppt::MemSpaceHost> &pold, const ScalarField<ppt::MemSpaceHost> &pxx,
                     const ScalarField<ppt::MemSpaceHost> &pzz, const ScalarField<ppt::MemSpaceHost> &velmodel,
-                    float_type dt, float_type dh, ppt::ExecutionSpaceOpenMP)
+                    float_type dt, float_type dh, ppt::StreamHostType stream, ppt::ExecutionSpaceOpenMP)
 {
     size_t nz = pxx.get_nz();
     size_t nx = pxx.get_nx();

@@ -22,13 +22,13 @@ template <>
 void fd_time_extrap(ScalarField<ppt::MemSpaceCuda> &pnew, const ScalarField<ppt::MemSpaceCuda> &p,
                     const ScalarField<ppt::MemSpaceCuda> &pold, const ScalarField<ppt::MemSpaceCuda> &pxx,
                     const ScalarField<ppt::MemSpaceCuda> &pzz, const ScalarField<ppt::MemSpaceCuda> &velmodel,
-                    float_type dt, float_type dh, ppt::ExecutionSpaceCuda)
+                    float_type dt, float_type dh, cudaStream_t stream, ppt::ExecutionSpaceCuda)
 #elif defined(PPT_ENABLE_HIP_BACKEND)
 template <>
 void fd_time_extrap(ScalarField<ppt::MemSpaceHip> &pnew, const ScalarField<ppt::MemSpaceHip> &p,
                     const ScalarField<ppt::MemSpaceHip> &pold, const ScalarField<ppt::MemSpaceHip> &pxx,
                     const ScalarField<ppt::MemSpaceHip> &pzz, const ScalarField<ppt::MemSpaceHip> &velmodel,
-                    float_type dt, float_type dh, ppt::ExecutionSpaceHip)
+                    float_type dt, float_type dh, hipStream_t stream, ppt::ExecutionSpaceHip)
 #endif
 {
     size_t nz = pxx.get_nz();
@@ -47,11 +47,11 @@ void fd_time_extrap(ScalarField<ppt::MemSpaceHip> &pnew, const ScalarField<ppt::
     dim3 nBlocks(nBlock_x, nBlock_z, 1);
 
 #if defined(PPT_ENABLE_CUDA_BACKEND)
-    fd_time_extrap_kernel<<<nBlocks, nThreads>>>(pnew_data, p_data, pold_data, pxx_data, pzz_data, velmodel_data, dt,
+    fd_time_extrap_kernel<<<nBlocks, nThreads, 0, stream>>>(pnew_data, p_data, pold_data, pxx_data, pzz_data, velmodel_data, dt,
                                                  dh, nz, nx);
     cudaDeviceSynchronize();
 #elif defined(PPT_ENABLE_HIP_BACKEND)
-    hipLaunchKernelGGL(fd_time_extrap_kernel, nBlocks, nThreads, 0, NULL, pnew_data, p_data, pold_data, pxx_data,
+    hipLaunchKernelGGL(fd_time_extrap_kernel, nBlocks, nThreads, 0, stream, pnew_data, p_data, pold_data, pxx_data,
                        pzz_data, velmodel_data, dt, dh, nz, nx);
     hipDeviceSynchronize();
 #endif

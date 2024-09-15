@@ -2,7 +2,7 @@
 #include "ppt/routines/stencil.hpp"
 
 template <>
-void fd_pxx(ScalarField<ppt::MemSpaceHost> &pxx, const ScalarField<ppt::MemSpaceHost> &p, ppt::ExecutionSpaceSerial)
+void fd_pxx(ScalarField<ppt::MemSpaceHost> &pxx, const ScalarField<ppt::MemSpaceHost> &p, ppt::StreamHostType stream, ppt::ExecutionSpaceSerial)
 {
     assert(pxx.get_nx() == p.get_nx());
     assert(pxx.get_nz() == p.get_nz());
@@ -32,7 +32,7 @@ void fd_pxx(ScalarField<ppt::MemSpaceHost> &pxx, const ScalarField<ppt::MemSpace
 }
 
 template <>
-void fd_pzz(ScalarField<ppt::MemSpaceHost> &pzz, const ScalarField<ppt::MemSpaceHost> &p, ppt::ExecutionSpaceSerial)
+void fd_pzz(ScalarField<ppt::MemSpaceHost> &pzz, const ScalarField<ppt::MemSpaceHost> &p, ppt::StreamHostType stream, ppt::ExecutionSpaceSerial)
 {
     assert(pzz.get_nx() == p.get_nx());
     assert(pzz.get_nz() == p.get_nz());
@@ -61,7 +61,7 @@ void fd_pzz(ScalarField<ppt::MemSpaceHost> &pzz, const ScalarField<ppt::MemSpace
 
 #if defined(PPT_ENABLE_OPENMP_BACKEND)
 template <>
-void fd_pxx(ScalarField<ppt::MemSpaceHost> &pxx, const ScalarField<ppt::MemSpaceHost> &p, ppt::ExecutionSpaceOpenMP)
+void fd_pxx(ScalarField<ppt::MemSpaceHost> &pxx, const ScalarField<ppt::MemSpaceHost> &p, ppt::StreamHostType stream, ppt::ExecutionSpaceOpenMP)
 {
     assert(pxx.get_nx() == p.get_nx());
     assert(pxx.get_nz() == p.get_nz());
@@ -92,7 +92,7 @@ void fd_pxx(ScalarField<ppt::MemSpaceHost> &pxx, const ScalarField<ppt::MemSpace
 }
 
 template <>
-void fd_pzz(ScalarField<ppt::MemSpaceHost> &pzz, const ScalarField<ppt::MemSpaceHost> &p, ppt::ExecutionSpaceOpenMP)
+void fd_pzz(ScalarField<ppt::MemSpaceHost> &pzz, const ScalarField<ppt::MemSpaceHost> &p, ppt::StreamHostType stream, ppt::ExecutionSpaceOpenMP)
 {
     assert(pzz.get_nx() == p.get_nx());
     assert(pzz.get_nz() == p.get_nz());
