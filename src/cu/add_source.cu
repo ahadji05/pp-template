@@ -24,9 +24,7 @@ void add_source(ScalarField<ppt::MemSpaceHip> &p, const float_type src, size_t i
     size_t nx = p.get_nx();
 #if defined(PPT_ENABLE_CUDA_BACKEND)
     add_source_kernel<<<1, 1, 0, stream>>>(p.get_ptr(), src, ix, nx, iz);
-    cudaDeviceSynchronize();
 #elif defined(PPT_ENABLE_HIP_BACKEND)
     hipLaunchKernelGGL(add_source_kernel, 1, 1, 0, stream, p.get_ptr(), src, ix, nx, iz);
-    hipDeviceSynchronize();
 #endif
 }

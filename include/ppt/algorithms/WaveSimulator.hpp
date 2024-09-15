@@ -92,17 +92,20 @@ template <class ExecSpace> class WaveSimulator
 
             fd_pxx(wavefield_pxx, wavefield, *_pStream1, ExecSpace());
 
-            // use a different stream for pzz since it can be overlaped with the computation of pxx.
+            // use a different stream for fd_pzz since it can be overlaped with the computation of fd_pxx.
             fd_pzz(wavefield_pzz, wavefield, *_pStream2, ExecSpace());
 
-            // time extrap is computed on stream1 so we need to explicilty wait for stream2 to finish pzz before we proceed.
+            // fd_time_extrap that follows is computed on stream1 so we need to explicilty wait for stream2 as well to finish fd_pzz before we proceed.
             StreamSpace::sync(_pStream2);
 
             fd_time_extrap(wavefield_new, wavefield, wavefield_old, wavefield_pxx, wavefield_pzz, velmodel, _dt, _dh,
                 *_pStream1, ExecSpace());
 
-            wavefield_old.swap(wavefield); // wavefield_old = wavefield;
-            wavefield.swap(wavefield_new); // wavefield     = wavefield_new;
+            // before swapping the wavefields the execution of fd_time_extrap must reach this point, thus, we need to explicitly sync the related stream.
+            StreamSpace::sync(_pStream1);
+
+            wavefield_old.swap(wavefield);
+            wavefield.swap(wavefield_new);
         }
     }
 };
