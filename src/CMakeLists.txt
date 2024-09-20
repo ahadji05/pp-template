@@ -34,7 +34,7 @@ if(PPT_ENABLE_CUDA)
   # to be built with -dc as the member functions could be called by other
   # libraries and executables
   set_target_properties(ppt PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
-  target_link_libraries(ppt PUBLIC CUDA::cudart)
+  target_link_libraries(ppt PUBLIC CUDA::cudart CUDA::cufft)
 endif()
 
 if(PPT_ENABLE_HIP)
