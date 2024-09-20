@@ -9,7 +9,7 @@
 #include "math.h"
 
 // SELECT FLOATING-POINT PRECISION (DATA-TYPE)
-using float_type = double;
+using float_type = float;
 
 // SELECT EXECUTION-SPACE BASED ON COMPILE-TIME CHOICE
 #if defined(PPT_ENABLE_CUDA_BACKEND)
