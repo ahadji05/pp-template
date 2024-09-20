@@ -2,7 +2,7 @@
 #include "ppt/routines/add_source.hpp"
 
 template <>
-void add_source(ScalarField<ppt::MemSpaceHost> &p, const float_type src, size_t ix, size_t iz, ppt::StreamHostType stream,
+void add_source(ScalarField<ppt::MemSpaceHost> &p, const float_type src, size_t ix, size_t iz, [[maybe_unused]] ppt::StreamHostType stream,
                 ppt::ExecutionSpaceSerial)
 {
     assert(ix < p.get_nx());
