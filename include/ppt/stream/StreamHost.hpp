@@ -46,6 +46,7 @@ class StreamHost : public StreamBase {
     // destroy an existing stream
     static void destroy( StreamHostType *pStream ){
         delete pStream;
+        pStream = nullptr;
     }
 
     // sync an existing stream

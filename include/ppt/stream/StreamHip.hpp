@@ -40,8 +40,6 @@ class StreamHip : public StreamBase {
 
     // create a new stream
     static void create( hipStream_t **pStream ) {
-        if (*pStream)
-            StreamHip::destroy(*pStream);
         *pStream = new hipStream_t();
         hipError_t status = hipStreamCreate( *pStream );
         if (status != hipSuccess) throw std::runtime_error("hipStreamCreate failed!");

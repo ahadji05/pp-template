@@ -40,8 +40,6 @@ class StreamCuda : public StreamBase {
 
     // create a new stream
     static void create( cudaStream_t **pStream ) {
-        if (*pStream)
-            StreamCuda::destroy(*pStream);
         *pStream = new cudaStream_t();
         cudaError_t status = cudaStreamCreate( *pStream );
         if (status != cudaSuccess) throw std::runtime_error("cudaStreamCreate failed!");
