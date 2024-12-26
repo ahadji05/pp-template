@@ -9,8 +9,8 @@ __global__ void fd_time_extrap_kernel(float_type *pnew_data, float_type *p_data,
     size_t ix = blockDim.x * blockIdx.x + threadIdx.x;
     size_t iz = blockDim.y * blockIdx.y + threadIdx.y;
 
-    if (ix > nx) return;
-    if (iz > nz) return;
+    if (ix >= nx) return;
+    if (iz >= nz) return;
 
     size_t i     = iz * nx + ix;
     pnew_data[i] = (2 * p_data[i] - pold_data[i]) +
