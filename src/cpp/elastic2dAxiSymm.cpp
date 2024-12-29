@@ -12,8 +12,8 @@
 template<>
 int inject_source( Field<ppt::MemSpaceHost> const& fields, float_type value, int iz, int ir, ppt::ExecutionSpaceSerial ){
     int nr = fields._ur->get_nx();
-    fields._uz->get_ptr()[LID( iz, ir, nr )] = 3*value/4;
-    // fields._ur->get_ptr()[LID( iz, ir, nr )] = 1*value/4;
+    fields._uz->get_ptr()[LID( iz, ir, nr )] = 5*value/6;
+    fields._ur->get_ptr()[LID( iz, ir, nr )] = 1*value/6;
     return 0;
 }
 
@@ -46,7 +46,7 @@ int compute_field_gradients( FieldGrad<ppt::MemSpaceHost> & dispDerivatives, Fie
 
 
 template<>
-int compute_stains( Strain<ppt::MemSpaceHost> & strains, FieldGrad<ppt::MemSpaceHost> const& dispDerivatives, Field<ppt::MemSpaceHost> const& fields, 
+int compute_strains( Strain<ppt::MemSpaceHost> & strains, FieldGrad<ppt::MemSpaceHost> const& dispDerivatives, Field<ppt::MemSpaceHost> const& fields, 
     float_type dr, ppt::ExecutionSpaceSerial ){
 
     int nz = strains.epsilon_tt->get_nz();

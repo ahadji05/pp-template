@@ -62,7 +62,7 @@ template<class ExecSpace, class MemSpace> int inject_source( Field<MemSpace> con
 template<class ExecSpace, class MemSpace> int compute_field_gradients( FieldGrad<MemSpace> & dispDerivatives, Field<MemSpace> const& fields,
     float_type dz, float_type dr, ExecSpace tag);
 
-template<class ExecSpace, class MemSpace> int compute_stains( Strain<MemSpace> & strains, FieldGrad<MemSpace> const& dispDerivatives, Field<MemSpace> const& fields, float_type dr, ExecSpace tag);
+template<class ExecSpace, class MemSpace> int compute_strains( Strain<MemSpace> & strains, FieldGrad<MemSpace> const& dispDerivatives, Field<MemSpace> const& fields, float_type dr, ExecSpace tag);
 
 template<class ExecSpace, class MemSpace> int compute_stresses( Stress<MemSpace> & stresses, Strain<MemSpace> const& strains, FieldGrad<MemSpace> const& dispDerivatives, 
     Field<MemSpace> const& fields, Model<MemSpace> const& models, float_type dr, ExecSpace tag);

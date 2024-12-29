@@ -72,7 +72,7 @@ class ElasticWave2dAxiSymmetricSimulator {
             if (i % 250 == 0) std::cout << "time-step: " << i << std::endl;
             if ( inject_source( _fields, _wavelet[i], (int)(_srcz/_dz), (int)(_srcr/_dr), ExecSpace() ) )   return 1;
             if ( compute_field_gradients( _fieldGrads, _fields, _dz, _dr, ExecSpace() ) )                   return 1;
-            if ( compute_stains( _strains, _fieldGrads, _fields, _dr, ExecSpace() ) )                       return 1;
+            if ( compute_strains( _strains, _fieldGrads, _fields, _dr, ExecSpace() ) )                       return 1;
             if ( compute_stresses( _stresses, _strains, _fieldGrads, _fields, models, _dr, ExecSpace() ) )  return 1;
             if ( compute_forces( _forces, _stresses, _dz, _dr, ExecSpace() ) )                              return 1;
             if ( compute_time_update( _fields, _forces, models, _dt, ExecSpace() ) )                        return 1;
