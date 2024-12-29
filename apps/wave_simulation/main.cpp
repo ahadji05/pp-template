@@ -2,6 +2,9 @@
 #include "ppt/algorithms/WaveSimulator.hpp"
 #include <iostream>
 
+// compute-sanitizer --tool memcheck --leak-check=full ./main_exe
+// valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./main_exe
+
 int main()
 {
     // Define the WaveSimulator based on the exec_space from "types.hpp"
