@@ -5,12 +5,12 @@
 #define LID(iz,ir,nr) iz * nr + ir 
 
 // 1st-order derivatives using a 4th-order central-difference stencil
-#define d_dR(P,iz,ir,nr,dr) ( ( -1 * ( P[LID(iz,ir+2,nr)] - P[LID(iz,ir-2,nr)] ) + 8 * ( P[LID(iz,ir+1,nr)] - P[LID(iz,ir-1,nr)] ) ) / ( 12 * dr ) )
+#define d_dR(P,iz,ir,nr,dr) ( ( -1 * ( P[LID(iz,(ir+2),nr)] - P[LID(iz,(ir-2),nr)] ) + 8 * ( P[LID(iz,(ir+1),nr)] - P[LID(iz,(ir-1),nr)] ) ) / ( 12 * dr ) )
 #define d_dZ(P,iz,ir,nr,dz) ( ( -1 * ( P[LID((iz+2),ir,nr)] - P[LID((iz-2),ir,nr)] ) + 8 * ( P[LID((iz+1),ir,nr)] - P[LID((iz-1),ir,nr)] ) ) / ( 12 * dz ) )
 
 
 template<>
-int inject_source( Field<ppt::MemSpaceHost> const& fields, float_type value, int iz, int ir, ppt::ExecutionSpaceSerial ){
+int inject_source( Field<ppt::MemSpaceHost> & fields, float_type value, int iz, int ir, ppt::ExecutionSpaceSerial ){
     int nr = fields._ur->get_nx();
     fields._uz->get_ptr()[LID( iz, ir, nr )] = 5*value/6;
     fields._ur->get_ptr()[LID( iz, ir, nr )] = 1*value/6;

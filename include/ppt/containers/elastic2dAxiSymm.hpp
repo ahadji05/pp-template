@@ -57,7 +57,7 @@ struct Field {
     ScalarField<MemSpace> *_uz_new = nullptr;
 };
 
-template<class ExecSpace, class MemSpace> int inject_source( Field<MemSpace> const& fields, float_type value, int iz, int ir, ExecSpace tag);
+template<class ExecSpace, class MemSpace> int inject_source( Field<MemSpace> & fields, float_type value, int iz, int ir, ExecSpace tag);
 
 template<class ExecSpace, class MemSpace> int compute_field_gradients( FieldGrad<MemSpace> & dispDerivatives, Field<MemSpace> const& fields,
     float_type dz, float_type dr, ExecSpace tag);
